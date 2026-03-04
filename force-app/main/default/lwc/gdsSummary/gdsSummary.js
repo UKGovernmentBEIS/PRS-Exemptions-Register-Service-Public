@@ -79,8 +79,7 @@ get hideEmptyActionsColumn() {
 }
 
     connectedCallback() {
-        // sets the H value for template based on labele font size
-        console.log('connected called');
+        // sets the H value for template based on label font size
         this.getHSize(); 
         this.label = this.title // This is to reuse the code from other components that have H1, H2, H3 implemented & cannot change already packaged API
         
@@ -98,7 +97,6 @@ get hideEmptyActionsColumn() {
     }
 
     renderedCallback() {
-        console.log('rendered called');
         this.destination = null;
         //insert the instructions HTML
         if(this.instructionsHTML) {
@@ -110,10 +108,6 @@ get hideEmptyActionsColumn() {
     }
 
     handleChange(event) {
-        console.log('handle change called');
-
-        //console.log(`processing handleChange event for ${this.destination}`);
-
        this.destination = event.target.getAttribute('data-destination');
 
         if (this.availableActions.find(action => action === 'NEXT')) {
@@ -124,7 +118,6 @@ get hideEmptyActionsColumn() {
 
     handleSend(event) {
         // next flow
-        console.log('inside send?');
         this.destination = "Default_Screen";
         const nextNavigationEvent = new FlowNavigationNextEvent();
         this.dispatchEvent(nextNavigationEvent);

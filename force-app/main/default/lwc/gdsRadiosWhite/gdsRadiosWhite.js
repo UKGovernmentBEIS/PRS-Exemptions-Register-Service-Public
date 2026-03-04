@@ -193,15 +193,10 @@ export default class GdsRadiosWhite extends LightningElement {
     @api 
     handleValidate() {
         this.clearError();
-        // this.hasErrors = false;
-        console.log('***** handleValidate this.requiredQuestion:" '+ this.requiredQuestion + '" this.selectedValue: "' + this.selectedValue + '" ' );
 
         if(this.requiredQuestion && (this.selectedValue === '' || this.selectedValue === undefined)) {
-             console.log('Inside handleValidate still has errors: ' + this.requiredQuestion + ' selectedValue' + this.selectedValue + ' ' );
             this.hasErrors = true;
         }
-        console.log('Publishing handleValidate this.uniqueFieldId '+ this.uniqueFieldId + ' this.hasErrors: ' +this.hasErrors + ' this.errorMessage: ' + this.errorMessage);
-        console.log('this.radioFieldIdForFocus: ' + this.radioFieldIdForFocus);
         publish(this.messageContext, VALIDATION_STATE_MC, {
             componentId: this.uniqueFieldId,
             isValid: !this.hasErrors,
@@ -223,8 +218,6 @@ export default class GdsRadiosWhite extends LightningElement {
 
         const attributeChangeEventAPIName = new FlowAttributeChangeEvent('selectedValueAPIName', this.selectedValueAPIName);
         this.dispatchEvent(attributeChangeEventAPIName);
-
-        console.log('dispatched FlowAttributeChangeEvent',attributeChangeEventAPIName);
 
         // tell any parent components about the change
         const valueChangedEvent = new CustomEvent('valuechanged', {
@@ -280,14 +273,6 @@ export default class GdsRadiosWhite extends LightningElement {
 
     handleSetFocusMessage(message){
         // filter message to check if our component (id) needs to set focus
-        console.log('handleSetFocusMessage message.componentId: ' + message.componentId + ' this.radioFieldIdForFocus: ' + this.radioFieldIdForFocus + ' this.uniqueFieldId: ' + this.uniqueFieldId + ' this.radioFieldId: ' + this.radioFieldId);
-        // if(message.componentId !== this.radioFieldIdForFocus && message.componentId !== this.radioFieldId && message.componentId !== this.uniqueFieldId){
-        //     return;
-        // }
-        //let myComponentId = message.componentId;
-        console.log(' ');
-console.log('message.focusId: '+ message.focusId + ' this.radioFieldIdForFocus: ' + this.radioFieldIdForFocus);
-console.log(' ');
         let myComponentId = message.focusId;
         if(myComponentId == this.radioFieldIdForFocus){
             console.dir(message);

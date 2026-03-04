@@ -147,15 +147,10 @@ export default class GovCheckboxes extends LightningElement {
         this.unsubscribeMCs();
     }
 
-    allCheckboxFieldComps; //// 
+    allCheckboxFieldComps;
     renderedCallback() {
         setTimeout(() => {
-            // for(let i=0; i<this.checkboxArray.length; i++){
-            //     console.log('checkboxArray[i].label: ' + this.checkboxArray[i].label);
-            //     console.log('checkboxArray[i].value: ' + this.checkboxArray[i].checkboxValue);
-            // }
             const firstChecboxName = this.checkboxArray[0].checkboxLabel;
-            // console.log('firstCheckoxName: ' + firstChecboxName);
 
             this.allCheckboxFieldComps = this.template.querySelectorAll('input[name="'+firstChecboxName+'"]');
 
@@ -279,9 +274,6 @@ export default class GovCheckboxes extends LightningElement {
         this.validateSubscription = subscribe (
             this.messageContext,
             VALIDATION_MC, (message) => {
-                // console.log('validation_MC response in govCheckboxes:');
-                // console.log(message.componentId);
-                // console.log(message.focusId);
                 this.handleValidateMessage(message);
             });
     
@@ -289,9 +281,6 @@ export default class GovCheckboxes extends LightningElement {
         this.setFocusSubscription = subscribe (
             this.messageContext,
             SET_FOCUS_MC, (message) => {
-                // console.log('setFocus_MC response in govCheckboxes:');
-                // console.log(message.componentId);
-                // console.log(message.focusId);
                 this.handleSetFocusMessage(message);
             }
         )
@@ -307,32 +296,11 @@ export default class GovCheckboxes extends LightningElement {
     handleSetFocusMessage(message){
         // filter message to check if our component (id) needs to set focus
         let myComponentId = message.componentId;
-        // console.log('************');
-    // console.log(message.componentId);
-    // console.log('this.fieldId' + this.fieldId);
-    //     if (myComponentId == this.fieldId) {
-    //         // set focus
-    //         let myComponent = this.template.querySelector('input');
-    //         myComponent.focus();
-    //     }
-    // console.log('************');
-
-        // console.log('Setting FOCUS: ');
-        // console.log('myComponentId: '+myComponentId);
-        // console.log('this.checkboxFieldIdForFocus: '+this.checkboxFieldIdForFocus);
-        // console.log('this.fieldId: '+this.fieldId);
 
         if(myComponentId == this.checkboxFieldIdForFocus){
-            
-            //console.log('Setting FOCUS on: ' + this.checkboxFieldIdForFocus);
-            // console.dir(message);
-            //let myComponent = this.template.querySelector('input');
-            //console.log('what component:' + this.allCheckboxFieldComps);
-
             requestAnimationFrame(() => {
                 this.allCheckboxFieldComps[0].focus();
             });
-            // myComponent.focus();
         }
     }
 
@@ -342,7 +310,6 @@ export default class GovCheckboxes extends LightningElement {
 
     @api handleValidation() {
         this.clearError();
-        // this.hasErrors = false;
 
         if(this.required && this.checked === false) {
             this.hasErrors = true;
@@ -350,15 +317,7 @@ export default class GovCheckboxes extends LightningElement {
         else {
             this.hasErrors = false;
         }
-         console.log('inside handleValidation in govCheckboxes');
-         console.log('this.required:  ' + this.required);
-         console.log('this.checked:  ' + this.checked);
-         console.log('this.hasErrors:  ' + this.hasErrors);
-         console.log('this.errorMessage:  ' + this.errorMessage);
-         console.log('this.fieldId:  ' + this.fieldId);
 
-         console.log('handleValidation : this.checkboxFieldIdForFocus: '+this.checkboxFieldIdForFocus);
-        console.log('CHECKBOX: Sending validation state message');
         publish(this.messageContext, VALIDATION_STATE_MC, {
             componentId: this.fieldId, 
             isValid: !this.hasErrors,

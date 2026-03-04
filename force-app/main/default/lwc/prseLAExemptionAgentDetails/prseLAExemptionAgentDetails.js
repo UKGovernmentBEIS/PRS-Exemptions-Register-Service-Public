@@ -10,11 +10,10 @@ export default class PrseLAExemptionAgentDetails extends LightningElement {
     wiredAgent({ error, data }) {
         if (data) {
             this.agent = data;
-            console.log('Agent details data: ', data);
         } else if (error) {
             console.error('Error loading agent details: ', error);
         } else {
-            console.log('No agent details found.');
+            console.error('No agent details found.');
         }
     }
 

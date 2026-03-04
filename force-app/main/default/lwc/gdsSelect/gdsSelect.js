@@ -85,17 +85,10 @@ export default class GdsSelect extends LightningElement {
     // Check if hint text contains HTML
     get hasHtmlHint() {
         const result = this.hintText && (this.hintText.includes('<') || this.hintText.includes('>'));
-        console.log('=== hasHtmlHint check ===');
-        console.log('HintText value:', this.hintText);
-        console.log('Has HTML?:', result);
         return result;
     }
 
     connectedCallback() {
-        console.log('=== connectedCallback START ===');
-        console.log('HintText:', this.hintText);
-        console.log('Picklist:', this.picklist);
-        
         // sets the H value for template based on labele font size  
         this.getHSize(); 
 
@@ -170,28 +163,21 @@ export default class GdsSelect extends LightningElement {
         try {
             // Handle HTML in label if present
             if(this.hasHtmlLabel) {
-                console.log('Has HTML label:', this.label);
                 const labelElements = this.template.querySelectorAll('.label-with-html');
-                console.log('Found label elements:', labelElements.length);
                 labelElements.forEach(element => {
-                    console.log('Setting innerHTML on element');
                     element.innerHTML = this.label;
                 });
             }
 
             // Handle HTML in hint text if present
             if(this.hasHtmlHint) {
-                console.log('Has HTML hint:', this.hintText);
                 const hintElements = this.template.querySelectorAll('.hint-with-html');
-                console.log('Found hint elements:', hintElements.length);
                 hintElements.forEach(element => {
-                    console.log('Setting innerHTML on hint element');
                     element.innerHTML = this.hintText;
                 });
             }
            
             const selectElements = this.template.querySelectorAll('select[name="'+this.fieldId+'"]');
-            console.log('*** first el: ' + selectElements[0] + ' ***');
             
             if(selectElements && selectElements.length ==1){
                 selectElements.forEach((element) => {
@@ -199,8 +185,6 @@ export default class GdsSelect extends LightningElement {
                     const name = element.getAttribute('name');
                     this.fieldIdToFocus = id;
                 });
-            } else {
-                console.log('*** Error: Two elemements with same Name. Change name of components so they are unique.');
             }
         } catch(ex){
             console.error('Error!!!!!: ' + ex);
@@ -313,12 +297,6 @@ export default class GdsSelect extends LightningElement {
         this.validateSubscription = subscribe (
             this.messageContext,
             VALIDATION_MC, (message) => {
-                console.log('message form validation '+ message);
-                console.log('message form validation '+ message.isValid);
-                console.log('message form validation '+ message.error);
-                console.log('message form validation '+ message.componentSelect);
-                console.log('message form validation '+ message.componentType);
-                console.log('message form validation '+ message.componentId);
                 console.dir(message);
                 this.handleValidateMessage(message);
             });
@@ -327,7 +305,6 @@ export default class GdsSelect extends LightningElement {
         this.setFocusSubscription = subscribe (
             this.messageContext,
             SET_FOCUS_MC, (message) => {
-                console.log('*** from this.setFocusSubscription message:' + message);
                 this.handleSetFocusMessage(message);
             }
         )
@@ -342,7 +319,6 @@ export default class GdsSelect extends LightningElement {
 
     //inform subscribers that this comoponent is no longer available
     unregister() {
-        console.log('govSelectField: unregister',this.fieldId);
         publish(createMessageContext(), UNREGISTER_MC, { componentId: this.fieldId });
     }
 
@@ -355,8 +331,6 @@ export default class GdsSelect extends LightningElement {
 
     handleSetFocusMessage(message){
         let myComponentId = message.componentId;
-        console.log('**** myComponentId: ' + myComponentId);
-        console.log('**** this.fieldIdToFocus: ' + this.fieldIdToFocus);
         if(myComponentId == this.fieldIdToFocus){
             console.dir(message);
             let myComponent = this.template.querySelectorAll('select[name="'+this.fieldId+'"]');

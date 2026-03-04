@@ -53,7 +53,6 @@ export default class GdsFileUpload extends LightningElement {
 
     get docIds() {
         const ids = this.uploadedObjFiles.map(f => {
-            //console.log(`File: ${f.name}, documentId: ${f.documentId}`);
             return f.documentId;
         }).filter(Boolean);
         return ids;
@@ -89,12 +88,10 @@ export default class GdsFileUpload extends LightningElement {
             this.toggleButtonDisabledStatus(true);
             getExistingFiles({ recordId: this.recordId })
                 .then(files => {
-                    //console.log('Raw existing files from Apex:', files);
                     
                     if (files && files.length > 0) {
                         // Process existing files - ensure we map all necessary properties
                         const processedFiles = files.map(f => {
-                            //console.log('Processing existing file:', f);
                             return {
                                 name: f.Title || f.name || 'Unknown File',
                                 documentId: f.ContentDocumentId || f.documentId,
@@ -103,7 +100,6 @@ export default class GdsFileUpload extends LightningElement {
                         });
                         
                         // Set both arrays - they should be the same for existing files
-                        //this.objFiles = [...processedFiles];
                         this.uploadedObjFiles = [...processedFiles];
                     }
                     this.notifyFlow();
@@ -144,7 +140,6 @@ export default class GdsFileUpload extends LightningElement {
 
     /* ===== File handling ===== */
     async handleFilesChange(event) {
-        console.log('trying to upload again');
         this.toggleButtonDisabledStatus(true);
         this.clearError();
         const files = event?.target?.files || [];
@@ -163,7 +158,6 @@ export default class GdsFileUpload extends LightningElement {
 
         for (let i = 0; i < files.length; i++) {
             let filePath = files[i].name;
-            console.log('filePath: ', filePath);
             if (!allowedExtensions.test(filePath)) { 
                 this.hasErrors = true;
                 this.errorMessage = 'The file is not in the right format.';
@@ -174,8 +168,6 @@ export default class GdsFileUpload extends LightningElement {
 
         const existingNames = this.uploadedObjFiles.map(f => f.name.toLowerCase());
         for (let i = 0; i < files.length; i++) {
-            console.log('existingNames: ', existingNames);
-            console.log('files[i].name.toLowerCase(): ', files[i].name.toLowerCase());
             if (existingNames.includes(files[i].name.toLowerCase())) {
                 this.hasErrors = true;
                 this.errorMessage = `File "${files[i].name}" has already been uploaded.`;
@@ -263,7 +255,6 @@ export default class GdsFileUpload extends LightningElement {
             this.errorMessage = '';
         })
         .catch(error => {
-            console.log('has error');
             this.hasErrors = true;
             this.errorMessage = 'There has been a problem deleting the files. Please try again. \n If you are unable to delete your files, contact support: [email address]';
             this.notifyFlow();
@@ -299,10 +290,6 @@ export default class GdsFileUpload extends LightningElement {
         } else {
             this.hasErrors = false;
         }
-        console.log('gdsFileUpload: handleValidate');
-        console.log('handleValidate: ', this.hasErrors);
-        console.log('handleValidate: ', this.errorMessage);
-        console.log('handleValidate: ', this.inputFieldId);
         publish(this.messageContext, VALIDATION_STATE_MC, {
             componentId: this.inputFieldId,
             isValid: !this.hasErrors,

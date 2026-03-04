@@ -215,8 +215,6 @@ export default class GdsTextArea extends LightningElement {
     }
 
     unregister() {
-        console.log('govTextArea: unregister',this.fieldId);
-
         publish(createMessageContext(), UNREGISTER_MC, { componentId: this.fieldId });
     }
 

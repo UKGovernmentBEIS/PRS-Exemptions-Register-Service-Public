@@ -56,8 +56,6 @@ export default class GdsTextInput extends LightningElement {
 
     // Lifecycle functions
     connectedCallback() {
-        // console.log('govTextInput.js connectedCallback');
-
         // sets the H value for template based on labele font size  
         this.getHSize(); 
         
@@ -75,8 +73,6 @@ export default class GdsTextInput extends LightningElement {
     }
 
     renderedCallback() {
-
-        // console.log('govTextInput.js renderedCallback');
         // getting ID of component's field
         this.textFieldId = this.template.querySelector('input').getAttribute('id'); 
         
@@ -235,8 +231,6 @@ export default class GdsTextInput extends LightningElement {
 
     //inform subscribers that this comoponent is no longer available
     unregister() {
-        console.log('govTextInput: unregister',this.textFieldId);
-
         //have to create a new message context to unregister
         publish(createMessageContext(), UNREGISTER_MC, { componentId: this.textFieldId });
     }
@@ -257,7 +251,6 @@ export default class GdsTextInput extends LightningElement {
 
     @api 
     handleValidate() {
-        console.log('INSIDE: [govTextInput.js: handleValidate]');
         this.value = removeEmojis(this.value);
         this.hasErrors = false;
         let errorMessageToShow = this.errorMessage;

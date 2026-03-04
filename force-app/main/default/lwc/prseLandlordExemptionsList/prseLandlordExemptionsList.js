@@ -48,7 +48,6 @@ export default class PrseLandlordExemptionsList extends LightningElement {
     }
 
     loadRecords() {
-        console.log(this.status);
         this.isLoading = true;
         getExemptionRecords({ 
             pageSize: this.pageSize, 

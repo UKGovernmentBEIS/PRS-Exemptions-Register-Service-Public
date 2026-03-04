@@ -233,7 +233,6 @@ export default class GdsNavigationButtons extends LightningElement {
         //remove component from this.components array
         for(let i=0; i<this.components.length; i++ ){
             if(this.components[i].id == message.componentId){
-                console.log('found component to remove: ' + this.components[i].id);
                 this.components.splice(i,1);
             }
         }

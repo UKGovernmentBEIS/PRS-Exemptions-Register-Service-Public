@@ -13,9 +13,6 @@ export default class PrseThemeCSSProvider extends LightningElement {
         }
 
         cssStylesLoaded = true;
-
-        console.log('dude');
-        console.log(govukfrontend);
         
         loadStyle(this, `${govukfrontend}/govuk-frontend-5.13.0.min.css`)
         .then(() => console.log('CSS File loaded.'))
