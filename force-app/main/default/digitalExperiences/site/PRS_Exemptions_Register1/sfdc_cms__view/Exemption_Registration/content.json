@@ -1,0 +1,73 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Exemption Registration",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"875065f8-05cc-402d-9004-49196ee261a1\",\"columns\":[{\"UUID\":\"06ca4f32-c331-49fd-b18a-a56d6b599b74\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "dxpStyle" : { },
+                "flowArguments" : "[{\"label\":\"var_ExistingExemptionId\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"var_ExistingExemptionId\",\"type\":\"String\",\"value\":\"{!existingExemption}\"}]",
+                "flowName" : "{\"flowName\":\"PRSE_ExemptionRegistration\",\"flowLabel\":\"PRSE Exemption Registration\"}"
+              },
+              "definition" : "dxp_flow:flow",
+              "id" : "793dd0a7-f453-465b-896c-d24de9f011d7",
+              "type" : "component"
+            } ],
+            "id" : "06ca4f32-c331-49fd-b18a-a56d6b599b74",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "875065f8-05cc-402d-9004-49196ee261a1",
+          "type" : "component"
+        } ],
+        "id" : "8b3065ab-6f88-490c-b203-6c96ceecc188",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Exemption Registration",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "8b9a956b-69fb-45bb-9cd3-ca966c3e329e",
+          "type" : "component"
+        } ],
+        "id" : "29be88b5-533e-4191-a56a-47baacc054c4",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "a570f157-8f3a-4565-81d4-9be7dd1f59c0",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-exemption-registration"
+  },
+  "urlName" : "exemption-registration"
+}

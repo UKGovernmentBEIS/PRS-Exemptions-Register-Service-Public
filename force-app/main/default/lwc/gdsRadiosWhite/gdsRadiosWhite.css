@@ -1,0 +1,4 @@
+/* Ensure the radio's outer circle is white even on grey backgrounds */
+.govuk-radios__input + .govuk-radios__label::before {
+  background-color: #fff !important;
+}

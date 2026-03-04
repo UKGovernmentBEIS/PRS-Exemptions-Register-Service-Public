@@ -1,0 +1,20 @@
+.two-column-section {
+    width: 66.6666% !important;
+}
+    
+.one-column-section {
+    width: 33.3333% !important;
+}
+
+.govuk-footer__link {
+    font-family: "GDS Transport",arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: underline !important;
+    text-decoration-thickness: max(1px, .0625rem) !important;
+    text-underline-offset: .1578em !important;
+}
+
+.govuk-footer__link:hover {
+    text-decoration-thickness: max(3px, .1875rem, .12em) !important;
+}

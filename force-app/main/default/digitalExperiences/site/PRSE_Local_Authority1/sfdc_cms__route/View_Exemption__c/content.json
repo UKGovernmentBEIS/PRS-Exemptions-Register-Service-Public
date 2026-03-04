@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "View Exemption",
+  "contentBody" : {
+    "activeViewId" : "View_Exemption",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-view-exemption",
+    "urlPrefix" : "view-exemption"
+  },
+  "urlName" : "view-exemption"
+}

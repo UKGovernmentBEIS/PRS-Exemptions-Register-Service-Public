@@ -1,0 +1,56 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container">
+        <div class="govuk-main-wrapper " id="main-content">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <div class="govuk-form-group govuk-!-margin-bottom-0">
+                        <h1 class="govuk-label-wrapper" if:true={h1Size}>
+                            <label class={labelClass} for="input-text">{label}</label>
+                        </h1>
+                        <h2 class="govuk-label-wrapper" if:true={h2Size}>
+                            <label class={labelClass} for="input-text">{label}</label>
+                        </h2>
+                        <h3 class="govuk-label-wrapper" if:true={h3Size}>
+                            <label class={labelClass} for="input-text">{label}</label>
+                        </h3>
+                    </div>
+
+
+                    <hr class="govuk-section-break govuk-section-break--visible" if:false={removeTopSeparator}>
+                    <!-- start of a section -->
+                    <dl key={sectionName}  class="govuk-summary-list">
+                        <template for:each={sectionFields} for:item="sectionField">
+                            <div key={sectionField.key} class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key pre-line">
+                                    {sectionField.label}
+                                </dt>
+                                <dd class="govuk-summary-list__value pre-line">
+                                    {sectionField.value}
+                                </dd>
+                                <template if:true={sectionField.destination}>
+                                    <dd class="govuk-summary-list__actions">
+                                        <a class="govuk-link" href="#" data-destination={sectionField.destination} onclick={handleChange} aria-label={sectionField.changeLabel}>
+                                            Change<span class="govuk-visually-hidden"> {sectionField.label}</span>
+                                        </a>
+                                    </dd>
+                                </template>
+                                
+                                <template if:false={sectionField.destination}>
+                                    <template if:false={hideEmptyActionsColumn}>
+                                        <dd class="govuk-summary-list__actions">
+                                            <span class="govuk-visually-hidden"> {sectionField.label}</span>
+                                        </dd>
+                                    </template>
+                                </template>
+
+                            </div>
+                        </template>
+                    </dl>
+
+                    <div class="html-element" lwc:dom="manual"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,291 @@
+<template>
+
+    <div class="govuk-width-container govuk-!-margin-top-4" style="max-width: 60%; width: 100%; text-align: left;">
+        <template if:true={hasErrors}>
+            <c-gds-error-messages-imperative components={components}></c-gds-error-messages-imperative>
+        </template>
+        <h1 class="govuk-heading-l">View exemptions for private rented sector energy standards</h1>
+        <template if:false={searchApplied}>
+            <div class="govuk-width-container">
+                <div class="govuk-inset-text slds-hyphenate">
+                    Search for exemptions and penalties related to the private rented sector minimum energy efficiency standards.
+                </div>
+            </div>
+            <p class="govuk-body">Private rented sector properties that require an energy performance certificate (EPC) must have either: </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>an EPC rating of E or above</li>
+                <li>a valid exemption</li>
+            </ul>
+            <p class="govuk-body">Search for properties that have:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>registered exemptions</li>
+                <li>been issued penalties for failing to comply with these standards</li>
+            </ul>
+            <p class="govuk-body">The register shows when the property was registered as exempt and the reason.</p>
+        </template>
+    </div>
+
+
+    <div class="govuk-width-container" style="max-width: 60%; width: 100%; text-align: left;">
+        <div class="govuk-body govuk-!-padding-3 prse-grey-box">
+            <div data-field-id="selectSearchType">
+                <c-gds-radios-white data-id="selectSearchType" question-label="Search for" name="searchFor" question-font-size="medium"
+                        error-message="Select penalties or exemptions" 
+                        radio-labels="Penalties|Exemptions" radio-values="Penalties|Exemptions" 
+                        required-question="True" selected-value={selectedRadioValue}
+                        onvaluechanged={handleChildValueChange} unique-field-id="selectSearchType" field-id="selectSearchType">
+                </c-gds-radios-white>
+            </div>
+            <template if:true={searchByPostcode}>
+                <div data-field-id="searchPostcode">
+                    <c-gds-text-input data-id="searchByPostcode" label="Enter a postcode" hint-text="For example, SW1A 2AA"
+                        error-message="Enter a postcode in the correct format, like PO12 6NT" 
+                        regular-expression="^([A-PR-UWYZ0-9][A-HK-Y0-9][A-HJKS-UW0-9]?[ABEHMNPRVWXY0-9]?\s?[0-9][ABD-HJLNP-UW-Z]{2}|GIR\s?0AA)$"
+                        max-character-count="10" required="true"
+                        onvaluechanged={handleChildValueChange} field-id="searchPostcode">
+                    </c-gds-text-input>
+                </div>
+            </template>
+            <template if:false={searchByPostcode}>
+                <c-gds-text-input label="Property address (optional)" hint-text="Enter the first line of the address"
+                    error-message="Please enter a valid UK postcode"
+                    width-quarter-wise="two-thirds" width-length-wise=""
+                    onvaluechanged={handleChildValueChange} field-id="searchPropertyAddress">
+                </c-gds-text-input>
+                <c-gds-text-input label="Town or city (optional)"
+                    error-message="Please enter a valid UK postcode"
+                    width-quarter-wise="two-thirds" width-length-wise=""
+                    onvaluechanged={handleChildValueChange} field-id="searchTownOrCity">
+                </c-gds-text-input>
+                <c-gds-text-input label="Landlord's name (optional)" hint-text="Only landlords that are organisations are searchable by name"
+                    error-message="Please enter a valid UK postcode"
+                    width-quarter-wise="two-thirds" width-length-wise=""
+                    onvaluechanged={handleChildValueChange} field-id="searchLandlordName">
+                </c-gds-text-input>
+                <c-gds-select label="Property type (optional)"
+                    option-labels={propertyTypeLabels} option-values={propertyTypeValues}
+                    value={propertyType}
+                    error-message="Please enter a valid property type"
+                    font-size="Medium"
+                    onvaluechanged={handleChildValueChange} field-id="searchPropertyType">
+                </c-gds-select>
+                <template if:true={displayTypeFilter}>
+
+                    <template if:true={isExemptionSearch}>
+                        <c-gds-select 
+                            label="Exemption type (optional)"
+                            option-labels={exemptionTypeLabels}
+                            option-values={exemptionTypeValues}
+                            value={exemptionType}
+                            error-message="Please enter a valid exemption type"
+                            font-size="Medium"
+                            onvaluechanged={handleChildValueChange}
+                            field-id="searchExemptionType">
+                        </c-gds-select>
+                    </template>
+
+                    <template if:true={isPenaltySearch}>
+                        <c-gds-select
+                            label="Penalty type (optional)"
+                            option-labels={penaltyTypeLabels}
+                            option-values={penaltyTypeValues}
+                            value={searchPenaltyType}
+                            error-message="Please enter a valid penalty type"
+                            font-size="Medium"
+                            onvaluechanged={handleChildValueChange}
+                            field-id="searchPenaltyType">
+                        </c-gds-select>
+                    </template>
+                </template>
+            </template>
+            <div class="govuk-width-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <button class="govuk-button" data-module="govuk-button" onclick={handleSearchClick}>
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="govuk-width-container govuk-!-margin-bottom-2">
+                <template if:true={searchByPostcode}>
+                    <button
+                        type="button"
+                        class="govuk-link prse-link-button"
+                        onclick={toggleSearchByPostcode}>
+                        Other ways to search
+                    </button>
+                </template>
+                <template if:false={searchByPostcode}>
+                    <button
+                        type="button"
+                        class="govuk-link prse-link-button"
+                        onclick={toggleSearchByPostcode}>
+                        Search by postcode
+                    </button>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <div
+        aria-live="polite"
+        aria-atomic="true"
+        class="govuk-visually-hidden"
+        data-id="searchStatusAnnouncement">
+    </div>
+
+    <template if:true={showResults}>
+
+        <div class="slds-m-top_medium govuk-width-container">
+            <div class="responsive-table-container" style="overflow-x: auto; max-width: 100%;">
+                <template if:true={showPropertyExemptions}>
+                    <table class="govuk-table govuk-table--small-text-until-tablet" style="width: 100%;">
+                        <caption class="govuk-table__caption govuk-table__caption--m">{resultsSummaryMessage}</caption>
+                        <template if:true={tableHasResults}>
+                            <thead class="govuk-table__head">
+                                <tr class="govuk-table__row">
+                                    <th scope="col" class="govuk-table__header">Property</th>
+                                    <th scope="col" class="govuk-table__header">Landlord</th>
+                                    <th scope="col" class="govuk-table__header">Date of registration</th>
+                                    <th scope="col" class="govuk-table__header">Action</th>
+                                </tr>
+                            </thead>
+                        </template>
+                        <tbody class="govuk-table__body">
+                            <template for:each={results} for:item="result">
+                                <tr class="govuk-table__row" key={result.Id}>
+                                    <td class="govuk-table__cell" data-label="Property">{result.Full_Property_Address__c}</td>
+                                    <td class="govuk-table__cell" data-label="Landlord">{result.LandlordBusinessName__c}</td>
+                                    <td class="govuk-table__cell" data-label="Date of registration">
+                                        <lightning-formatted-date-time value={result.Registered_Date__c} year="numeric" month="short" day="2-digit" weekday="long"></lightning-formatted-date-time>
+                                    </td>
+                                    <td class="govuk-table__cell" data-label="Action"><a href="javascript:void(0);" class="govuk-link" data-id={result.Id} onclick={handleViewClick}>View</a></td>
+                                </tr>
+                            </template>            
+                        </tbody>
+                    </table>
+                </template>
+
+                <template if:true={showPropertyPenalties}>
+                    <table class="govuk-table govuk-table--small-text-until-tablet" style="width: 100%;">
+                        <caption class="govuk-table__caption govuk-table__caption--m">{resultsSummaryMessage}</caption>
+                        <template if:true={tableHasResults}>
+                            <thead class="govuk-table__head">
+                                <tr class="govuk-table__row">
+                                    <th scope="col" class="govuk-table__header">Property</th>
+                                    <th scope="col" class="govuk-table__header">Landlord</th>
+                                    <th scope="col" class="govuk-table__header">Action</th>
+                                </tr>
+                            </thead>
+                        </template>
+                        <tbody class="govuk-table__body">
+                            <template for:each={results} for:item="result">
+                                <tr class="govuk-table__row" key={result.Id}>
+                                    <td class="govuk-table__cell" data-label="Property">{result.Full_Property_Address__c}</td>
+                                    <td class="govuk-table__cell" data-label="Landlord">{result.LandlordBusinessName__c}</td>
+                                    <td class="govuk-table__cell" data-label="Action"><a href="javascript:void(0);" class="govuk-link" data-id={result.Id} onclick={handleViewClick}>View</a></td>
+                                </tr>
+                            </template>            
+                        </tbody>
+                    </table>
+                </template>
+            </div>
+
+            <!-- Pagination -->
+            <template if:true={hasMultiplePages}>
+                <nav
+                    class="govuk-pagination"
+                    aria-label="Pagination"
+                    style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
+
+                    <!-- Previous -->
+                    <template if:true={hasPreviousPage}>
+                        <div class="govuk-pagination__prev">
+                            <a           
+                                href="#"
+                                class="govuk-link govuk-pagination__link"
+                                onclick={handlePrevious}
+                                aria-label="Previous page">
+                                <svg
+                                    class="govuk-pagination__icon govuk-pagination__icon--prev"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    height="13"
+                                    width="15"
+                                    viewBox="0 0 15 13"
+                                    aria-hidden="true">
+                                    <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                                </svg>
+                                <span class="govuk-pagination__link-title">
+                                    Previous<span class="govuk-visually-hidden"> page</span>
+                                </span>
+                            </a>
+                        </div>
+                    </template>
+                    
+                    <!-- Pages -->
+                    <ul class="govuk-pagination__list" style="flex-wrap: wrap;">
+                        <template for:each={pageNumbers} for:item="page">
+                            <li key={page.key} class={page.liClass}>
+                                <template if:true={page.isEllipsis}>
+                                    <span>&ctdot;</span>
+                                </template>
+
+                                <template if:false={page.isEllipsis}>
+                                    <template if:true={page.isActive}>     
+                                        <a             
+                                            class="govuk-link govuk-pagination__link"
+                                            href="#"
+                                            aria-label={page.ariaLabel}
+                                            aria-current="page"
+                                            style="text-decoration: underline; outline: none;">
+                                            {page.pageNum}
+                                        </a>
+                                    </template>
+                                        
+                                    <template if:false={page.isActive}>
+                                        <a
+                                            onclick={handlePageClick}
+                                            data-page={page.pageNum}
+                                            class="govuk-link govuk-pagination__link"
+                                            href="#"
+                                            aria-label={page.ariaLabel}
+                                            style="text-decoration: underline; outline: none;">
+                                            {page.pageNum}
+                                        </a>
+                                    </template>
+                                </template>
+                            </li>
+                        </template>
+                    </ul>
+
+                    <!-- Next -->
+                    <template if:true={hasNextPage}>
+                        <div class="govuk-pagination__next">
+                            <a
+                                href="#"
+                                class="govuk-link govuk-pagination__link"
+                                onclick={handleNext}
+                                aria-label="Next page">
+                                <span class="govuk-pagination__link-title">
+                                    Next<span class="govuk-visually-hidden"> page</span>
+                                </span>
+                                <svg
+                                    class="govuk-pagination__icon govuk-pagination__icon--next"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    height="13"
+                                    width="15"
+                                    viewBox="0 0 15 13"
+                                    aria-hidden="true">
+                                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </template>
+                </nav>
+            </template>
+        </div>
+
+    </template> <!-- end of showresults-->
+
+</template>

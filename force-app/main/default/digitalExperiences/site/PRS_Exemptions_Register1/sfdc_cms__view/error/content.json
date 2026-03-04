@@ -1,0 +1,72 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Error",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"2446e066-c82c-43ad-9fdb-cfc864ad7f24\",\"columns\":[{\"UUID\":\"ae157c49-f483-4452-b756-63f34ea2ab05\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "dxpStyle" : { },
+                "markupText" : "<div class=\"govuk-width-container\">   <main class=\"govuk-main-wrapper govuk-main-wrapper--l\" id=\"main-content\" role=\"main\">     <div class=\"govuk-grid-row\">       <div class=\"govuk-grid-column-two-thirds\">         <h1 class=\"govuk-heading-l\">Sorry, there is a problem with the service</h1>         <p class=\"govuk-body\">Please try again later.</p>                </div>     </div>   </main> </div>"
+              },
+              "definition" : "uxgovuk:govMarkupText",
+              "id" : "9fb22c28-18f7-41b0-b25d-e3e007c83701",
+              "type" : "component"
+            } ],
+            "id" : "ae157c49-f483-4452-b756-63f34ea2ab05",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "2446e066-c82c-43ad-9fdb-cfc864ad7f24",
+          "type" : "component"
+        } ],
+        "id" : "88564702-3047-49a6-968c-76d0a8b8b147",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Error",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "90a75268-56a8-4163-8346-f1126564a267",
+          "type" : "component"
+        } ],
+        "id" : "6ae71308-555a-4c54-8ec1-266ea1aea2d0",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "0bdcb5cd-ccc3-41ed-a475-1096f1d06aa4",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "error"
+  },
+  "urlName" : "error"
+}

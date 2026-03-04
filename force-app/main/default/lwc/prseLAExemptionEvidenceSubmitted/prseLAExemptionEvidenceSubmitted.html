@@ -1,0 +1,56 @@
+<template>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <template if:true={isLoaded}>
+                <h3 class="govuk-heading-m govuk-!-margin-top-4">Evidence submitted</h3>
+                <template if:true={groupedDocuments}>
+                    <template for:each={groupedDocuments} for:item="group">
+                        <dl key={group.ExemptionType} class="govuk-summary-list govuk-!-margin-bottom-4">
+                            <!-- Exemption type as heading -->
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key exemption-type-heading">{group.ExemptionType}</dt>
+
+                            </div>
+
+                            <!-- Documents for this type -->
+                            <template for:each={group.Documents} for:item="doc">
+                                <div key={doc.DocumentTitle} class="govuk-summary-list__row">
+                                    <!-- Document title (normal weight) -->
+                                    <dd class="govuk-summary-list__key govuk-!-font-weight-regular">{doc.DocumentTitle}</dd>
+
+                                    <!-- Date + Download in one column -->
+                                    <dd class="govuk-summary-list__value doc-date-download">
+                                        <div class="doc-date">
+                                            <span class="govuk-body-s">Submitted</span>
+                                            {doc.FormattedDate}
+                                        </div>
+                                        <div class="doc-download">
+                                            <template if:true={doc.DocumentUrl}>
+                                                        <a href={doc.DocumentUrl}  target="_blank" rel="noopener">
+                                                    Download
+                                                </a>
+                                            </template>
+                                            <template if:false={doc.DocumentUrl}>
+                                                N/A
+                                            </template>                                  
+                                        </div>
+                                    </dd>                              
+                                </div>
+                            </template>
+                        </dl>
+                    </template>
+                </template>
+
+                <template if:true={error}>
+                    <p class="govuk-body govuk-!-color-red">Error loading evidence documents.</p>
+                </template>
+            </template>
+
+            <template if:false={isLoaded}>
+                <div role="status" class="slds-spinner slds-spinner_medium">
+                    <span class="slds-assistive-text">Loading</span>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

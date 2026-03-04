@@ -1,0 +1,169 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container govuk-width-container--wide js-enabled">
+        <div class="govuk-main-wrapper">
+            <!-- Back link -->
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <a href={backLinkUrl} class="govuk-back-link">Back</a>
+                </div>
+            </div>
+
+            <!-- Reference + Address -->
+            <div class="govuk-grid-row govuk-!-margin-top-4">
+                <div class="govuk-grid-column-full">
+                        <h1 class="govuk-heading-s govuk-!-margin-bottom-1">
+                            Reference: {exemptionName}
+                        </h1>
+                    <div class="govuk-body govuk-!-margin-bottom-4">{exemptionAddress}</div>
+                </div>
+            </div>
+
+            <!-- Tab structure -->
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full">
+                    <div class="govuk-tabs" data-module="govuk-tabs">
+                        <ul class="govuk-tabs__list" role="tablist">
+
+                            <!-- Tab: Landlord details -->
+                            <li data-id="LandlordDetails" class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+                                <a class="govuk-tabs__tab govuk-tabs_focus"
+                                    href="#LandlordDetails"
+                                    role="tab"
+                                    aria-selected="true"
+                                    aria-controls="LandlordDetails"
+                                    data-id="LandlordDetails"
+                                    style="cursor: pointer;"
+                                    onclick={handleTabSelection}>
+                                    Landlord details
+                                </a>
+                            </li>
+
+                            <!-- Tab: Agent details -->
+                            <template if:true={hasAgent}>
+                                <li data-id="AgentDetails" class="govuk-tabs__list-item" role="presentation">
+                                    <a class="govuk-tabs__tab govuk-tabs_underline"
+                                        href="#AgentDetails"
+                                        role="tab"
+                                        aria-selected="false"
+                                        aria-controls="AgentDetails"
+                                        data-id="AgentDetails"
+                                        style="cursor: pointer;"
+                                        onclick={handleTabSelection}>
+                                        Agent details
+                                    </a>
+                                </li>
+                            </template>
+
+                            <!-- Tab: Exemption details -->
+                            <li data-id="ExemptionDetails" class="govuk-tabs__list-item" role="presentation">
+                                <a class="govuk-tabs__tab govuk-tabs_underline"
+                                    href="#ExemptionDetails"
+                                    role="tab"
+                                    aria-selected="false"
+                                    aria-controls="ExemptionDetails"
+                                    data-id="ExemptionDetails"
+                                    style="cursor: pointer;"
+                                    onclick={handleTabSelection}>
+                                    Exemption details
+                                </a>
+                            </li>
+
+                            <!-- Tab: Evidence submitted -->
+                            <li data-id="EvidenceSubmitted" class="govuk-tabs__list-item" role="presentation">
+                                <a class="govuk-tabs__tab govuk-tabs_underline"
+                                    href="#EvidenceSubmitted"
+                                    role="tab"
+                                    aria-selected="false"
+                                    aria-controls="EvidenceSubmitted"
+                                    data-id="EvidenceSubmitted"
+                                    style="cursor: pointer;"
+                                    onclick={handleTabSelection}>
+                                    Evidence submitted
+                                </a>
+                            </li>
+
+                            <!-- Tab: Penalties -->
+                            <li data-id="Penalties" class="govuk-tabs__list-item" role="presentation">
+                                <a class="govuk-tabs__tab govuk-tabs_underline"
+                                    href="#Penalties"
+                                    role="tab"
+                                    aria-selected="false"
+                                    aria-controls="Penalties"
+                                    data-id="Penalties"
+                                    style="cursor: pointer;"
+                                    onclick={handleTabSelection}>
+                                    Penalties
+                                </a>
+                            </li>
+
+                            <!-- Tab: Notes -->
+                            <li data-id="Notes" class="govuk-tabs__list-item" role="presentation">
+                                <a class="govuk-tabs__tab govuk-tabs_underline"
+                                    href="#Notes"
+                                    tabindex="0"
+                                    role="tab"
+                                    aria-selected="false"
+                                    aria-controls="Notes"
+                                    data-id="Notes"
+                                    style="cursor: pointer;"
+                                    onclick={handleTabSelection}>
+                                    Notes
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- TAB PANELS -->
+                        <template if:true={dataFinishedLoading}>
+                            <!-- LANDLORD DETAILS (only tab with loading guard) -->
+                            <div id="LandlordDetails" data-id="LandlordDetails" class="govuk-tabs__panel" role="tabpanel">
+                                <c-prse-l-a-exemption-landlord-details
+                                    exemption-id={exemptionId}>
+                                </c-prse-l-a-exemption-landlord-details>
+                            </div>
+                        </template>
+
+                        <!-- OTHER TABS (no loading guard) -->                    
+
+                        <!-- Agent details -->
+                        <template if:true={hasAgent}>
+                            <div id="AgentDetails" data-id="AgentDetails" class="govuk-tabs__panel--hidden" role="tabpanel">
+                                <c-prse-l-a-exemption-agent-details
+                                    exemption-id={exemptionId}>
+                                </c-prse-l-a-exemption-agent-details>
+                            </div>
+                        </template>
+
+                        <!-- Exemption details -->
+                        <div id="ExemptionDetails" data-id="ExemptionDetails" class="govuk-tabs__panel--hidden" role="tabpanel">
+                            <c-prse-l-a-exemption-exemption-details
+                                exemption-id={exemptionId}>
+                            </c-prse-l-a-exemption-exemption-details>
+                        </div>
+
+                        <!-- Evidence submitted -->
+                        <div id="EvidenceSubmitted" data-id="EvidenceSubmitted" class="govuk-tabs__panel--hidden" role="tabpanel">
+                            <c-prse-l-a-exemption-evidence-submitted
+                                exemption-id={exemptionId}>
+                            </c-prse-l-a-exemption-evidence-submitted>
+                        </div>
+
+                        <!-- Penalties -->
+                        <div id="Penalties" data-id="Penalties" class="govuk-tabs__panel--hidden" role="tabpanel">
+                            <c-prse-l-a-exemption-penalties
+                                exemption-id={exemptionId}>
+                            </c-prse-l-a-exemption-penalties>
+                        </div>
+
+                        <!-- Notes -->
+                        <div id="Notes" data-id="Notes" class="govuk-tabs__panel--hidden" role="tabpanel">
+                            <c-prse-l-a-exemption-notes
+                                exemption-id={exemptionId}>
+                            </c-prse-l-a-exemption-notes>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

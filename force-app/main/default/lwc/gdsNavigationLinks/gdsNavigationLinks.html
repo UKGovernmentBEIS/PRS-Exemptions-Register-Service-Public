@@ -1,0 +1,25 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div style="display:flex; justify-content: space-between;" >
+                    <div>
+                        <a id="logout"
+                            class="govuk-link-button govuk-link--no-visited-state display: block;"
+                            onclick={handleClick}
+                            data-action="logout"
+                            href="#">Log off and exit
+                        </a>
+                        <a id="survey"
+                            class="govuk-link-button govuk-link--no-visited-state display: block;"
+                            onclick={handleClick}
+                            data-action="survey"
+                            href="#">What did you think of this service? (takes 30 seconds)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

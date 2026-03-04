@@ -1,0 +1,111 @@
+.govuk-tag {
+  font-size: 1.1875rem;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: 1.315;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  vertical-align: baseline;
+}
+
+.govuk-tag::first-letter {
+  text-transform: uppercase;
+}
+
+.table--wrap-text .govuk-table__cell,
+.table--wrap-text {
+  white-space: normal;
+  word-wrap: break-all;
+  overflow-wrap: anywhere;
+}
+
+.table--wrap-text {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.table--wrap-text th:nth-child(1),
+.table--wrap-text td:nth-child(1) {
+  width: 17%; 
+} /* Penalty reference */
+
+.table--wrap-text th:nth-child(2),
+.table--wrap-text td:nth-child(2) { 
+  width: 20%; 
+} /* Exemption type */
+
+.table--wrap-text th:nth-child(3),
+.table--wrap-text td:nth-child(3) { 
+  width: 21%; 
+} /* Penalty type */
+
+.table--wrap-text th:nth-child(4),
+.table--wrap-text td:nth-child(4) { 
+  width: 12%; 
+} /* Date issued */
+
+.table--wrap-text th:nth-child(5),
+.table--wrap-text td:nth-child(5) { 
+  width: 15%; 
+} /* Unpublish date */
+
+.table--wrap-text th:nth-child(6),
+.table--wrap-text td:nth-child(6) { 
+  width: 15%; 
+} /* Action */
+
+.govuk-pagination__link:focus,
+.govuk-pagination__link:active {
+    background-color: #fd0 !important;
+    outline: 3px solid #fd0 !important;
+    outline-offset: 0;
+    box-shadow: none !important;
+    color: #0b0c0c !important;
+}
+
+.govuk-link {
+  text-decoration: underline !important;
+  text-decoration-thickness: max(1px, .0625rem) !important;
+  text-underline-offset: .1578em !important;
+}
+
+.govuk-link:hover {
+    text-decoration-thickness: max(3px, .1875rem, .12em) !important;
+}
+
+.button-link-tight {
+    margin-top: -15px;
+    display: block;
+}
+
+.button-link-large {
+    margin-top: 15px;
+    display: block;
+}
+
+.penalty-details-body {
+    margin-top: -20px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word
+}
+
+.action-links {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+:host .govuk-grid-column-two-thirds .govuk-heading-l,
+:host .govuk-grid-column-two-thirds .govuk-inset-text {
+  word-break: break-all;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+:host .govuk-grid-column-two-thirds .govuk-inset-text-short {
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}

@@ -1,0 +1,57 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <main class="govuk-main-wrapper govuk-width-container">
+        <h1 class="govuk-body-l govuk-!-margin-bottom-0">Dashboard</h1>
+        <div class="header-with-button">
+            <h2 class="govuk-heading-l govuk-!-padding-top-0 govuk-!-margin-bottom-0">{displayName}</h2>
+            <button class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button" onclick={handleRegisterExemption}>
+                Register an exemption
+            </button>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-top-6">
+            <!-- Draft exemptions card -->
+            <div class="govuk-grid-column-one-third">
+                <div class="exemption-card">
+                    <div class="exemption-card-header govuk-!-padding-3">
+                        <h3 class="govuk-heading-s govuk-blue">Draft exemptions</h3>
+                        <p class="govuk-body-s govuk-!-margin-bottom-1" style="min-height: calc(2 * 1.25em);">Resume or delete draft exemptions</p>
+                        <p class="govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-0">{totals.draft}</p>
+                        <h3 class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-0">Draft exemptions</h3>
+                    </div>
+                    <div class="exemption-card-footer">
+                        <a href="/draft-exemptions" class="govuk-link">Resume or delete draft exemptions</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Registered exemptions card -->
+            <div class="govuk-grid-column-one-third">
+                <div class="exemption-card">
+                    <div class="exemption-card-header govuk-!-padding-3">
+                        <h3 class="govuk-heading-s govuk-blue">Registered exemptions</h3>
+                        <p class="govuk-body-s govuk-!-margin-bottom-1" style="min-height: calc(2 * 1.25em);">View, edit and end your registered exemptions</p>
+                        <p class="govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-0">{totals.registered}</p>
+                        <h3 class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-0">Registered exemptions</h3>
+                    </div>
+                    <div class="exemption-card-footer">
+                        <a href="/registered-exemptions" class="govuk-link">View, edit and end your registered exemptions</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Ended exemptions card -->
+            <div class="govuk-grid-column-one-third">
+                <div class="exemption-card">
+                    <div class="exemption-card-header govuk-!-padding-3">
+                        <h3 class="govuk-heading-s govuk-blue">Ended exemptions</h3>
+                        <p class="govuk-body-s govuk-!-margin-bottom-1" style="min-height: calc(2 * 1.25em);">View your ended exemptions</p>
+                        <p class="govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-0">{totals.ended}</p>
+                        <h3 class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-0">Ended exemptions</h3>
+                    </div>
+                    <div class="exemption-card-footer">
+                        <a href="/ended-exemptions" class="govuk-link">View your ended exemptions</a>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <a href="https://www.gov.uk/government/publications/private-rented-sector-exemptions-prse-landlord-guidance" class="govuk-link" rel="noreferrer noopener" target="_blank">Find out more about exemption types and evidence (opens in a new tab)</a>
+    </main>
+</template>

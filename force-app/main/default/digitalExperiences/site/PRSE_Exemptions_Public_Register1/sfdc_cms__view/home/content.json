@@ -1,0 +1,71 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "View exemptions",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"f201e37d-f7d8-4b86-8200-e46acfa3f33f\",\"columns\":[{\"UUID\":\"924a751b-88cd-420f-b2a1-0468eccd75fa\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "dxpStyle" : { }
+              },
+              "definition" : "c:prsePublicRegSearch",
+              "id" : "145712ab-2617-4531-9189-88957fe99cf5",
+              "type" : "component"
+            } ],
+            "id" : "924a751b-88cd-420f-b2a1-0468eccd75fa",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "f201e37d-f7d8-4b86-8200-e46acfa3f33f",
+          "type" : "component"
+        } ],
+        "id" : "5d95633c-8139-4ddd-bcd5-e8d21f1806cb",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "View exemptions for private rented sector energy standards",
+            "dxpStyle" : { },
+            "pageTitle" : "View exemptions",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "4c087fbe-5a58-4887-81fe-09d45892171d",
+          "type" : "component"
+        } ],
+        "id" : "c1c98a97-ad29-456b-9313-c6ae27ea9419",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "5d29a63a-adde-4b41-aa12-2fec51574500",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "home"
+  },
+  "urlName" : "home"
+}

@@ -1,0 +1,106 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Home",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"9c15753d-3b19-474c-8f91-b70094ff8928\",\"columns\":[{\"UUID\":\"c6f11cf1-6baf-440b-b0df-7f713bdd41f3\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "divHeight" : "3.125",
+                "dxpStyle" : { }
+              },
+              "definition" : "c:prseSpacer",
+              "id" : "d9a7a193-0e77-4b48-9740-337c3669edc0",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "markupText" : "<div class=\"govuk-width-container\">     <main class=\"govuk-main-wrapper\" id=\"main-content\" role=\"main\">         <h1 class=\"govuk-heading-xl\">Review exemptions for private rented sector energy standards</h1>         <div class=\"govuk-body\">             <p class=\"govuk-body\">Use this service to:</p>             <ul class=\"govuk-list govuk-list--bullet\">                 <li>review exemptions for private rented sector energy standards (PRSE <br>                     MEES) that have been registered in your local authority area                 </li>                 <li>record penalties that have been issued to landlords                 </li>             </ul>             <p class=\"govuk-body\">This service is for local authorities only.         </div>         <h2 class=\"govuk-heading-m\">To start using this service</h2>         <p class=\"govuk-body\"><a href=\"https://google.co.uk\"                     class=\"govuk-link\" rel=\"noreferrer noopener\" target=\"_blank\">Complete our local authority sign up form if you have not already done so.                 </a>         <div class=\"govuk-body\">             <p class=\"govuk-body\">You will need:</p>             <ul class=\"govuk-list govuk-list--bullet\">                 <li>to use the email address you have in the sign up form</li>                 <li>log in through your government One Login account - this invitation was <br>                     emailed to you by our team</li>             </ul>         </div>"
+              },
+              "definition" : "uxgovuk:govMarkupText",
+              "id" : "6c1792ff-8246-4919-b7d4-746dd88c844b",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "communityLink" : "PRSELocalAuthorityvforcesite/services/auth/sso/LAOneLogin?startURL=%2F/PRSELocalAuthority/dashboard",
+                "dxpStyle" : { },
+                "externalLink" : true,
+                "label" : "Start now"
+              },
+              "definition" : "c:gdsStartButton",
+              "id" : "69d44ed2-2458-45b2-a53e-be69c3eedfd6",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "markupText" : "<div class=\"govuk-body\">             <p class=\"govuk-body\">Contact our support team if your local authority:</p>             <ul class=\"govuk-list govuk-list--bullet\">                 <li>has not been given sign in information</li>                 <li>needs to give access to more people</li>                 <li>needs access to exemptions in another local authority area</li>                 <li>needs technical support</li>             </ul>         </div>"
+              },
+              "definition" : "uxgovuk:govMarkupText",
+              "id" : "35c1ab1f-5021-4552-b122-108ad8ab435a",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "divHeight" : "3.125",
+                "dxpStyle" : { }
+              },
+              "definition" : "c:prseSpacer",
+              "id" : "56b97501-2e5a-440a-8806-0520158887a7",
+              "type" : "component"
+            } ],
+            "id" : "c6f11cf1-6baf-440b-b0df-7f713bdd41f3",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "9c15753d-3b19-474c-8f91-b70094ff8928",
+          "type" : "component"
+        } ],
+        "id" : "791f9455-5aac-4edb-87eb-21771079aeca",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Home",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "4076af4d-48b8-448a-a115-da4b0c7afd40",
+          "type" : "component"
+        } ],
+        "id" : "6b53a074-5dce-4115-b372-6ea79786f7cf",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "d3a9bf31-3e8b-45dd-a731-743fe42ec7d7",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "home"
+  },
+  "urlName" : "home"
+}

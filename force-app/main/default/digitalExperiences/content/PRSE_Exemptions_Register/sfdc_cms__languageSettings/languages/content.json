@@ -1,0 +1,14 @@
+{
+  "type" : "sfdc_cms__languageSettings",
+  "title" : "LanguageContent",
+  "contentBody" : {
+    "languages" : [ {
+      "locale" : "en_GB",
+      "label" : "English (UK) (GB)",
+      "isActive" : true,
+      "isAuthoringOnly" : false
+    } ],
+    "defaultLocale" : "en_GB"
+  },
+  "urlName" : "languagecontent"
+}

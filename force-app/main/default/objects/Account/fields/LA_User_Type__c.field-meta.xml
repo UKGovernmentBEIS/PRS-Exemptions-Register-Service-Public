@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LA_User_Type__c</fullName>
+    <description>To decide if the user is belongs to a MEES (Compliance) or PRSE site</description>
+    <inlineHelpText>To decide if the user is belongs to a MEES (Compliance) or PRSE site</inlineHelpText>
+    <label>LA User Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>LA_User_Type</valueSetName>
+    </valueSet>
+</CustomField>

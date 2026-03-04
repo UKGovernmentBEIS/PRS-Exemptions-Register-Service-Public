@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Support",
+  "contentBody" : {
+    "activeViewId" : "support",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-support",
+    "urlPrefix" : "support"
+  },
+  "urlName" : "support"
+}

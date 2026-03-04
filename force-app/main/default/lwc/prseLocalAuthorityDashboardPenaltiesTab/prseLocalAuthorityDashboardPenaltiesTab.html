@@ -1,0 +1,753 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <template if:true={isPage0}>
+        <!-- Spinner -->
+        <div if:true={isLoading} class="slds-is-relative">
+            <lightning-spinner alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+        <div if:false={isLoading}>
+        <!-- Table -->
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-three-quarters">
+                    <h2 class="govuk-heading-m govuk-!-margin-0">Penalties</h2>
+                    <div id="results-hint" class="govuk-hint govuk-!-margin-0">{totalDatabasePenalties} results</div>
+                </div>
+                <div class="govuk-grid-column-one-quarter" style="text-align: right;">
+                    <button 
+                        type="submit" 
+                        class="govuk-button" 
+                        data-module="govuk-button" 
+                        onclick={handleRecordNewPenalty}>
+                        Record new penalty
+                    </button>
+                </div>
+            </div>
+            <table class="govuk-table table--wrap-text">
+                <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">Penalty reference</th>
+                        <th scope="col" class="govuk-table__header">Landlord</th>
+                        <th scope="col" class="govuk-table__header">Property address</th>
+                        <th scope="col" class="govuk-table__header">Penalty type</th>
+                        <th scope="col" class="govuk-table__header">Date issued</th>
+                        <th scope="col" class="govuk-table__header">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="govuk-table__body text-wrap">          
+                    <template for:each={records} for:item="record">
+                        <tr key={record.penaltyId}>
+                            <td class="govuk-table__cell text-wrap">{record.reference}</td>
+                            <td class="govuk-table__cell text-wrap">{record.landlord}</td>
+                            <td class="govuk-table__cell text-wrap">{record.fullPropertyAddress}</td>
+                            <td class="govuk-table__cell text-wrap">{record.penaltyType}</td>
+                            <td class="govuk-table__cell text-wrap">{record.dateIssued}</td>
+                            <td class="govuk-table__cell text-wrap">
+                                <div class="action-links">
+                                    <a href="#" class="govuk-link" data-record-id={record.penaltyId} onclick={handleView}>
+                                        View
+                                        <span class="govuk-visually-hidden">Penalty {record.reference}</span>
+                                    </a>
+                                </div>
+                                <div class="action-links">
+                                    <a href="#" class="govuk-link" data-record-id={record.penaltyId} onclick={handleDelete}>
+                                        Delete
+                                        <span class="govuk-visually-hidden">Penalty {record.reference}</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                    <template if:true={hasNoResults}>
+                        <tr>
+                            <td class="govuk-table__cell no-border" colspan="100%">{noDataMessage}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <template if:true={hasMultiplePages}>
+                <nav class="govuk-pagination" aria-label="Pagination" style="display: flex; justify-content: center; align-items: center;">
+                    <template if:true={hasPreviousPage}>
+                        <div class="govuk-pagination__prev">
+                            <a
+                                onclick={handlePrevious}
+                                class="govuk-link govuk-pagination__link"
+                                href="#"
+                                rel="prev"
+                                aria-label="Previous page"
+                                style="outline: none;">
+                                <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                                    <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                                </svg>
+                                <span class="govuk-pagination__link-title">
+                                    Previous<span class="govuk-visually-hidden"> page</span>
+                                </span>
+                            </a>   
+                        </div>
+                    </template>
+                    
+                    <ul class="govuk-pagination__list">
+                        <template for:each={pageNumbers} for:item="page">
+                            <li key={page.key} class={page.liClass}>
+                                <template if:true={page.isEllipsis}>
+                                    <span>&ctdot;</span>
+                                </template>
+                                <template if:false={page.isEllipsis}>
+                                    <template if:true={page.isActive}>
+                                        <a class="govuk-link govuk-pagination__link" href="#" aria-label={page.ariaLabel} aria-current="page" style="text-decoration: underline; outline: none;">
+                                            {page.pageNum}
+                                        </a>
+                                    </template>
+                                    <template if:false={page.isActive}>
+                                        <a  
+                                            onclick={handlePageClick}
+                                            data-page={page.pageNum}
+                                            class="govuk-link govuk-pagination__link"
+                                            href="#"
+                                            aria-label={page.ariaLabel}
+                                            style="text-decoration: underline; outline: none;">
+                                            {page.pageNum}
+                                        </a>
+                                    </template>
+                                </template>
+                            </li>
+                        </template>
+                    </ul>
+                    
+                    <template if:true={hasNextPage}>
+                        <div class="govuk-pagination__next">
+                            <a
+                                onclick={handleNext}
+                                class="govuk-link govuk-pagination__link"
+                                href="#"
+                                rel="next"
+                                aria-label="Next page"
+                                style="outline: none;">
+                                <span class="govuk-pagination__link-title">
+                                    Next<span class="govuk-visually-hidden"> page</span>
+                                </span>
+                                <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </template>
+                </nav>
+            </template>
+        </div>
+    </template>
+    <!-- Penalty for Exemption (Page 1)-->
+    <template if:true={isPage1}>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <template if:true={hasErrors}>
+                    <c-gds-error-messages-imperative components={components}></c-gds-error-messages-imperative>
+                </template>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">Record a penalty</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div data-field-id="penaltyWithExemption" class="govuk-!-margin-bottom-6">
+                            <c-gds-radios-white 
+                                data-id="penaltyWithExemption"
+                                question-label="Is the penalty for a property that has an exemption?"
+                                name="penaltyWithExemption" 
+                                question-font-size="medium"
+                                error-message="Select if the penalty is for a property which has an exemption" 
+                                radio-labels="Yes|No, the property does not have an exemption" 
+                                radio-values="Yes|No"
+                                required-question="True" 
+                                selected-value={penaltyForExemptionValue}
+                                selected-value-a-p-i-name={penaltyForExemptionLabel}
+                                onvaluechanged={handleChildValueChange}
+                                unique-field-id="penaltyWithExemption">
+                            </c-gds-radios-white>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-button-group">
+                    <button 
+                        type="submit" 
+                        class="govuk-button" 
+                        data-module="govuk-button" 
+                        onclick={handleSaveAndContinue}>
+                        Save and continue
+                    </button>
+                </div>
+                <div class="button-link-tight">
+                    <a href='#' class="govuk-link govuk-!-margin-top-0" onclick={handleBackOrCancel}>Cancel</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Penalty address and landlord (Page 2)-->
+    <template if:true={isPage2}>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <a href="#" class="govuk-back-link" onclick={handleBackOrCancel}>Back</a>
+                <template if:true={hasErrors}>
+                    <c-gds-error-messages-imperative components={components}></c-gds-error-messages-imperative>
+                </template>
+                <h1 class="govuk-heading-l">Record a penalty</h1>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">Address of property in breach</h2>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div data-field-id="addressLine1" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Address line 1"
+                                label-font-size="small"
+                                error-message="Enter an address"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="150"
+                                required
+                                value={currentPenalty.addressLine1}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="addressLine1">
+                            </c-gds-text-input>
+                        </div>
+                        <div data-field-id="addressLine2" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Address line 2 (optional)"
+                                label-font-size="small"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="100"
+                                value={currentPenalty.addressLine2}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="addressLine2">
+                            </c-gds-text-input>
+                        </div>
+                        <div data-field-id="addressCity" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Town or city"
+                                label-font-size="small"
+                                error-message="Enter a town or city"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="40"
+                                required
+                                value={currentPenalty.propertyCity}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="addressCity">
+                            </c-gds-text-input>
+                        </div>
+                        <div data-field-id="addressCounty" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="County (optional)"
+                                label-font-size="small"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="80"
+                                value={currentPenalty.propertyCounty}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="addressCounty">
+                            </c-gds-text-input>
+                        </div>
+                        <div data-field-id="addressPostcode" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Postcode"
+                                label-font-size="small"
+                                error-message="Enter a postcode in the correct format, like PO12 6NT"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="10"
+                                regex-pattern="^(([Gg][Ii][Rr]\s?0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))\s?[0-9][A-Za-z]{2}))$"
+                                required
+                                value={currentPenalty.propertyPostcode}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="addressPostcode">
+                            </c-gds-text-input>
+                        </div>
+                    </div> 
+                </fieldset>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">Property details</h2>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div data-field-id="propertyType" class="govuk-!-margin-bottom-6">
+                            <c-gds-radios-white 
+                                data-id="propertyType"
+                                question-label="What type of property are you creating a penalty for"
+                                name="propertyType" 
+                                question-font-size="small"
+                                error-message="Select property type" 
+                                radio-labels="Residential (domestic)|Commercial (non-domestic)" 
+                                radio-values="Residential|Commercial"
+                                required-question="True" 
+                                selected-value={currentPenalty.propertyType}
+                                selected-value-a-p-i-name={currentPenalty.propertyType}
+                                onvaluechanged={handleChildValueChange}
+                                unique-field-id="propertyType">
+                            </c-gds-radios-white>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">Landlord details</h2>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div data-field-id="landlordType" class="govuk-!-margin-bottom-6">
+                            <c-gds-radios-white 
+                                data-id="landlordType"
+                                question-label="Select the type of landlord"
+                                name="landlordType" 
+                                question-font-size="small"
+                                error-message="Select landlord type" 
+                                radio-labels="An individual landlord|An organisation or business" 
+                                radio-values="Individual|Business"
+                                required-question="True" 
+                                selected-value={currentPenalty.landlordType}
+                                selected-value-a-p-i-name={currentPenalty.landlordType}
+                                onvaluechanged={handleChildValueChange}
+                                unique-field-id="landlordType">
+                            </c-gds-radios-white>
+                        </div>
+                        <div data-field-id="landlordFirstName" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="First name (optional)"
+                                label-font-size="small"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="35"
+                                value={currentPenalty.landlordFirstName}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="landlordFirstName">
+                            </c-gds-text-input>
+                        </div>
+                        <div data-field-id="landlordLastName" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Last name (optional)"
+                                label-font-size="small"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="35"
+                                value={currentPenalty.landlordLastName}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="landlordLastName">
+                            </c-gds-text-input>
+                        </div>
+                        <div data-field-id="landlordBusinessName" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Organisation name (optional)"
+                                label-font-size="small"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="255"
+                                value={currentPenalty.landlordBusinessName}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="landlordBusinessName">
+                            </c-gds-text-input>
+                        </div>
+                    </div> 
+                </fieldset>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-button-group">
+                    <button 
+                        type="submit" 
+                        class="govuk-button" 
+                        data-module="govuk-button" 
+                        onclick={handleSaveAndContinue}>
+                        Save and continue
+                    </button>
+                </div>
+                <div class="button-link-tight">
+                    <a href='#' class="govuk-link govuk-!-margin-top-0" onclick={handleBackOrCancel}>Cancel</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Penalty details (Page 3)-->
+    <template if:true={isPage3}>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <a href="#" class="govuk-back-link" onclick={handleBackOrCancel}>Back</a>
+                <template if:true={hasErrors}>
+                    <c-gds-error-messages-imperative components={components}></c-gds-error-messages-imperative>
+                </template>
+                <h1 class="govuk-heading-l">Record a penalty</h1>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">Penalty notice details</h2>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div data-field-id="penaltyReference" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Penalty reference"
+                                label-font-size="small"
+                                hint-text="Record a reference for this penalty"
+                                error-message="Enter penalty reference"
+                                width-quarter-wise="two-quarters"
+                                width-length-wise="20"
+                                max-character-count="255"
+                                required
+                                value={currentPenalty.reference}
+                                onvaluechanged={handleChildValueChange}
+                                field-id="penaltyReference">
+                            </c-gds-text-input>
+                        </div>
+                        <div data-field-id="issueDate" class="govuk-!-margin-bottom-6">
+                            <c-gds-date-input
+                                field-id="issueDate"
+                                label="Date penalty issued"
+                                label-font-size="small"
+                                error-message="Enter a date. This date cannot be in the future"
+                                required
+                                allow-past
+                                allow-today
+                                day-value={currentPenalty.dateIssuedDayValue}
+                                month-value={currentPenalty.dateIssuedMonthValue}
+                                year-value={currentPenalty.dateIssuedYearValue}
+                                onvaluechanged={handleChildValueChange}>
+                            </c-gds-date-input>
+                        </div>
+                        <div data-field-id="penaltyType" class="govuk-!-margin-bottom-6">
+                            <c-gds-select
+                                label="Penalty type"
+                                font-size="small"
+                                option-labels={penaltyTypeLabels}
+                                option-values={penaltyTypeValues}
+                                error-message="Select penalty type"
+                                value={currentPenalty.penaltyTypeId}
+                                value-a-p-i-name={currentPenalty.penaltyType}
+                                required
+                                onvaluechanged={handleChildValueChange}
+                                field-id="penaltyType">
+                            </c-gds-select>
+                        </div>
+                        <div data-field-id="penaltyAmount" class="govuk-!-margin-bottom-6">
+                            <c-gds-text-input
+                                label="Penalty amount"
+                                label-font-size="small"
+                                error-message="Enter penalty amount"
+                                width-quarter-wise="one-quarter"
+                                width-length-wise="5"
+                                regex-pattern="^[1-9][0-9]*$"
+                                max-character-count="18"
+                                required
+                                value={currentPenalty.penaltyAmount}
+                                prefix="£"
+                                onvaluechanged={handleChildValueChange}
+                                field-id="penaltyAmount">
+                            </c-gds-text-input>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="govuk-fieldset">
+                    <div class="govuk-form-group">
+                        <div data-field-id="shouldPublish" class="govuk-!-margin-bottom-6">
+                            <c-gds-radios-white 
+                                data-id="shouldPublish"
+                                question-label="Publish penalty"
+                                question-hint="Do you want to publish the penalty on the private rented sector exemptions and penalties register?"
+                                name="shouldPublish" 
+                                question-font-size="medium"
+                                error-message="Select publish or do not publish" 
+                                radio-labels="No, do not publish the penalty|Yes, publish the penalty" 
+                                radio-values="No|Yes"
+                                hint-values="|This will publish the penalty immediately. You can edit the penalty to unpublish at any point."
+                                required-question="True" 
+                                selected-value={currentPenalty.publishedRadioValue}
+                                selected-value-a-p-i-name={currentPenalty.publishedRadioLabel}
+                                onvaluechanged={handleChildValueChange}
+                                unique-field-id="shouldPublish">
+                            </c-gds-radios-white>
+                        </div>
+                        <div data-field-id="unpublishedDate" class="govuk-!-margin-bottom-6" if:true={currentPenalty.published}>
+                            <c-gds-date-input
+                                field-id="unpublishedDate"
+                                label="Penalty unpublish date"
+                                label-font-size="small"
+                                error-message="Enter a date. This date must be in the future"
+                                required
+                                day-value={currentPenalty.unpublishDateDayValue}
+                                month-value={currentPenalty.unpublishDateMonthValue}
+                                year-value={currentPenalty.unpublishDateYearValue}
+                                allow-future
+                                onvaluechanged={handleChildValueChange}>
+                            </c-gds-date-input>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-button-group">
+                    <button 
+                        type="submit" 
+                        class="govuk-button" 
+                        data-module="govuk-button" 
+                        onclick={handleRecordPenalty}>
+                        Record penalty
+                    </button>
+                </div>
+                <div class="button-link-tight">
+                    <a href='#' class="govuk-link govuk-!-margin-top-0" onclick={handleBackOrCancel}>Cancel</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Publish confirmation (Page 4)-->
+    <template if:true={isPage4}>
+        <h1 class="govuk-heading-l">Record a penalty</h1>
+        <div if:false={currentPenalty.published}>
+            <p class="govuk-body">Are you sure you want to unpublish this penalty from the private rented sector exemptions and penalties register?</p>
+        </div>
+        <div if:true={currentPenalty.published}>
+            <p class="govuk-body">Are you sure you want to publish this penalty on the private rented sector exemptions and penalties register?</p>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-button-group">
+                    <div if:false={currentPenalty.published}>
+                        <button 
+                            type="submit" 
+                            class="govuk-button" 
+                            data-module="govuk-button" 
+                            onclick={handlePublishPenalty}>
+                            Yes, unpublish penalty
+                        </button>
+                    </div>
+                    <div if:true={currentPenalty.published}>
+                        <button 
+                            type="submit" 
+                            class="govuk-button" 
+                            data-module="govuk-button" 
+                            onclick={handlePublishPenalty}>
+                            Publish penalty
+                        </button>
+                    </div>
+                </div>
+                <div class="button-link-tight">
+                    <a href='#' class="govuk-link govuk-!-margin-top-0" onclick={handleCancelAndGoBackToPenaltyDetails}>Cancel and go back to penalty details</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Published/unpublished Penalty details (Page 5) -->
+    <template if:true={isPage5}>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Penalty notice details</h1>
+                <div class="govuk-inset-text govuk-inset-text-short" if:true={currentPenalty.published}>
+                    This penalty was published on the private rented sector exemptions and penalties register
+                </div>
+                <div class="govuk-inset-text govuk-inset-text-short" if:false={currentPenalty.published}>
+                    This penalty was not published on the private rented sector exemptions and penalties register
+                </div>
+
+                <!-- Address details -->
+                <h2 class="govuk-heading-m govuk-!-margin-top-4">
+                    Address of property in breach
+                </h2>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.addressLine1}
+                </p>
+                <p class="govuk-body penalty-details-body" if:true={currentPenalty.addressLine2}>
+                    {currentPenalty.addressLine2}
+                </p>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.propertyCity}
+                </p>
+                <p class="govuk-body penalty-details-body" if:true={currentPenalty.propertyCounty}>
+                    {currentPenalty.propertyCounty}
+                </p>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.propertyPostcode}
+                </p>
+
+                <!-- Property details -->
+                <h2 class="govuk-heading-m govuk-!-margin-top-4">
+                    Property details
+                </h2>
+                <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                    Property type
+                </h3>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.frontEndPropertyType}
+                </p>
+
+                <!-- Landlord details -->
+                <h2 class="govuk-heading-m govuk-!-margin-top-4">
+                    Landlord details
+                </h2>
+                <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                    Landlord type
+                </h3>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.landlordType}
+                </p>
+                <div if:true={currentPenalty.landlordFirstName}>
+                    <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                        First name
+                    </h3>
+                    <p class="govuk-body penalty-details-body">
+                        {currentPenalty.landlordFirstName}
+                    </p>
+                </div>
+                <div if:true={currentPenalty.landlordLastName}>
+                    <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                        Last name
+                    </h3>
+                    <p class="govuk-body penalty-details-body">
+                        {currentPenalty.landlordLastName}
+                    </p>
+                </div>
+                <div if:true={currentPenalty.landlordBusinessName}>
+                    <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                        Organisation name
+                    </h3>
+                    <p class="govuk-body penalty-details-body">
+                        {currentPenalty.landlordBusinessName}
+                    </p>
+                </div>
+
+                <!-- Penalty details -->
+                <h2 class="govuk-heading-m govuk-!-margin-top-4">
+                    Penalty notice details
+                </h2>
+                <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                    Penalty reference
+                </h3>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.reference}
+                </p>
+                <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                    Date penalty issued
+                </h3>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.dateIssued}
+                </p>
+                <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                    Penalty type
+                </h3>
+                <p class="govuk-body penalty-details-body">
+                    {currentPenalty.penaltyType}
+                </p>
+                <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                    Penalty amount
+                </h3>
+                <p class="govuk-body penalty-details-body">
+                    £{currentPenalty.penaltyAmount}
+                </p>
+                <div if:true={currentPenalty.published}>
+                    <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                        Penalty unpublish date
+                    </h3>
+                    <p class="govuk-body penalty-details-body">
+                        {currentPenalty.unpublishDate}
+                    </p>
+                </div>
+                <h3 class="govuk-heading-s govuk-!-margin-top-4">
+                    Publish penalty 
+                </h3>
+                <p class="govuk-body penalty-details-body" if:true={currentPenalty.published}>
+                    The penalty is published on the private rented sector exemptions and penalties register
+                </p>
+                <p class="govuk-body penalty-details-body" if:false={currentPenalty.published}>
+                    The penalty is not published on the private rented sector exemptions and penalties register
+                </p>
+
+                <!-- Buttons -->
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-one-third">
+                        <div class="govuk-button-group">
+                            <button 
+                                type="submit" 
+                                class="govuk-button" 
+                                data-module="govuk-button" 
+                                onclick={handleEditPenalty}>
+                                Edit penalty
+                            </button>
+                        </div>
+                        <div class="button-link-large">
+                            <a href='#' class="govuk-link govuk-!-margin-top-4" onclick={handleViewAllPenalties}>View all penalties</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Warning notice (Page 6)-->
+    <template if:true={isPage6}>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <a href="#" class="govuk-back-link" onclick={handleBackOrCancel}>Back</a>
+                <div class="govuk-warning-text">
+                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-visually-hidden">Warning</span>
+                        To record a new penalty for a landlord with an exemption:
+                        <br>&#x2022; select the exemption you want to record the penalty against
+                        <br>&#x2022; on the penalties tab, select record a penalty
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-quarter">
+                <div class="govuk-button-group">
+                    <a href='#' class="govuk-link govuk-!-margin-top-0" onclick={handleViewDomesticExemptions}>View domestic exemptions</a>
+                    <a href='#' class="govuk-link govuk-!-margin-top-0" onclick={handleViewNonDomesticExemptions}>View non-domestic exemptions</a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <!-- Penalty delete (Page 7)-->
+            <template if:true={isPage7}>
+                <h1 class="govuk-heading-l">Penalty {currentPenalty.reference}</h1>
+                <p class="govuk-body penalty-details-body">
+                    Are you sure you want to delete the penalty {currentPenalty.reference}?
+                </p></br>
+                <p class="govuk-body penalty-details-body">
+                    You will not be able to retrieve this once it is deleted.
+                </p>
+                <div class="govuk-button-group">
+                    <button 
+                        type="submit" 
+                        class="govuk-button govuk-button--warning" 
+                        data-module="govuk-button" 
+                        onclick={handleDeleteConfirm}>
+                        Yes, delete penalty
+                    </button>
+                </div>
+                <div class="button-link-tight">
+                    <a href='#' class="govuk-link govuk-!-margin-top-0" onclick={handleViewAllPenalties}>Cancel</a>
+                </div>
+            </template>
+            <!-- Penalty delete confirm (Page 8)-->
+            <template if:true={isPage8}>
+                <h1 class="govuk-heading-l">Penalty {currentPenalty.reference}</h1>
+                <div class="govuk-inset-text">
+                    The penalty {currentPenalty.reference} was deleted.
+                </div>
+                <div class="govuk-button-group">
+                    <button 
+                        type="submit" 
+                        class="govuk-button" 
+                        data-module="govuk-button" 
+                        onclick={handleViewAllPenalties}>
+                        View penalties
+                    </button>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

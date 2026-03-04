@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PRSE_Help_Support_Case</fullName>
+    <active>true</active>
+    <businessProcess>PRSE Help and Support</businessProcess>
+    <description>PRSE case to raise help and support requests</description>
+    <label>PRSE Help / Support Case</label>
+    <picklistValues>
+        <picklist>Origin</picklist>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason__c</picklist>
+        <values>
+            <fullName>I cannot link my new account to my previously registered exemptions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I cannot log in to my account</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I have a complaint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I have a question about the policy or guidance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I have changed my agent and want to move my exemption</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I need an account created</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I need to change my permission levels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Something has gone wrong with the service</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Agent registering exemptions for a landlord</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Landlord</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Local authority user</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

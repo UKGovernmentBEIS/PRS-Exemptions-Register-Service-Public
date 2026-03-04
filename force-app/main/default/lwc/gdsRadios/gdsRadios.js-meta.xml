@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>A component that presents the user with radio button choices</description>
+    <isExposed>true</isExposed>
+    <masterLabel>GDS Radios</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen, lightning__AppPage">
+            <property name="uniqueFieldId" type="String" label="Unique Field Id" required="true" default="radioField" description="You must copy the API Name into this field"/>
+            <property name="caption" type="String" label="Caption" description="The caption to display"/>
+            <property name="questionLabel" type="String" label="Question Label" description="The label to display"/>
+            <property name="questionFontSize" type="String" label="Question Label Font Size" description="Label Font Size - Small, Medium or Large"/>
+            <property name="questionHint" type="String" label="Question Hint Text" description="The hint text to show below the label"/>
+            <property name="requiredQuestion" type="Boolean" label="Required Question?" description="Is a question required to submit the form?"/>
+            <property name="inlineRadios" type="Boolean" label="Inline Radio Options?" description="Choose to display radios ‘inline’ beside one another (horizontally)"/>
+            <property name="smallerRadios" type="Boolean" label="Smaller Radio Options?" description="Choose to display radios in smaller size"/>        
+            <property name="radioLabels" type="String" label="Radio Labels" description="A comma separated list of labels for the radios."/>
+            <property name="radioValues" type="String" label="Radio Values" description="A comma separated list of values for the radios."/>
+            <property name="hintValues" type="String" label="Radio Hint Values" description="A comma separated list of hints for the radios."/>
+            <property name="selectedValue" type="String" label="Selected Value (Label)" description="Input: The default value (label) to display, Output: The value (label) selected" />
+            <property name="selectedValueAPIName" type="String" label="Selected Value (API Name)" description="Input: The default value (API Name) to display, Output: The value (API Name) selected"/>
+            <property name="errorMessage" type="String" label="Error Message" description="Error Message"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

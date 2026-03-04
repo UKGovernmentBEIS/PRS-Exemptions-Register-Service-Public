@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>PRSE Header Links</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+                    name="backLink"
+                    type="String"
+                    label="Back Link"
+                    description="Enter the URL or relative path for the back button link."
+            />
+            <property
+                    name="logoutLink"
+                    type="String"
+                    label="Logout Link"
+                    description="Enter the URL or relative path for the logout link."
+            />
+            <property
+                    name="disableBackButton"
+                    type="Boolean"
+                    label="Disable back button"
+                    description="Hides the back button."
+            />
+            <property
+                    name="disableProfileSettings"
+                    type="Boolean"
+                    label="Disable profile settings"
+                    description="Hides the profile settings button."
+            />
+            <property
+                    name="disableLogoutLink"
+                    type="Boolean"
+                    label="Disable logout link"
+                    description="Hides the logout button."
+            />
+            <property
+                    name="useWideVariant"
+                    type="Boolean"
+                    label="Uses wide header links container"
+                    description="Uses wide header links container"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

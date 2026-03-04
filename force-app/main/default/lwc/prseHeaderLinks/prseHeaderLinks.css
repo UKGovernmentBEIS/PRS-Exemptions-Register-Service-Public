@@ -1,0 +1,36 @@
+.header-flex {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	min-height: 50px; /* Necessary as Back button csv moved line up and down when added/removed */
+}
+
+.header-links {
+	display: flex;
+	gap: 1.6rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	justify-content: flex-end;
+	margin-left: auto;
+}
+
+a {
+	text-decoration: underline !important;
+}
+
+.govuk-link {
+	font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+	.header-flex {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+.govuk-width-container--wide {
+  max-width: 1200px;
+}

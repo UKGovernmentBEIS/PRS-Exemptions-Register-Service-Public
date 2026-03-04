@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Both</fullName>
+        <default>true</default>
+        <label>Both</label>
+    </customValue>
+    <customValue>
+        <fullName>MEES</fullName>
+        <default>false</default>
+        <label>MEES</label>
+    </customValue>
+    <customValue>
+        <fullName>PRSE</fullName>
+        <default>false</default>
+        <label>PRSE</label>
+    </customValue>
+    <description>This dropdown decides if the LA user is a MEES, PRSE or both. It will be added to the Account object and accountContactRelationship table. Accordingly they can access the compliance (MEES) or PRSE sites. Also they can have access to the LA data from the relationship.</description>
+    <masterLabel>LA User Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

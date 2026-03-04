@@ -1,0 +1,9 @@
+/* Ensure the radio's outer circle is white even on grey backgrounds */
+.govuk-radios__input + .govuk-radios__label::before {
+  background-color: #fff !important;
+}
+
+/* Keep the checked dot GOV.UK blue while the surrounding stays white */
+.govuk-radios__input:checked + .govuk-radios__label::after {
+  background-color: #1d70b8 !important; /* checked dot */
+}

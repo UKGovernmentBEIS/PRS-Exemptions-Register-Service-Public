@@ -1,0 +1,81 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Registered Exemptions",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"d5095c0d-9e13-4d37-9dab-7d88b7dadf1e\",\"columns\":[{\"UUID\":\"f2879fc0-1a50-46ff-a78a-bea36b26b546\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "backLink" : "/PRSExemptionsRegister/dashboard",
+                "dxpStyle" : { },
+                "logoutLink" : "/PRSExemptionsRegister/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSExemptionsRegister"
+              },
+              "definition" : "c:prseHeaderLinks",
+              "id" : "c2e3f462-1a12-4ffd-9b89-3a372fa40c3f",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "status" : "registered"
+              },
+              "definition" : "c:prseLandlordExemptionsList",
+              "id" : "53f4b04f-ca73-4d1f-9d8e-722e1ac996f1",
+              "type" : "component"
+            } ],
+            "id" : "f2879fc0-1a50-46ff-a78a-bea36b26b546",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "d5095c0d-9e13-4d37-9dab-7d88b7dadf1e",
+          "type" : "component"
+        } ],
+        "id" : "dac7768b-b981-4185-ab47-7515ef702b9f",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Registered Exemptions",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "4ff88817-e0da-4757-b6d2-a1267dbf17be",
+          "type" : "component"
+        } ],
+        "id" : "48e8c2f8-911f-4664-b5d3-cd75f5d505b8",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "3aed763c-ec46-4010-ae24-3d05f27c2f12",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-registered-exemptions"
+  },
+  "urlName" : "registered-exemptions"
+}

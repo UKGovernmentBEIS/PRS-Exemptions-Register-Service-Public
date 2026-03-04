@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <description>Allows setting of search params via inputs</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Search Param Setter</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="searchParamKey" type="String" label="Param key" required="false" description="Search param key"/>
+            <property name="searchParamValue" type="String" label="Param value" required="false" description="Search param value"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,33 @@
+Name,Code__c,IsCommercial__c,Hint_Text__c,RequiredEvidence__c,AdditionalInformation__c
+All improvements made or cost cap met,D01,false,"You have spent £3,500 or more (including VAT) on improvements that you have not previously registered, or there are no improvements recommended on your EPC.","• a report from a relevant professional showing this information.
+• details, including cost and date of installation, of all recommended improvements you made at the property","If no improvements were recommended on your EPC, upload one of: 
+- a copy of your EPC 
+- a report by an architect or Royal Institute of Chartered Surveyors (RICS) surveyor"
+High cost,D02,false,"The cheapest recommended improvement on your EPC is more than £3,500 (including VAT). You do not have to spend more than £3,500 (including VAT) on recommended improvements.","• copies of 3 quotes from different installers, showing that the cost of purchasing and installing the cheapest recommended improvement exceeds £3,500 (including VAT)","If you are having difficulty getting 3 separate quotes from installers, you can reach out to your local authority for support. <br>Find your local authority"
+Third party consent,D03,false,"Consent is required from somebody, such as a tenant or planning authority, to improve the property and it has been refused, or given conditions that cannot reasonably be met.","• copies of any correspondence or other documents demonstrating that you needed consent for the recommended measure. 
+• evidence that this consent was refused; this could be a letter or email from your tenant, or a planning department decision notification",You can also register this exemption if consent was granted subject to a condition that you were not reasonably able to comply with.  You will need to provide evidence of why you were not able to comply.
+Wall insulation,D04,false,Wall insulation is not appropriate for the property because of impact to the fabric or structure of the building. This needs to be assessed by an expert.,"• the written opinion of a relevant expert, stating that the property cannot be improved because a recommended wall insulation measure would have a negative impact on the property (or the building of which it is a part)",
+New landlord,D05,false,"This exemption applies when you have suddenly become a landlord of a tenanted property, in certain circumstances. It is only valid for 6 months from the date you became a landlord. You should seek independent legal advice if you’re not sure this applies to you.","• provide the date on which you became the landlord for the property.
+• an explanation of the circumstances under which you became the landlord.
+• evidence the property has an existing tenant",
+Property devaluation,D06,false,The recommended improvements would reduce the value of the property by more than 5%. This needs to be assessed by an independent expert.,• a copy of the report prepared by an independent Royal Institution of Chartered Surveyors (RICS) surveyor that provides evidence that the installation of relevant measures would devalue the property by more than 5%,
+All improvements made,ND01,true,There are no further recommended improvements to make to the property and it remains below EPC E rating.,"• a report from a relevant professional showing this information.
+• details, including cost and date of installation, of all recommended improvements you made at the property","You must also upload an energy assessment. This is one of:
+- a relevant recommendations report (including the report accompanying a valid EPC) 
+- a report prepared by a surveyor who is on the Royal Institution of Chartered Surveyors register of valuers
+
+<br><br>The energy assessment must use an approved methodology and software program."
+Third party consent,ND02,true,"Consent is required from somebody, such as a tenant or planning authority, to improve the property and it has been refused, or given conditions that cannot reasonably be met.","• copies of any correspondence or other documents demonstrating that you needed consent for the recommended measure. 
+• evidence that this consent was refused; this could be a letter or email from your tenant, or a planning department decision notification",You can also register this exemption if consent was granted subject to a condition that you were not reasonably able to comply with.  You will need to provide evidence of why you were not able to comply.
+Wall insulation,ND03,true,Wall insulation is not appropriate for the property because of impact to the fabric or structure of the building. This needs to be assessed by an expert.,"• the written opinion of a relevant expert, stating that the property cannot be improved because a recommended wall insulation measure would have a negative impact on the property (or the building of which it is a part)",
+New landlord,ND04,true,This exemption applies when you have suddenly become a landlord of a tenanted property in certain circumstances. It is only valid for 6 months. You should seek independent legal advice if you’re not sure this applies to you.,"• provide the date on which you became the landlord for the property.
+• an explanation of the circumstances under which you became the landlord.
+• evidence the property has an existing tenant",
+7-year payback,ND05,true,"The expected savings on energy bills over 7 years is less than, or equal to, the cost of the improvements made.","• copies of 3 quotes for the cost of purchasing and installing the measure from qualified installers.
+• a copy of the cost calculations made, to demonstrate the measure(s) do not meet the 7 year payback rule.
+• confirmation that the landlord (or relevant person) is satisfied that it does not meet the 7 year payback rule","You must also upload an energy assessment. This is one of:
+- a relevant recommendations report (including the report accompanying a valid EPC) 
+- a report prepared by a surveyor who is on the Royal Institution of Chartered Surveyors register of valuers
+
+<br><br>The energy assessment must use an approved methodology and software program."
+Property devaluation,ND06,true,The recommended improvements would reduce the value of the property by more than 5%. This needs to be assessed by an expert.,• a copy of the report prepared by an independent Royal Institution of Chartered Surveyors (RICS) surveyor that provides evidence that the installation of relevant measures would devalue the property by more than 5%,

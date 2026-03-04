@@ -1,0 +1,53 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container">
+        <div class={groupClass}>
+            <div class="govuk-form-group">
+                <h1 class="govuk-label-wrapper" if:true={h1Size}>
+                    <span class="govuk-caption-l">{caption}</span>
+                    <label class={labelClass} for="text-area">{label}</label>
+                </h1>
+                <h2 class="govuk-label-wrapper" if:true={h2Size}>
+                    <span class="govuk-caption-l">{caption}</span>
+                    <label class={labelClass} for="text-area">{label}</label>
+                </h2>
+                <h3 class="govuk-label-wrapper" if:true={h3Size}>
+                    <span class=".govuk-caption-s">{caption}</span>
+                    <label class={labelClass} for="text-area">{label}</label>
+                </h3>
+                
+                <template if:true={hasErrors}>
+                    <span class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>&nbsp;{errorMessage}
+                    </span>
+                </template>
+                
+                <div id="more-detail-hint" class="govuk-hint" if:true={hint}>
+                    <template if:false={hasHtmlHint}>
+                        {hint}
+                    </template>
+                    <template if:true={hasHtmlHint}>
+                        <span class="hint-with-html" style="color: #0b0c0c;"></span>
+                    </template>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-two-thirds govuk-!-padding-left-0 govuk-!-padding-right-0">
+                <textarea class={inputClass}
+                          id="text-area"
+                          name="text-area"
+                          rows={rowCount}
+                          aria-describedby="text-area"
+                          onkeyup={handleKeyUp}
+                          maxlength={maxCharacterCount}
+                          aria-label="text-area">{value}</textarea>
+                <div id="character-count-text"
+                     class="govuk-hint govuk-character-count__message"
+                     aria-live="polite"
+                     if:true={showCharacterCount}>
+                    {characterCountText}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>A GDS start button that navigates to a community page or external link when pressed</description>
+    <isExposed>true</isExposed>
+    <masterLabel>GDS Start Button</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default,lightning__AppPage,lightning__HomePage,lightning__FlowScreen">
+            <property name="label" type="String" label="Label" description="The HTML to display"/>
+            <property name="communityLink" type="String" label="Destination Link" description="The API name of the page to forward to, or an external link"/>
+            <property name="externalLink" type="Boolean" label="Is external link" description="If true it won't navigate to a Community page"></property>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

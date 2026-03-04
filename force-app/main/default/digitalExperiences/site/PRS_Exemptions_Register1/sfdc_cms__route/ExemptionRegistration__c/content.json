@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Exemption Registration",
+  "contentBody" : {
+    "activeViewId" : "Exemption_Registration",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-exemption-registration",
+    "urlPrefix" : "exemption-registration"
+  },
+  "urlName" : "exemption-registration"
+}

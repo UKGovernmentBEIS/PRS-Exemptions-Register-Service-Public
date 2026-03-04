@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_new_gov_EPC_endpoint__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Wether to use the new EPC API at https://api.get-energy-performance-data.epb-staging.communities.gov.uk (or production version) as opposed to the old opendatacommunities endpoint - WARNING - new endpoint is currently using TEST data</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Use new .gov EPC endpoint</label>
+    <type>Checkbox</type>
+</CustomField>

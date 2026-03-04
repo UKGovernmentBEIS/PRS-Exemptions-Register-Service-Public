@@ -1,0 +1,29 @@
+<template>
+    <div class="govuk-width-container">
+        <a href="#" id="errorSummaryTitle" name="errorSummaryTitle" aria-label="Error Summary"></a>
+        <template if:true={hasErrors}>
+            <div class="govuk-error-summary error-summary" 
+                 aria-labelledby="error-summary-title" 
+                 role="alert" tabindex="0" 
+                 data-module="govuk-error-summary">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">
+                    There is a problem
+                </h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list">
+                        <template for:each={components} for:item="component">
+                            <li key={component.fieldId}>
+                                <a href="#"
+                                data-field-id={component.fieldId}
+                                class="error-link" 
+                                onclick={handleErrorLinkClick}>
+                                    {component.error}
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

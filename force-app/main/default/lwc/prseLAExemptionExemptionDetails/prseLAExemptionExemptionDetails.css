@@ -1,0 +1,42 @@
+.no-border-bottom {
+    border-bottom: 0 !important;
+}
+
+.status-dd {
+    margin-top: 0.25em; 
+}
+
+.status-ended {
+    background-color: #FFE5B4; /* pastel orange */
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+}
+
+.status-active {
+    background-color: #DFF2BF; /* pastel green */
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+}
+
+.file-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 0;
+}
+
+.file-row__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.govuk-link {
+    text-decoration: underline !important;
+    text-decoration-thickness: max(1px, .0625rem) !important;
+    text-underline-offset: .1578em !important;
+}
+
+.govuk-link:hover {
+    text-decoration-thickness: max(3px, .1875rem, .12em) !important;
+}

@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Denied Access",
+  "contentBody" : {
+    "activeViewId" : "Denied_Access",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-denied-access",
+    "urlPrefix" : "denied-access"
+  },
+  "urlName" : "denied-access"
+}

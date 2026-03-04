@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>PRSE Public Register Search</masterLabel>
+    <description>Used in flow in the public register to allow search for PRS Exemptions and Penalties</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="allowOtherSearch" type="String" label="Indicates if other searches, beyond postcode, are allowed"/>
+            <property name="displayResultsAtPropertyLevel" type="Boolean" label="If ticked one result will be shown per property, if unticked a result will be shown for each exemption per property"/>
+        </targetConfig>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="allowOtherSearch" type="String" label="Indicates if other searches, beyond postcode, are allowed"/>
+            <property name="displayResultsAtPropertyLevel" type="Boolean" label="If ticked one result will be shown per property, if unticked a result will be shown for each exemption per property"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

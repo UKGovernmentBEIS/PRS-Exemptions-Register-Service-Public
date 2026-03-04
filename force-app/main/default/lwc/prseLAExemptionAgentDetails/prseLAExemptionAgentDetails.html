@@ -1,0 +1,41 @@
+<template>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-m govuk-!-margin-top-4">Agent details</h2>
+            <template if:true={hasAgent}>
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">First name</dt>
+                        <dd class="govuk-summary-list__value">{agent.FirstName}</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Last name</dt>
+                        <dd class="govuk-summary-list__value">{agent.LastName}</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Company name</dt>
+                        <dd class="govuk-summary-list__value">{agent.BusinessName__c}</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Correspondence address</dt>
+                        <dd class="govuk-summary-list__value">
+                            {agent.PersonMailingAddress.street}, {agent.PersonMailingAddress.city}, 
+                            {agent.PersonMailingAddress.postalCode}, {agent.PersonMailingAddress.state}
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Telephone number</dt>
+                        <dd class="govuk-summary-list__value">{agent.Phone}</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Email address</dt>
+                        <dd class="govuk-summary-list__value">{agent.PersonEmail}</dd>
+                    </div>
+                </dl>
+            </template>
+            <template if:false={hasAgent}>
+                <p>No agent details available.</p>
+            </template>
+        </div>
+    </div>
+</template>

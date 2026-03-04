@@ -1,0 +1,73 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "End Exemption",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"e847afea-398f-4b27-b75f-cc03d8e9d5c9\",\"columns\":[{\"UUID\":\"a4efcc6f-2e15-49b7-b1a6-f224cff098d4\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "dxpStyle" : { },
+                "flowArguments" : "[{\"label\":\"PassedExemptionNumber\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"PassedExemptionNumber\",\"type\":\"String\",\"value\":\"{!r}\"}]",
+                "flowName" : "{\"flowName\":\"PRSE_End_Exemption\",\"flowLabel\":\"PRSE End Exemption\"}"
+              },
+              "definition" : "dxp_flow:flow",
+              "id" : "1ee4ff6d-cc4f-4eca-9866-94b71c8910ec",
+              "type" : "component"
+            } ],
+            "id" : "a4efcc6f-2e15-49b7-b1a6-f224cff098d4",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "e847afea-398f-4b27-b75f-cc03d8e9d5c9",
+          "type" : "component"
+        } ],
+        "id" : "6441cc86-0ef3-4528-abd2-42ba6c89d8e5",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "End Exemption",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "258dbe76-d0cf-466a-8b65-7a9f28cfd697",
+          "type" : "component"
+        } ],
+        "id" : "342ae33a-76cf-4784-9a1a-30969de3caf6",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "0ae13132-e27b-4686-82d0-fb3cd6aaa063",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-end-exemption"
+  },
+  "urlName" : "end-exemption"
+}

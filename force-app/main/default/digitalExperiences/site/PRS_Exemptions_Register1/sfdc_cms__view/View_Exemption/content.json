@@ -1,0 +1,82 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "View Exemption",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"643bbf63-fe28-4759-828f-85c06ed4c9aa\",\"columns\":[{\"UUID\":\"306d9cc0-a480-497d-823a-c57b53c586b3\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "backLink" : "/PRSExemptionsRegister/dashboard",
+                "dxpStyle" : { },
+                "logoutLink" : "/PRSExemptionsRegister/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSExemptionsRegister"
+              },
+              "definition" : "c:prseHeaderLinks",
+              "id" : "1fcdcbf6-835d-4734-ad15-e8032de1a16f",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "flowArguments" : "[{\"label\":\"recordId\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"recordId\",\"type\":\"String\",\"value\":\"{!r}\"}]",
+                "flowName" : "{\"flowName\":\"PRSE_View_Registered_Exemption\",\"flowLabel\":\"PRSE View Registered Exemption\"}"
+              },
+              "definition" : "dxp_flow:flow",
+              "id" : "5ca9808c-197f-4dec-b0a0-f67aa9dfa4f5",
+              "type" : "component"
+            } ],
+            "id" : "306d9cc0-a480-497d-823a-c57b53c586b3",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "643bbf63-fe28-4759-828f-85c06ed4c9aa",
+          "type" : "component"
+        } ],
+        "id" : "338802ff-b905-494d-8668-6ba124d27a35",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "View Exemption",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "0780bee5-faad-4c60-ab6f-d1f4f8280378",
+          "type" : "component"
+        } ],
+        "id" : "060d1b28-6f14-4a2f-8c1e-db673caa9845",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "3c4756b8-6216-43d8-8f05-3ec6a5cb9a83",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-view-exemption"
+  },
+  "urlName" : "view-exemption"
+}

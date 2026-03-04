@@ -1,0 +1,80 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Account Linking",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"961598af-7335-4759-a88d-1c3f4d656956\",\"columns\":[{\"UUID\":\"58a095d7-fddc-46b7-a327-71e9e49ac040\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "divHeight" : "3.125",
+                "dxpStyle" : { }
+              },
+              "definition" : "c:prseSpacer",
+              "id" : "8acdab66-9ea0-4f56-a0a4-415da7263ba9",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "flowName" : "{\"flowName\":\"PRSE_PreviousExemptionsLink\",\"flowLabel\":\"PRSE_PreviousExemptionsLink\"}"
+              },
+              "definition" : "dxp_flow:flow",
+              "id" : "932d05b8-6d92-42e3-8263-cca2525bdcef",
+              "type" : "component"
+            } ],
+            "id" : "58a095d7-fddc-46b7-a327-71e9e49ac040",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "961598af-7335-4759-a88d-1c3f4d656956",
+          "type" : "component"
+        } ],
+        "id" : "e17dbeaa-e054-4552-9c71-6b23ccc0b6ad",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Account Linking",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "278d3998-afe4-483d-a0cb-fd4a7bebce2c",
+          "type" : "component"
+        } ],
+        "id" : "4be4ca92-6fa7-4bcf-8c56-bf072f31c8d2",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "9f8e99de-6483-4185-b4d4-b236b34f9a2e",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-account-linking"
+  },
+  "urlName" : "account-linking"
+}

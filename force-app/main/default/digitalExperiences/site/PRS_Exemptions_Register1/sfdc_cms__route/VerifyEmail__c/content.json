@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Verify Email",
+  "contentBody" : {
+    "activeViewId" : "Verify_Email",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-verify-email",
+    "urlPrefix" : "verify-email"
+  },
+  "urlName" : "verify-email"
+}

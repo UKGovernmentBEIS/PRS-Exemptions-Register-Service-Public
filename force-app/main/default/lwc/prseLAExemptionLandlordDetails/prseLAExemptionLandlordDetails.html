@@ -1,0 +1,41 @@
+<template>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <template if:true={landlord}>
+                <h2 class="govuk-heading-m govuk-!-margin-top-4">Landlord details</h2>
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">First name</dt>
+                        <dd class="govuk-summary-list__value">{landlord.LandlordFirstName}</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Last name</dt>
+                        <dd class="govuk-summary-list__value">{landlord.LandlordLastName}</dd>
+                    </div>
+                    <template if:true={showBusinessName}>               
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Organisation name:</dt>
+                            <dd class="govuk-summary-list__value">{landlord.LandlordBusinessName}</dd>
+                        </div>
+                    </template>            
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Correspondence address</dt>
+                        <dd class="govuk-summary-list__value">{landlord.LandlordAddress}</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Telephone number</dt>
+                        <dd class="govuk-summary-list__value">{landlord.LandlordPhone}</dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Email address</dt>
+                        <dd class="govuk-summary-list__value">{landlord.LandlordEmail}</dd>
+                    </div>
+                </dl>
+            </template>
+
+            <template if:false={landlord}>
+                <p>Loading landlord details…</p>
+            </template>
+        </div>
+    </div>
+</template>

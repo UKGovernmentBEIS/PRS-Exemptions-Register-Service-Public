@@ -1,0 +1,209 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <main class="govuk-main-wrapper govuk-width-container">
+        <h1 class="govuk-heading-l govuk-!-padding-top-0 govuk-!-margin-bottom-0">{pageTitle}</h1>
+        <p class="govuk-body govuk-!-margin-bottom-4 govuk-!-margin-top-4">{pageSubtitle}</p>
+
+        <template if:true={areChangesRequired}>
+            <div class="govuk-!-padding-2 govuk-!-margin-bottom-4" style="border-left: 4px solid #d4351c;">
+                <p class="govuk-body govuk-!-margin-bottom-0 govuk-max-75">
+                    The local authority needs more information for the flagged exemptions. These exemptions are at the top of the list. Select view to add more information.
+                </p>
+            </div>
+        </template>
+        
+        <div class="govuk-table-container">
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th if:false={isDraft} scope="col" class="govuk-table__header">Reference</th>
+                        <th scope="col" class="govuk-table__header">Property address</th>
+                        <template if:true={isEnded}>
+                            <th scope="col" class="govuk-table__header">Date ended</th>
+                        </template>
+                        <template if:true={isRegistered}>
+                            <th scope="col" class="govuk-table__header">Date registered</th>
+                        </template>
+                        <template if:true={isDraft}>
+                            <th scope="col" class="govuk-table__header">Draft started</th>
+                        </template>
+                        <th scope="col" class="govuk-table__header">Action(s)</th>
+                    </tr>
+                </thead>
+                <tbody class="govuk-table__body">          
+                    <template if:true={isDraft}>
+                        <template for:each={records} for:item="record">
+                            <template if:true={record.needsMoreInfo}>
+                                <tr class="govuk-table__row" key={record.Id}>
+                                    <td class="govuk-table__cell govuk-!-padding-bottom-0" style="border: none;" colspan="3">
+                                        <div style="background: #FFC7C2; display: inline-block; padding: 3px 8px;">Needs more information</div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr key={record.Id} class="govuk-table__row">
+                                <td class="govuk-table__cell" data-label="Property address">{record.fullPropertyAddress}</td>
+                                <td class="govuk-table__cell" data-label="Draft started">{record.formattedDate}</td>
+                                <td class="govuk-table__cell" data-label="Action(s)">
+                                    <div class="action-links">
+                                        <a href={record.resumeExemptionUrl} class="govuk-link">
+                                            Resume
+                                            <span class="govuk-visually-hidden"> exemption for {record.fullPropertyAddress}</span>
+                                        </a>
+                                        <a href={record.deleteExemptionUrl} class="govuk-link">
+                                            Delete
+                                            <span class="govuk-visually-hidden"> exemption for {record.fullPropertyAddress}</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <template if:true={hasNoResults}>
+                            <tr>
+                                <td class="govuk-table__cell no-border" colspan="100%">No draft exemptions</td>
+                            </tr>
+                        </template>
+                    </template>
+                    
+                    <template if:true={isRegistered}>
+                        <template for:each={records} for:item="record">
+                            <template if:true={record.needsMoreInfo}>
+                                <tr class="govuk-table__row" key={record.Id}>
+                                    <td class="govuk-table__cell govuk-!-padding-bottom-0" style="border: none;" colspan="4">
+                                        <div style="background: #FFC7C2; display: inline-block; padding: 3px 8px;">Needs more information</div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr key={record.Id} class="govuk-table__row">
+                                <td class="govuk-table__cell" data-label="Reference">{record.Ref_Number__c}</td>
+                                <td class="govuk-table__cell" data-label="Property address">{record.fullPropertyAddress}</td>
+                                <td class="govuk-table__cell" data-label="Date registered">{record.formattedDate}</td>
+                                <td class="govuk-table__cell" data-label="Action(s)">
+                                    <div class="action-links">
+                                        <template if:true={record.needsMoreInfo}>
+                                            <a href={record.resumeExemptionUrl} class="govuk-link">
+                                                Edit
+                                                <span class="govuk-visually-hidden"> exemption {record.Ref_Number__c}</span>
+                                            </a>
+                                        </template>
+                                        <template if:false={record.needsMoreInfo}>
+                                            <a href={record.viewRegisteredExemptionUrl} class="govuk-link">
+                                                View
+                                                <span class="govuk-visually-hidden"> exemption {record.Ref_Number__c}</span>
+                                            </a>
+                                        </template>
+                                        <a href={record.endExemptionUrl} class="govuk-link">
+                                            End
+                                            <span class="govuk-visually-hidden"> exemption {record.Ref_Number__c}</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <template if:true={hasNoResults}>
+                            <tr>
+                                <td class="govuk-table__cell no-border" colspan="100%">No registered exemptions</td>
+                            </tr>
+                        </template>
+                    </template>
+                    
+                    <template if:true={isEnded}>
+                        <template for:each={records} for:item="record">
+                            <tr key={record.Id} class="govuk-table__row">
+                                <td class="govuk-table__cell" data-label="Reference">{record.Child_Exemption_Ref__c}</td>
+                                <td class="govuk-table__cell" data-label="Property address">{record.fullPropertyAddress}</td>
+                                <td class="govuk-table__cell" data-label="Date ended">{record.formattedDate}</td>
+                                <td class="govuk-table__cell" data-label="Action(s)">
+                                    <div class="action-links">
+                                        <a href={record.viewEndedExemptionUrl} class="govuk-link">
+                                            View
+                                            <span class="govuk-visually-hidden"> exemption {record.Child_Exemption_Ref__c}</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <template if:true={hasNoResults}>
+                            <tr>
+                                <td class="govuk-table__cell no-border" colspan="100%">No ended exemptions</td>
+                            </tr>
+                        </template>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <template if:true={hasMultiplePages}>
+            <nav class="govuk-pagination" aria-label="Pagination" style="display: flex; justify-content: center; align-items: center;">
+                <template if:true={hasPreviousPage}>
+                    <div class="govuk-pagination__prev">
+                        <a
+                            onclick={handlePrevious}
+                            class="govuk-link govuk-pagination__link"
+                            href="#"
+                            rel="prev"
+                            aria-label="Previous page"
+                            style="outline: none;">
+                            <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                                <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                            </svg>
+                            <span class="govuk-pagination__link-title">
+                                Previous<span class="govuk-visually-hidden"> page</span>
+                            </span>
+                        </a>
+                    </div>
+                </template>
+                
+                <ul class="govuk-pagination__list">
+                    <template for:each={pageNumbers} for:item="page">
+                        <li key={page.key} class={page.liClass}>
+                            <template if:true={page.isEllipsis}>
+                                <span>&ctdot;</span>
+                            </template>
+                            <template if:false={page.isEllipsis}>
+                                <template if:true={page.isActive}>
+                                    <a class="govuk-link govuk-pagination__link" href="#" aria-label={page.ariaLabel} aria-current="page" style="text-decoration: underline; outline: none;">
+                                        {page.pageNum}
+                                    </a>
+                                </template>
+                                <template if:false={page.isActive}>
+                                    <a  
+                                        onclick={handlePageClick}
+                                        data-page={page.pageNum}
+                                        class="govuk-link govuk-pagination__link"
+                                        href="#"
+                                        aria-label={page.ariaLabel}
+                                        style="text-decoration: underline; outline: none;">
+                                        {page.pageNum}
+                                    </a>
+                                </template>
+                            </template>
+                        </li>
+                    </template>
+                </ul>
+                
+                <template if:true={hasNextPage}>
+                    <div class="govuk-pagination__next">
+                        <a
+                            onclick={handleNext}
+                            class="govuk-link govuk-pagination__link"
+                            href="#"
+                            rel="next"
+                            aria-label="Next page"
+                            style="outline: none;">
+                            <span class="govuk-pagination__link-title">
+                                Next<span class="govuk-visually-hidden"> page</span>
+                            </span>
+                            <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                                <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </template>
+            </nav>
+        </template>
+
+        <div class="govuk-!-margin-top-4" style="text-align: left;">
+            <a href="https://www.google.co.uk" class="govuk-link govuk-!-font-size-19">Find out more about exemptions (opens in a new tab)</a>
+        </div>
+    </main>
+</template>

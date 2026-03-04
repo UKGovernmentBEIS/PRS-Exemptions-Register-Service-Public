@@ -1,0 +1,26 @@
+.pre-line {
+    white-space: pre-line;
+}
+
+:host {
+  display: block;
+  margin: 0;
+}
+
+:host .govuk-grid-row,
+:host .govuk-grid-column-two-thirds,
+:host .govuk-form-group,
+:host .govuk-summary-list {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+:host :host .govuk-width-container,
+:host .govuk-main-wrapper {
+  margin-top: 1rem !important;
+  margin-bottom: 2rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Delete Exemption",
+  "contentBody" : {
+    "activeViewId" : "Delete_Exemption",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-delete-exemption",
+    "urlPrefix" : "delete-exemption"
+  },
+  "urlName" : "delete-exemption"
+}

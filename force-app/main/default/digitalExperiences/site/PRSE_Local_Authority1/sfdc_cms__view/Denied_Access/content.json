@@ -1,0 +1,85 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Denied Access",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"fd969cc0-1bae-44cb-969d-451df5e8e472\",\"columns\":[{\"UUID\":\"c560f56e-2bfe-4759-a800-93798e813829\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "backLink" : "/",
+                "disableBackButton" : false,
+                "disableLogoutLink" : true,
+                "disableProfileSettings" : true,
+                "dxpStyle" : { },
+                "logoutLink" : "/PRSELocalAuthority/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSELocalAuthority",
+                "useWideVariant" : false
+              },
+              "definition" : "c:prseHeaderLinks",
+              "id" : "3a553c89-015c-4a54-9bc1-21b0199fb810",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "markupText" : "<div class=\"govuk-width-container govuk-!-padding-top-6\">     <main class=\"govuk-main-wrapper\" id=\"main-content\" role=\"main\">         <h1 class=\"govuk-heading-xl\">You do not have access to this service</h1>         <div class=\"govuk-body\">             <p class=\"govuk-body\">This service is only for local authorities.</p>         </div>         <h2 class=\"govuk-heading-m\">To start using this service</h2>         <p class=\"govuk-body\">If you are a local authority user who needs access, complete our <a href=\"https://google.co.uk\"                 class=\"govuk-link\" rel=\"noreferrer noopener\" target=\"_blank\">local authority sign up form.</a></p>         <div class=\"govuk-body\">             <p class=\"govuk-body\">If you have completed this form, to log in you need to:</p>             <ul class=\"govuk-list govuk-list--bullet\">                 <li>to use the email address you gave in the local authority sign up form</li>                 <li>log in through your government One Login account; this information was <br> emailed to you by our                     team</li>             </ul>         </div>     </main> </div>"
+              },
+              "definition" : "uxgovuk:govMarkupText",
+              "id" : "f4736b00-60b2-4473-8430-184da4c67802",
+              "type" : "component"
+            } ],
+            "id" : "c560f56e-2bfe-4759-a800-93798e813829",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "fd969cc0-1bae-44cb-969d-451df5e8e472",
+          "type" : "component"
+        } ],
+        "id" : "071784d5-db98-40b4-ab15-ea3a12630948",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Denied Access",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "a0a3a050-09fb-43a2-a3d3-ce679816543f",
+          "type" : "component"
+        } ],
+        "id" : "ecf65b55-8fac-47e8-bb6f-7b00b6a51b38",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "7e04147e-b06d-4058-b462-8524766dfc07",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-denied-access"
+  },
+  "urlName" : "denied-access"
+}

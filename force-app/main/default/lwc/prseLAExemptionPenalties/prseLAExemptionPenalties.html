@@ -1,0 +1,13 @@
+<template>
+    <div class="slds-m-around_medium">
+        <template if:true={exemptionId}>
+            <c-prse-local-authority-dashboard-penalties-table
+                panel-heading="Penalty notice details" 
+                property-type="Commercial" 
+                local-authority-codes={localAuthorityCodes}
+                no-data-message="No penalties recorded"
+                parent-exemption-id={exemptionId}>
+            </c-prse-local-authority-dashboard-penalties-table>
+        </template>
+    </div>
+</template>

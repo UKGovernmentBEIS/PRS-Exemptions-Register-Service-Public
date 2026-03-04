@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <assignments>
+        <name>Assign_Count</name>
+        <label>Assign Count</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>varTypeCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Get_Exemption_Types</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_through_Exemption_Types</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Id</name>
+        <label>Assign Id</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>varExemptionRecordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Child_Exemption.Exemption__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Exemption_Detail</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Property_Exemption_Labels</name>
+        <label>Assign Property Exemption Labels</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>col_PropertyLabels</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Exemption registered on</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Property_Exemption_Values</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Property_Exemption_Values</name>
+        <label>Assign Property Exemption Values</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>col_PropertyValues</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>flaFormattedRegisteredDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Is_there_an_EPC</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_recordId</name>
+        <label>Assign recordId</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>varExemptionRecordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Exemption_Detail</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_to_Summary_Collection_Variable</name>
+        <label>Assign to Summary Collection Variable</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>col_ExemptionTypeTitle</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>flaExemptionTypeTitle</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>col_ExemptionTypeValues</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>flaExemptionTypeValues</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_through_Exemption_Types</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <name>const_GetLocalFile</name>
+        <dataType>Boolean</dataType>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Display_Results_At_Property_Level</name>
+        <label>Display Results At Property Level?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Get_Child_Exemption</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>displayResultsAtPropertyLevel</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_recordId</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Get_Local_File_From_Upload</name>
+        <label>Get Local File From Upload</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Property_Exemption_Labels</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Way!</defaultConnectorLabel>
+        <rules>
+            <name>Get_Local_File</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>const_GetLocalFile</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_the_ContentDocumentLink</targetReference>
+            </connector>
+            <label>Get Local File</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_there_an_EPC</name>
+        <label>Is there an EPC</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>ExemptionDetail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>EPCExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Exemption_Detail.EPC_Certificate__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Exemption_Detail.EPC_Certificate__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ExemptionDetail</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>A flow that allows a member of the public to view the details for exemptions and penalties related to the private rented sector</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fla_PropertyAddressForEPC</name>
+        <dataType>String</dataType>
+        <expression>{!Get_Exemption_Detail.PropertyAddress__c} + &quot;, &quot; + {!Get_Exemption_Detail.PropertyCity__c}+ &quot;, &quot; + {!Get_Exemption_Detail.PropertyPostcode__c}</expression>
+    </formulas>
+    <formulas>
+        <name>fla_PropertyEPCLink</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    ISBLANK({!Get_Exemption_Detail.EPC_Certificate__c}),
+    &quot;No EPC currently available&quot;,
+    {!Get_Exemption_Detail.View_EPC_Certificate__c}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>flaDownloadEPC</name>
+        <dataType>String</dataType>
+        <expression>HYPERLINK({!Get_Content_Distribution.ContentDownloadUrl}, &quot;Download EPC&quot;, &quot;_blank&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>flaEPCDate</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    NOT(ISBLANK({!Get_Exemption_Detail.EPC_Date__c})),
+    TEXT(DAY({!Get_Exemption_Detail.EPC_Date__c})) &amp; 
+    &quot; &quot; &amp; 
+    CASE(
+        MONTH({!Get_Exemption_Detail.EPC_Date__c}),
+        1, &quot;January&quot;,
+        2, &quot;February&quot;,
+        3, &quot;March&quot;,
+        4, &quot;April&quot;,
+        5, &quot;May&quot;,
+        6, &quot;June&quot;,
+        7, &quot;July&quot;,
+        8, &quot;August&quot;,
+        9, &quot;September&quot;,
+        10, &quot;October&quot;,
+        11, &quot;November&quot;,
+        12, &quot;December&quot;,
+        &quot;&quot;
+    ) &amp; 
+    &quot; &quot; &amp; 
+    TEXT(YEAR({!Get_Exemption_Detail.EPC_Date__c})),
+    &quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>flaExemptionTypeTitle</name>
+        <dataType>String</dataType>
+        <expression>{!Loop_through_Exemption_Types.Name} + BR()</expression>
+    </formulas>
+    <formulas>
+        <name>flaExemptionTypeValues</name>
+        <dataType>String</dataType>
+        <expression>{!Loop_through_Exemption_Types.Exemption_Type__r.Hint_Text__c}</expression>
+    </formulas>
+    <formulas>
+        <name>flaFormattedRegisteredDate</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    NOT(ISBLANK({!Get_Exemption_Detail.Registered_Date__c})),
+    TEXT(DAY(DATEVALUE({!Get_Exemption_Detail.Registered_Date__c}))) &amp; 
+    &quot; &quot; &amp; 
+    CASE(
+        MONTH(DATEVALUE({!Get_Exemption_Detail.Registered_Date__c})),
+        1, &quot;January&quot;,
+        2, &quot;February&quot;,
+        3, &quot;March&quot;,
+        4, &quot;April&quot;,
+        5, &quot;May&quot;,
+        6, &quot;June&quot;,
+        7, &quot;July&quot;,
+        8, &quot;August&quot;,
+        9, &quot;September&quot;,
+        10, &quot;October&quot;,
+        11, &quot;November&quot;,
+        12, &quot;December&quot;,
+        &quot;&quot;
+    ) &amp; 
+    &quot; &quot; &amp; 
+    TEXT(YEAR(DATEVALUE({!Get_Exemption_Detail.Registered_Date__c}))),
+    &quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>flaViewEPC</name>
+        <dataType>String</dataType>
+        <expression>HYPERLINK(
+    &quot;https://find-energy-certificate.service.gov.uk/energy-certificate/&quot; &amp; &quot;8636-7322-4880-2284-1906&quot;, 
+    &quot;View EPC (Opens in a new tab)&quot;, 
+    &quot;_blank&quot;
+)</expression>
+    </formulas>
+    <interviewLabel>PRSE Property Exemption Details {!$Flow.CurrentDateTime}</interviewLabel>
+    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
+    <label>PRSE Property Exemption Details</label>
+    <loops>
+        <name>Loop_through_Exemption_Types</name>
+        <label>Loop through Exemption Types</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Exemption_Types</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_to_Summary_Collection_Variable</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Local_File_From_Upload</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_Child_Exemption</name>
+        <label>Get Child Exemption</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Id</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Exemption_Type_Link__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Content_Distribution</name>
+        <label>Get Content Distribution</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Property_Exemption_Labels</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContentDocumentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Content_Version.ContentDocumentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContentDistribution</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Content_Version</name>
+        <label>Get Content Version</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Content_Distribution</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContentDocumentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_the_ContentDocumentLink.ContentDocumentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContentVersion</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Exemption_Detail</name>
+        <label>Get Exemption Detail</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Exemption_Types</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varExemptionRecordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Exemption__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Exemption_Types</name>
+        <label>Get Exemption Types</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Count</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Exemption__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Exemption_Detail.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Exemption_Type_Link__c</object>
+        <sortField>Exemption_Type_Code__c</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_the_ContentDocumentLink</name>
+        <label>Get the ContentDocumentLink</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Content_Version</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>LinkedEntityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Exemption_Detail.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContentDocumentLink</object>
+        <sortField>SystemModstamp</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>ExemptionDetail</name>
+        <label>Exemption Detail</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Home_redirect</targetReference>
+        </connector>
+        <fields>
+            <name>ExemptionDetailHistory</name>
+            <extensionName>uxgovuk:govHistoryManager</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>pageName</name>
+                <value>
+                    <stringValue>view-exemption-details</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>pageTitle</name>
+                <value>
+                    <stringValue>View exemptions</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>ExemptionDetailBackMarkup</name>
+            <extensionName>uxgovuk:govMarkupText</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>markupText</name>
+                <value>
+                    <stringValue>&lt;a class=&quot;govuk-back-link&quot; href=&quot;/PRSEPublicRegister/#SearchFor&quot; data-module=&quot;govuk-back-link&quot;&gt;Back&lt;/a&gt;
+</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>$Flow.CurrentDateTime</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>ExemptionDetailMarkup</name>
+            <extensionName>uxgovuk:govMarkupText</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>markupText</name>
+                <value>
+                    <stringValue>&lt;h1 class=&quot;govuk-heading-l&quot; style=&quot;max-width: 66.6667%;&quot;&gt;Property exemption&lt;/h1&gt;
+</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>ExemptionDetailSummaryGDS</name>
+            <extensionName>c:gdsSummary</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>confirmationLabels</name>
+                <value>
+                    <elementReference>col_PropertyLabels</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>confirmationValues</name>
+                <value>
+                    <elementReference>col_PropertyValues</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>twoColumnLayoutForNoDestination</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>title</name>
+                <value>
+                    <elementReference>Get_Exemption_Detail.Full_Property_Address__c</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>MultipleExemptionTypeSummary</name>
+            <extensionName>c:gdsSummary</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>confirmationLabels</name>
+                <value>
+                    <elementReference>col_ExemptionTypeTitle</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>confirmationValues</name>
+                <value>
+                    <elementReference>col_ExemptionTypeValues</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>title</name>
+                <value>
+                    <stringValue>Details of the registered property exemption</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>twoColumnLayoutForNoDestination</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>ExemptionDetailViewEPC_API</name>
+            <extensionName>uxgovuk:govMarkupText</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>markupText</name>
+                <value>
+                    <stringValue>&lt;h2 class=&quot;govuk-heading-m&quot; style=&quot;margin-bottom: 10px;&quot;&gt;
+ View Energy Performance Certificate details
+&lt;/h2&gt;
+
+&lt;table class=&quot;govuk-table govuk-table--no-top-gap&quot; style=&quot;width:65%; table-layout:fixed; border-collapse: collapse;&quot;&gt;
+  &lt;colgroup&gt;
+    &lt;col style=&quot;width:30%&quot;&gt;
+    &lt;col style=&quot;width:70%&quot;&gt;
+  &lt;/colgroup&gt;
+  &lt;tbody class=&quot;govuk-table__body&quot;&gt;
+    &lt;tr class=&quot;govuk-table__row&quot; style=&quot;border-bottom: 1px solid #b1b4b6;&quot;&gt;
+      &lt;th scope=&quot;row&quot; class=&quot;govuk-table__header&quot;&gt;
+        Energy Performance Certificate (EPC)
+      &lt;/th&gt;
+      &lt;td class=&quot;govuk-table__cell&quot;&gt;
+        {!fla_PropertyEPCLink}
+
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Exemption_Detail.EPC_Certificate__c</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>SpacerBeforeNewSearchButton</name>
+            <extensionName>c:prseSpacer</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>divHeight</name>
+                <value>
+                    <stringValue>1.5</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>ExemptionDetailNav</name>
+            <extensionName>c:gdsNavigationButtons</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>buttonVariantsString</name>
+                <value>
+                    <stringValue>Brand</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonAlignmentsString</name>
+                <value>
+                    <stringValue>Left</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonLabelsString</name>
+                <value>
+                    <stringValue>New Search</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fullWidth</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonActionsString</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Home_redirect</name>
+        <label>Home redirect</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>HomeRedirect</name>
+            <extensionName>c:navigateFromFlow</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>redirectUrl</name>
+                <value>
+                    <stringValue>PRSEPublicRegister/#SearchFor</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Display_Results_At_Property_Level</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>txtDownloadEPC</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&amp;lt;dl class=&quot;govuk-summary-list&quot; style=&quot;margin-top: 0;&quot;&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;lt;div class=&quot;govuk-summary-list__row&quot; style=&quot;border-bottom: 1px solid #b1b4b6;&quot;&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;lt;dt class=&quot;govuk-summary-list__key&quot;&amp;gt;Energy Performance Certificate (EPC)&amp;lt;/dt&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;lt;dd class=&quot;govuk-summary-list__value&quot;&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;a href=&quot;{!Get_Content_Distribution.ContentDownloadUrl}&quot; target=&quot;_blank&quot; class=&quot;govuk-link&quot;&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Download EPC&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/a&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;lt;/dd&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;lt;/div&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;lt;/dl&amp;gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>txtViewEPC</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&amp;lt;p&amp;gt;&lt;/p&gt;&lt;p&gt;&amp;lt;a href=&quot;https://find-energy-certificate.service.gov.uk/energy-certificate/2308-3069-7245-3365-1980&quot; target=&quot;_blank&quot;&amp;gt; Energy Performance Certificate (EPC) &amp;lt;/a&amp;gt;. &amp;lt;/p&amp;gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>col_ExemptionTypeTitle</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>col_ExemptionTypeValues</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>col_PropertyLabels</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>col_PropertyValues</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>displayResultsAtPropertyLevel</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varExemptionRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varTypeCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>varUrl</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>https://find-energy-certificate.service.gov.uk/energy-certificate/2308-3069-7245-3365-1980</stringValue>
+        </value>
+    </variables>
+</Flow>

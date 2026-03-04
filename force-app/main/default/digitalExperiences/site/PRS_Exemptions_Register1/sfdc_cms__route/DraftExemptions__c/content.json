@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Draft Exemptions",
+  "contentBody" : {
+    "activeViewId" : "Draft_Exemptions",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-draft-exemptions",
+    "urlPrefix" : "draft-exemptions"
+  },
+  "urlName" : "draft-exemptions"
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permissions required for a Local Authority as an individual to access the PRSE Portal</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>DEZNZ - PRS Portal - Local Authority Access</label>
+    <permissionSets>DEZNZ_PRS_Local_Authority_Access</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

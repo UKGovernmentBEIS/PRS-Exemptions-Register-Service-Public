@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Landlord</fullName>
+        <default>false</default>
+        <label>Landlord</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Agent registering exemptions for a landlord</fullName>
+        <default>false</default>
+        <label>Agent registering exemptions for a landlord</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Local authority user</fullName>
+        <default>false</default>
+        <label>Local authority user</label>
+    </standardValue>
+</StandardValueSet>

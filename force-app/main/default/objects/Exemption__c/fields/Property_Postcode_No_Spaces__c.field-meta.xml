@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Postcode_No_Spaces__c</fullName>
+    <description>System field which strips spaces from postcode, used for public register searching.</description>
+    <externalId>false</externalId>
+    <formula>SUBSTITUTE(PropertyPostcode__c, &quot; &quot;, &quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>System field which strips spaces from postcode, used for public register searching.</inlineHelpText>
+    <label>Property Postcode No Spaces</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

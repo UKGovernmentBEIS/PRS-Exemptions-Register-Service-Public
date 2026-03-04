@@ -1,0 +1,59 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container js-enabled">
+        <main class="govuk-main-wrapper">
+            <div class="govuk-grid-row">
+                <!-- Uploaded Files Display -->
+                <div class="govuk-grid-column-two-thirds">
+                    <template if:true={displayFileList}>
+                        <div class="file-upload--noborder">
+                            <template if:true={uploadedObjFiles}>
+                                <dl class="govuk-summary-list">
+                                    <template for:each={uploadedObjFiles} for:item="objFile">
+                                        <div class="govuk-summary-list__row" key={objFile.contentVersionId}>
+                                            <dd class="govuk-summary-list__value">
+                                                {objFile.name}
+                                            </dd>
+                                            <dd class="govuk-summary-list__actions">
+                                                <a class="govuk-link" href="#" onclick={deleteDocument}
+                                                    data-documentid={objFile.documentId}
+                                                    data-contentversionid={objFile.contentVersionId}
+                                                    aria-label="Remove file">
+                                                    Remove<span class="govuk-visually-hidden"> file {objFile.name}</span>
+                                                </a>
+                                            </dd>
+                                        </div>
+                                    </template>
+                                </dl>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <!-- Upload File Field -->
+                    <div class={formGroupClass}>
+                        <label class="govuk-label" for="file-upload">
+                            {fileUploadLabel}
+                        </label>
+                        <span id="file-upload-error" class="govuk-error-message slds-hyphenate" if:true={hasErrors}>
+                            <span class="govuk-visually-hidden">Error:</span>
+                            <span class="error-message">{errorMessage}</span>
+                        </span>
+                        <input class={inputClass}
+                            id="file-upload"
+                            name="file-upload"
+                            type="file"
+                            accept={acceptedFormats}
+                            multiple={allowMultipleFiles}
+                            onchange={handleFilesChange}
+                            aria-describedby="file-upload-error"
+                            disabled={uploadDisabled}>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</template>

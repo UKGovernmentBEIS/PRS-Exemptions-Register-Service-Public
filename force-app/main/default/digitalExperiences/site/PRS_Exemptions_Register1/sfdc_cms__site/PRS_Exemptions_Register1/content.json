@@ -1,0 +1,8 @@
+{
+  "type" : "sfdc_cms__site",
+  "title" : "PRS Exemptions Register",
+  "contentBody" : {
+    "authenticationType" : "AUTHENTICATED"
+  },
+  "urlName" : "prs-exemptions-register"
+}

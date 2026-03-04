@@ -1,0 +1,90 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container">
+        <div class={groupClass} aria-describedby="hint-text error-text character-count-text">
+            <fieldset class="govuk-fieldset" role="group" aria-describedby="date-hint">
+                <div class="govuk-form-group govuk-!-margin-bottom-1">
+                    <h1 class="govuk-label-wrapper" if:true={h1Size}>
+                        <label class={labelClass} for="date-input-day">{label}</label>
+                    </h1>
+                    <h2 class="govuk-label-wrapper" if:true={h2Size}>
+                        <label class={labelClass} for="date-input-day">{label}</label>
+                    </h2>
+                    <h3 class="govuk-label-wrapper" if:true={h3Size}>
+                        <label class={labelClass} for="date-input-day">{label}</label>
+                    </h3>
+                </div>
+
+                <div id="date-hint" class="govuk-hint" if:true={hintText}>
+                    <div class="html-element" lwc:dom="manual"></div>
+                </div>
+
+                <span id="error-text" class="govuk-error-message slds-hyphenate govuk-!-margin-bottom-1" if:true={hasErrors}>
+                    <span class="govuk-visually-hidden">Error:</span>{formattedErrorMessage}
+                </span>
+
+                <div class="govuk-date-input" id="date-input">
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="date-input-day">
+                                Day
+                            </label>
+                            <input
+                                class={getDayMonthInputClass}
+                                id="date-input-day"
+                                name="date-input-day"
+                                type="text"
+                                inputmode="numeric"
+                                required={required}
+                                value={dayValue}
+                                maxlength="2"
+                                onkeyup={handleKeyUp}
+                                pattern={dayRegularExpression}
+                            />
+                        </div>
+                    </div>
+
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="date-input-month">
+                                Month
+                            </label>
+                            <input
+                                class={getDayMonthInputClass}
+                                id="date-input-month"
+                                name="date-input-month"
+                                type="text"
+                                inputmode="numeric"
+                                required={required}
+                                value={monthValue}
+                                maxlength="2"
+                                onkeyup={handleKeyUp}
+                                pattern={monthRegularExpression}
+                            />
+                        </div>
+                    </div>
+
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="date-input-year">
+                                Year
+                            </label>
+                            <input
+                                class={getYearInputClass}
+                                id="date-input-year"
+                                name="date-input-year"
+                                type="text"
+                                inputmode="numeric"
+                                required={required}
+                                value={yearValue}
+                                maxlength="4"
+                                onkeyup={handleKeyUp}
+                                pattern={yearRegularExpression}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>View_EPC_Certificate__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    ISBLANK(EPC_Certificate__c),
+    &quot;&quot;,
+    HYPERLINK(
+        &quot;https://find-energy-certificate.service.gov.uk/energy-certificate/&quot; &amp; EPC_Certificate__c,
+        &quot;View EPC (Opens in a new tab)&quot;
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>View EPC Certificate</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

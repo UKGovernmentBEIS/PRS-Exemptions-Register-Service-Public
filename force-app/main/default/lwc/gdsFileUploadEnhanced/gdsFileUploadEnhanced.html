@@ -1,0 +1,63 @@
+<template>
+  <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+  <div class="govuk-width-container js-enabled">
+    <main class="govuk-main-wrapper">
+      <!-- File List -->
+      <div class="govuk-grid-row">
+        <lightning-spinner if:true={loading} alternative-text="Processing..." size="small"></lightning-spinner>
+        <div if:true={displayFileList}>
+          <div>
+            <label class="govuk-label" for="file-upload">
+              {uploadedlabel}
+            </label>
+          </div>
+          <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+            <div class="file-upload--noborder">
+              <dl class="govuk-summary-list">
+                <template for:each={objFiles} for:item="objFile">
+                  <div class="govuk-summary-list__row" key={objFile.contentVersionId}>
+                    <dd class="govuk-summary-list__value">
+                      {objFile.name}
+                    </dd>
+                    <dd class="govuk-summary-list__actions">
+                      <a class="govuk-link" href="#" onclick={deleteDocument} 
+                        data-documentid={objFile.documentId} 
+                        data-contentversionid={objFile.contentVersionId}
+                        aria-label="Remove file">
+                        Remove<span class="govuk-visually-hidden">{objFile.removeFileAriaLabel}</span>
+                      </a>
+                    </dd>
+                  </div>
+                </template>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- File Upload -->
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <div class={formGroupClass}>
+            <label class="govuk-label" for="uploadFile">
+              {label}
+            </label>
+            <span id="file-upload-error" class="govuk-error-message slds-hyphenate" if:true={hasErrors}>
+                <span class="govuk-visually-hidden">Error:</span>
+                <span class="error-message">{errorMessage}</span>
+            </span>
+            <lightning-file-upload
+              name="fileUploader"
+              accept={acceptedFormats}
+              file-field-name='uxgovuk__Guest_Record_fileupload__c'
+              file-field-value={value}
+              onuploadfinished={handleUpload_lightningFile}
+              multiple={allowMultiple}
+              disabled={disabled}
+              class="govuk-file-upload">
+            </lightning-file-upload>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</template>

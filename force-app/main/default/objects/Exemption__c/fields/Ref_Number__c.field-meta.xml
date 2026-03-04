@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ref_Number__c</fullName>
+    <description>Combines Ref Text Prefix and Exemption Number if it is a legacy exemption</description>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(Ref_Legacy__c),Ref_Text_Prefix__c + &apos;-&apos; + Name,Ref_Legacy__c)</formula>
+    <label>Ref Number</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

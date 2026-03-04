@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Registered Exemptions",
+  "contentBody" : {
+    "activeViewId" : "Registered_Exemptions",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-registered-exemptions",
+    "urlPrefix" : "registered-exemptions"
+  },
+  "urlName" : "registered-exemptions"
+}

@@ -1,0 +1,50 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container">
+        <div class={groupClass} if:true={isInitialised}>
+            <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-0" if:true={questionLabel}>
+                    <div class="govuk-form-group">
+                        <h1 class="govuk-label-wrapper" if:true={h1Size}>
+                            <span class="govuk-caption-l" if:true={caption}>{caption}</span>
+                            <label class={questionLabelClass} for="input-text">{questionLabel}</label>
+                        </h1>
+                        <h2 class="govuk-label-wrapper" if:true={h2Size}>
+                            <span class="govuk-caption-m" if:true={caption}>{caption}</span>
+                            <label class={questionLabelClass} for="input-text">{questionLabel}</label>
+                        </h2>
+                        <h3 class="govuk-label-wrapper" if:true={h3Size}>
+                            <span class="govuk-caption-s" if:true={caption}>{caption}</span>
+                            <label class={questionLabelClass} for="input-text">{questionLabel}</label>
+                        </h3>
+                    </div>
+
+                </legend>
+                <div id="changed-name-hint" class="govuk-hint govuk-!-margin-bottom-1" if:true={questionHint}>
+                    {questionHint}
+                </div>
+                <span class="govuk-error-message govuk-!-margin-bottom-1" if:true={hasErrors}>
+                    <span class="govuk-visually-hidden">Error:</span>{errorMessage}
+                </span>
+                <div class={radioClass}>
+                    <template for:each={radioOptions} for:item="option">
+                        <div class="govuk-radios__item" key={option.key}>
+                            <input class="govuk-radios__input"
+                                   id={option.key}
+                                   name={uniqueFieldId}
+                                   type="radio"
+                                   value={option.value}
+                                   checked={option.checked}
+                                   onchange={handleValueChanged}>
+                            <label class="govuk-label govuk-radios__label"
+                                   for={option.key}>
+                                {option.label}
+                            </label>
+                            <div class="govuk-hint govuk-radios__hint" if:true={option.hint}>{option.hint}</div>
+                        </div>
+                    </template>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</template>

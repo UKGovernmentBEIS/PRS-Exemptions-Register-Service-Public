@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Full_Property_Address__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+  NOT(ISBLANK(Exemption__c)),
+  Exemption__r.Full_Property_Address__c,
+  TRIM(
+    PropertyAddress__c &amp;
+    IF(
+      NOT(ISBLANK(PropertyCity__c)),
+      &quot;, &quot; &amp; PropertyCity__c,
+      &quot;&quot;
+    ) &amp;
+    IF(
+      NOT(ISBLANK(PropertyCounty__c)),
+      &quot;, &quot; &amp; PropertyCounty__c,
+      &quot;&quot;
+    ) &amp;
+    IF(
+      NOT(ISBLANK(PropertyPostcode__c)),
+      &quot;, &quot; &amp; PropertyPostcode__c,
+      &quot;&quot;
+    )
+  )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Full Property Address</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

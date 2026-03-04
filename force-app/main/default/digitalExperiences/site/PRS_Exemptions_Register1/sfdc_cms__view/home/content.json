@@ -1,0 +1,98 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Home",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "960px",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"f62ec22a-d482-49d1-88b7-12f17463fe06\",\"columns\":[{\"UUID\":\"bc228665-ee67-48e6-be60-7832ae57fe4d\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "divHeight" : "3.125",
+                "dxpStyle" : { }
+              },
+              "definition" : "c:prseSpacer",
+              "id" : "9f81323f-0082-4ec1-aa83-e35be544c2a9",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "markupText" : "<div class=\"govuk-width-container\">     <main class=\"govuk-main-wrapper\" id=\"main-content\" role=\"main\">         <h1 class=\"govuk-heading-xl\">Register a private rented sector exemption</h1>         <p class=\"govuk-body\">The <abbr title=\"Minimum Energy Efficiency Standard\" class=\"govuk-!-font-weight-bold\">MEES</abbr> Regulations 2015 set a minimum energy efficiency standard for private rented properties.</p>         <h2 class=\"govuk-heading-l\">When you need an EPC or an exemption</h2>         <p class=\"govuk-body\">To rent a property out, it must have an energy performance certificate (EPC) rating of <strong>Band E or higher</strong>, or have a valid exemption.</p>         <div class=\"govuk-inset-text\">             <p class=\"govuk-body\">Use this service to register an exemption for a property if:</p>             <ul class=\"govuk-list govuk-list--bullet\">                 <li>you are letting or are planning to let your property</li>                 <li>the energy performance certificate (EPC) rating is Band <strong>F</strong> or <strong>G</strong></li>                 <li>you are unable to raise the EPC rating to Band <strong>E</strong> or above</li>             </ul>         </div>         <p class=\"govuk-body\">You can also use this service to manage any existing exemptions that your property has.</p>         <h2 class=\"govuk-heading-l\">Before you start</h2>         <p class=\"govuk-body\">You should:</p>         <ul class=\"govuk-list govuk-list--bullet\">             <li><a href=\"https://draft-origin.publishing.service.gov.uk/government/publications/private-rented-sector-exemptions-prse-landlord-guidance?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZWMwNmNmMy04N2FhLTQ3NzItOTc4Zi1kYTg4ZjM3OWEyMTIiLCJjb250ZW50X2lkIjoiOGM4NWU3Y2MtNWM5YS00ZmRkLWE0ZmUtMDJkMjkyNWUyZDk3IiwiaWF0IjoxNzYxODE2MTIyLCJleHAiOjE3NjQ0OTQ1MjJ9.6jgo5wbdqKqbGnt9f4w2klX0ypKY9gRX0iIQ1yDtNS4\" class=\"govuk-link\" rel=\"noreferrer noopener\" target=\"_blank\">read our guidance on exemptions (opens in new tab)</a></li>             <li>gather the evidence you need</li>             <li>seek legal advice, if you are unsure which exemptions apply to your property</li>         </ul>         <div class=\"govuk-warning-text\" role=\"region\" aria-labelledby=\"warning-heading\"> <span class=\"govuk-warning-text__icon\" aria-hidden=\"true\">!</span> <strong id=\"warning-heading\" class=\"govuk-warning-text__text\"> <span class=\"govuk-warning-text__assistive\">Warning</span> You can be fined up to £5,000 if you provide false or misleading information </strong> </div>         <p class=\"govuk-body\">When you register an exemption, it applies immediately. You may be contacted by your local authority to provide more evidence.</p>         <p class=\"govuk-body\">If you are registering an exemption as an agent on behalf of a landlord, you or the landlord may be contacted to provide more evidence.</p>"
+              },
+              "definition" : "uxgovuk:govMarkupText",
+              "id" : "cf414105-a3fc-48e9-a6b7-1ed801d0924c",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "communityLink" : "PRSExemptionsRegistervforcesite/services/auth/sso/OneLogin?startURL=%2FPRSExemptionsRegister/account-linking",
+                "dxpStyle" : { },
+                "externalLink" : true,
+                "label" : "Start now"
+              },
+              "definition" : "c:gdsStartButton",
+              "id" : "6a9d99dd-ec76-4443-af61-5a9fb624c8a0",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "markupText" : "<section class=\"govuk-section govuk-!-margin-top-9\">   <h2 class=\"govuk-heading-l\">Access the service</h2>   <p class=\"govuk-body\">     You will access the service using <strong>One Login</strong>. You can create a One Login account at this point if you do not already have one.   </p>   <p class=\"govuk-body\">     One Login is the way to access many government services.   </p>    <div class=\"govuk-inset-text\">     <p class=\"govuk-body\">       <a class=\"govuk-link\" href=\"#\">Create or sign in to your One Login account</a>     </p>   </div> </section>  <section class=\"govuk-section govuk-!-margin-top-9\">   <h2 class=\"govuk-heading-l\">Support using digital services</h2>   <p class=\"govuk-body\">     If you need help to register an exemption, you can contact us:   </p>    <ul class=\"govuk-list\">     <li>Email: <a class=\"govuk-link\" href=\"mailto:meesdigital@energysecurity.gov.uk\">meesdigital@energysecurity.gov.uk</a></li>     <li>Telephone: <strong>0800 098 7950</strong></li>   </ul>    <div class=\"govuk-inset-text\">     <p class=\"govuk-body\">       This service will not provide advice on exemptions. If you are unsure which exemption to register, you can       <a class=\"govuk-link\" href=\"#\">read our guidance</a> or seek legal advice.     </p>   </div> </section>"
+              },
+              "definition" : "uxgovuk:govMarkupText",
+              "id" : "c5e4037d-ede0-42d6-a4fe-883887ac1edb",
+              "type" : "component"
+            } ],
+            "id" : "bc228665-ee67-48e6-be60-7832ae57fe4d",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "f62ec22a-d482-49d1-88b7-12f17463fe06",
+          "type" : "component"
+        } ],
+        "id" : "a260d16f-9da9-44b6-8f51-3663902d65ba",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Home",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "88eb3445-9f62-412f-8209-c6cfaba926ac",
+          "type" : "component"
+        } ],
+        "id" : "2e6ac4fa-b014-4f0d-a2cd-300ec6ac9cd1",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "67259b8a-c0a2-4dd4-9359-444ceb84eb1a",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "home"
+  },
+  "urlName" : "home"
+}

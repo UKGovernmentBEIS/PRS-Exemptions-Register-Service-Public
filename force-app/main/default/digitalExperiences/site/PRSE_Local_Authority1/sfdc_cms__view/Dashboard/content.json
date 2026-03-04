@@ -1,0 +1,85 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Dashboard",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"3982f3c9-0d72-491d-bb5d-c8d99043be19\",\"columns\":[{\"UUID\":\"35b9bf97-65a2-438e-8db4-12477f0b30b1\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "backLink" : "/",
+                "disableBackButton" : true,
+                "disableLogoutLink" : false,
+                "disableProfileSettings" : true,
+                "dxpStyle" : { },
+                "logoutLink" : "/PRSELocalAuthority/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSELocalAuthority",
+                "useWideVariant" : true
+              },
+              "definition" : "c:prseHeaderLinks",
+              "id" : "568dff6d-20ce-4733-8f7e-532945e1dfaa",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "tabNames" : "Domestic|Non-domestic"
+              },
+              "definition" : "c:prseLocalAuthorityDashboard",
+              "id" : "6a8403f8-a5fc-46d2-b13c-044c94748a1f",
+              "type" : "component"
+            } ],
+            "id" : "35b9bf97-65a2-438e-8db4-12477f0b30b1",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "3982f3c9-0d72-491d-bb5d-c8d99043be19",
+          "type" : "component"
+        } ],
+        "id" : "b9c7c9be-13f3-484c-8e42-af18e88f0f2d",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Dashboard",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "3c2dc939-dafd-4176-88fe-d0459396b55d",
+          "type" : "component"
+        } ],
+        "id" : "23e1d971-6072-4ce1-9b96-62831b869240",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "746110a5-fe85-4a4a-8ce7-98d5c95e2b2d",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-dashboard"
+  },
+  "urlName" : "dashboard"
+}

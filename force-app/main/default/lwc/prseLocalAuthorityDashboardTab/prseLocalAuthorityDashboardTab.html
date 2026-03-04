@@ -1,0 +1,141 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <!-- Spinner -->
+    <div if:true={isLoading} class="slds-is-relative">
+        <lightning-spinner alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </div>
+
+    <!-- Table -->
+    <div if:false={isLoading}>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-three-quarters">
+                <h2 class="govuk-heading-m govuk-!-margin-0">{panelHeading}</h2>
+                <div id="results-hint" class="govuk-hint govuk-!-margin-0">{totalDatabaseChildRecords} results</div>
+            </div>
+            <div class="govuk-grid-column-one-quarter" style="text-align: right;">
+                <button 
+                    type="submit" 
+                    class="govuk-button" 
+                    data-module="govuk-button" 
+                    disabled={preparingDownload} 
+                    onclick={handleDownload}>
+                    Download all (CSV)
+                </button>
+            </div>
+        </div>
+        <table class="govuk-table table--wrap-text">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Reference</th>
+                    <th scope="col" class="govuk-table__header">Landlord name</th>
+                    <th scope="col" class="govuk-table__header">Property address</th>
+                    <th scope="col" class="govuk-table__header">Exemption type(s)</th>
+                    <th scope="col" class="govuk-table__header">Status</th>
+                    <th scope="col" class="govuk-table__header">Date registered</th>
+                    <th scope="col" class="govuk-table__header">Action</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body text-wrap">          
+                <template for:each={records} for:item="record">
+                    <tr key={record.exemptionId}>
+                        <td class="govuk-table__cell text-wrap">{record.referenceNumber}</td>
+                        <td class="govuk-table__cell text-wrap">{record.landlordName}</td>
+                        <td class="govuk-table__cell text-wrap">{record.propertyAddress}</td>
+                        <td class="govuk-table__cell text-wrap">{record.exemptionTypes}</td>
+                        <td class="govuk-table__cell text-wrap">
+                            <strong class={record.tagClass}>
+                                {record.status}
+                            </strong>
+                        </td>
+                        <td class="govuk-table__cell text-wrap">{record.registeredDate}</td>
+                        <td class="govuk-table__cell text-wrap">
+                            <div class="action-links">
+                                <a href={record.exemptionUrl} class="govuk-link">
+                                    View
+                                    <span class="govuk-visually-hidden"> exemption {record.referenceNumber}</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
+                <template if:true={hasNoResults}>
+                    <tr>
+                        <td class="govuk-table__cell no-border" colspan="100%">{noDataMessage}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div if:false={isLoading}>
+            <template if:true={hasMultiplePages}>
+                <nav class="govuk-pagination" aria-label="Pagination" style="display: flex; justify-content: center; align-items: center;">
+                    <template if:true={hasPreviousPage}>
+                        <div class="govuk-pagination__prev">
+                            <a
+                                onclick={handlePrevious}
+                                class="govuk-link govuk-pagination__link"
+                                href="#"
+                                rel="prev"
+                                aria-label="Previous page"
+                                style="outline: none;">
+                                <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                                    <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                                </svg>
+                                <span class="govuk-pagination__link-title">
+                                    Previous<span class="govuk-visually-hidden"> page</span>
+                                </span>
+                            </a>
+                        </div>
+                    </template>
+                    <ul class="govuk-pagination__list">
+                        <template for:each={pageNumbers} for:item="page">
+                            <li key={page.key} class={page.liClass}>
+                                <template if:true={page.isEllipsis}>
+                                    <span>&ctdot;</span>
+                                </template>
+                                <template if:false={page.isEllipsis}>
+                                    <template if:true={page.isActive}>
+                                        <a class="govuk-link govuk-pagination__link" href="#" aria-label={page.ariaLabel} aria-current="page" style="text-decoration: underline; outline: none;">
+                                            {page.pageNum}
+                                        </a>
+                                    </template>
+                                    <template if:false={page.isActive}>
+                                        <a  
+                                            onclick={handlePageClick}
+                                            data-page={page.pageNum}
+                                            class="govuk-link govuk-pagination__link"
+                                            href="#"
+                                            aria-label={page.ariaLabel}
+                                            style="text-decoration: underline; outline: none;">
+                                            {page.pageNum}
+                                        </a>
+                                    </template>
+                                </template>
+                            </li>
+                        </template>
+                    </ul>
+                    <template if:true={hasNextPage}>
+                        <div class="govuk-pagination__next">                     
+                            <a
+                                onclick={handleNext}
+                                class="govuk-link govuk-pagination__link"
+                                href="#"
+                                rel="next"
+                                aria-label="Next page"
+                                style="outline: none;">
+                                <span class="govuk-pagination__link-title">
+                                    Next<span class="govuk-visually-hidden"> page</span>
+                                </span>
+                                <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </template>
+                </nav>
+            </template>
+        </div>
+    </div>
+</template>

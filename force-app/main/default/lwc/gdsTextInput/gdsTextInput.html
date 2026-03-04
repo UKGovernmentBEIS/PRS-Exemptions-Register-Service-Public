@@ -1,0 +1,52 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container ">
+        <div class={groupClass} aria-describedby="hint-text error-text character-count-text">
+            
+            <div class="govuk-form-group govuk-!-margin-bottom-1">
+                <h1 class="govuk-label-wrapper" if:true={h1Size}>
+                    <label class={labelClass} for="input-text">{label}</label>
+                </h1>
+                <h2 class="govuk-label-wrapper" if:true={h2Size}>
+                    <label class={labelClass} for="input-text">{label}</label>
+                </h2>
+                <h3 class="govuk-label-wrapper" if:true={h3Size}>
+                    <label class={labelClass} for="input-text">{label}</label>
+                </h3>
+            </div>
+            
+            <div id="hint-text" class="govuk-hint slds-hyphenate govuk-!-margin-bottom-1" if:true={hintText}>
+                <div class="html-element" lwc:dom="manual"></div>
+            </div>
+            <span id="error-text" class="govuk-error-message slds-hyphenate govuk-!-margin-bottom-1" if:true={hasErrors}>
+                <span lwc:if={hasMatchingError}>
+                    <span class="govuk-visually-hidden">Error:</span>&nbsp;{valueToValidateAgainstErrorMessage}
+                </span>
+                <span lwc:else>
+                    <span class="govuk-visually-hidden">Error:</span>&nbsp;{errorMessage}
+                </span>
+            </span>
+            <div class="govuk-input__wrapper">
+                <div class="govuk-input__prefix" if:true={prefix}>{prefix}</div>
+                <input class={inputClass}
+                        id="input-text"
+                        name="input-text"
+                        type="text"
+                        pattern={regularExpression}
+                        autocomplete={autocompleteType}
+                        spellcheck={spellcheckRequired}
+                        required={required}
+                        value={value}
+                        maxlength={maxCharacterCount}
+                        onkeyup={handleKeyUp}>
+                <div class="govuk-input__suffix" if:true={suffix}>{suffix}</div>
+            </div>
+            <div id="character-count-text"
+                    class="govuk-hint govuk-character-count__message"
+                    aria-live="polite"
+                    if:true={showCharacterCount}>
+                {characterCountText}
+            </div>
+        </div>
+    </div>
+</template>

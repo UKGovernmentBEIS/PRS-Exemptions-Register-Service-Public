@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Penalty Details",
+  "contentBody" : {
+    "activeViewId" : "Penalty_Details",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-penalty-details",
+    "urlPrefix" : "penalty-details"
+  },
+  "urlName" : "penalty-details"
+}

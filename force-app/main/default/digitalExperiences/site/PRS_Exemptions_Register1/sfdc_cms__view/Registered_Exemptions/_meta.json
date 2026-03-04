@@ -1,0 +1,5 @@
+{
+  "apiName" : "Registered_Exemptions",
+  "type" : "sfdc_cms__view",
+  "path" : "views"
+}

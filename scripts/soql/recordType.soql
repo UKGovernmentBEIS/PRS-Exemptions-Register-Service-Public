@@ -1,0 +1,1 @@
+SELECT Id FROM RecordType WHERE SObjectType = 'Account' AND Name = 'Local Authority'

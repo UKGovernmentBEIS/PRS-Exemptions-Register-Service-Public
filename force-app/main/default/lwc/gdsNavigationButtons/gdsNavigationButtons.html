@@ -1,0 +1,51 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container">
+        <div class="govuk-grid-row">
+            <div class={containerWidthClass}>
+                <div style="display:flex; justify-content: space-between;" >
+                    <div >
+                        <template for:each={leftButtons} for:item="button">
+                            <template if:true={button.link}>
+                                <a key={button.id}
+                                    class={button.class}
+                                    data-action={button.action}
+                                    onclick={handleClick}
+                                    href="#">{button.label}
+                                </a>
+                            </template>
+                            <template if:false={button.link}>
+                                <button key={button.id}
+                                    class={button.class}
+                                    data-action={button.action}
+                                    onclick={handleClick}>
+                                    {button.label}
+                                </button>
+                            </template>
+                        </template>
+                    </div>
+                    <div>
+                        <template for:each={centerButtons} for:item="button">
+                            <button key={button.id}
+                                    class={button.class}
+                                    data-action={button.action}
+                                    onclick={handleClick}>
+                                {button.label}
+                            </button>
+                        </template>
+                    </div>
+                    <div>
+                        <template for:each={rightButtons} for:item="button">
+                            <button key={button.id}
+                                    class={button.class}
+                                    data-action={button.action}
+                                    onclick={handleClick}>
+                                {button.label}
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

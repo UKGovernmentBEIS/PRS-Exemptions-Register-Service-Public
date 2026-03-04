@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <description>This helps users select and upload a file.</description>
+    <masterLabel>GDS File Upload</masterLabel>
+
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            
+            <!-- Input properties -->
+            <property name="inputFieldId"
+                type="String"
+                label="Field Id"
+                required="true"
+                default="uploadField"
+                description="Unique ID for this component instance. Should match the Flow API Name."/>
+            
+            <property name="fileUploadLabel"
+                type="String"
+                label="Field Label"
+                default="Upload a file"
+                description="Label shown to the user above the file input."/>
+            
+            <property name="acceptedFormats"
+                type="String"
+                label="Accepted File Formats"
+                description="Comma-separated list of accepted file types, e.g. .jpg,.pdf,.doc."/>
+            
+            <property name="maxFileSizeInMB"
+                type="Integer"
+                label="Max File Size Allowed (MB)"
+                description="Maximum file size allowed for each upload (MB)."/>
+            
+            <property name="required"
+                type="Boolean"
+                label="Required?"
+                description="If true, at least one file must be uploaded before proceeding."/>
+
+            <property name="allowMultipleFiles" 
+                type="Boolean" 
+                label="Allow Multiple Files" 
+                description="If true, users can select multiple files."/>
+
+            <property name="maxFilesAllowed" 
+                type="Integer" 
+                label="Maximum Allowed Files"
+                description="Maximum number of total files allowed for each upload."/>
+
+            <property name="errorMessage"
+                type="String"
+                label="Error Message"
+                default="Select a file"
+                description="Message displayed when validation fails."/>
+            
+            <property name="useApexToSaveFile"
+                type="Boolean"
+                label="Save Files via Apex?"
+                description="If true, files are saved to Salesforce immediately via Apex. If false, files remain staged locally until processed."/>
+            
+            <property name="recordId"
+                type="String"
+                label="Related Record ID"
+                description="The Salesforce record ID to associate the uploaded files with (if saving via Apex)."/>
+            
+            <!-- Output properties -->
+            <property name="filesUploaded"
+                type="String"
+                label="Uploaded File Names (Delimited)"
+                description="Semi-colon delimited list of file names uploaded. Text variable. Output only."/>
+            
+            <property name="uploadedFileNames"
+                type="String[]"
+                label="Uploaded File Names"
+                description="Collection of uploaded file names. Output only."/>
+            
+            <property name="contentDocumentIds"
+                type="String[]"
+                label="Content Document IDs"
+                description="Collection of uploaded ContentDocument IDs. Output only."/>
+            
+            <property name="contentVersionIds"
+                type="String[]"
+                label="Content Version IDs"
+                description="Collection of uploaded ContentVersion IDs. Output only."/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

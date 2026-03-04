@@ -1,0 +1,178 @@
+<template>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <template if:true={hasDetails}>
+                <!-- Exemption Status Section -->
+                <div class="govuk-summary-list govuk-!-margin-bottom-4">
+                    <h2 class="govuk-heading-m govuk-!-margin-top-4">Exemption Status</h2>
+                    <template if:true={isEndedExemption}>
+                        <div class="govuk-inset-text">
+                            This exemption has {endedOrExpired}
+                        </div>
+                    </template>
+
+                    <template if:false={isEndedExemption}>
+                        <label class="govuk-label" for="exemptionStatus">
+                            Select the status for this exemption
+                        </label>
+                        <template if:true={statusReady}>
+                            <div class="govuk-form-group">
+                                <select class="govuk-select" id="exemptionStatus" onchange={handleStatusChange}>
+                                    <template for:each={selectOptions} for:item="option">
+                                        <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <button class="govuk-button"
+                                    onclick={saveStatusChange}
+                                    disabled={isSaveDisabled}>
+                                Save Changes
+                            </button>
+                        </template>
+                    </template>
+                </div>    
+
+                <div>
+                    <h2 class="govuk-heading-m govuk-!-margin-top-4">Exemption Details</h2>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Exemption reference</dt>
+                            <dd class="govuk-summary-list__value">{parentExemption.Ref_Number__c}</dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Date registered</dt>
+                            <dd class="govuk-summary-list__value">{formattedRegisterredDate}</dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Property address</dt>
+                            <dd class="govuk-summary-list__value">{parentExemption.Full_Property_Address__c}</dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Property postcode</dt>
+                            <dd class="govuk-summary-list__value">{parentExemption.PropertyPostcode__c}</dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">UPRN</dt>
+                            <dd class="govuk-summary-list__value">{parentExemption.PropertyUPRN__c}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div>
+                    <h2 class="govuk-heading-m govuk-!-margin-top-4">Exemption type(s) registered</h2>
+                    <template if:true={childExemptions}>
+                        <template for:each={childExemptions} for:item="child">
+                            <dl key={child.Id} class="govuk-summary-list govuk-!-margin-bottom-4">
+                                <div class="govuk-summary-list__row">
+                                    <dt class="govuk-summary-list__key">Exemption type</dt>
+                                    <dd class="govuk-summary-list__value">
+                                        {child.TypeName}<br />
+                                        <span class={child.statusClass}>{child.Status}</span>
+                                        <template if:true={child.EndDate}>
+                                            <br /><br /><span><strong>Date ended:</strong> {child.formattedEndDate}</span>
+                                            <br /><br /><span><strong>Reason for ending the exemptionn:</strong></span>
+                                            <br /><span>{child.EndReason}</span>
+                                            <br /><span>{child.AdditionalEndReason}</span>
+                                        </template>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </template>
+                    </template>
+                </div>
+                <div>
+                    <h2 class="govuk-heading-m govuk-!-margin-top-4">
+                        Energy performance certificate (EPC)
+                    </h2>
+                    <dl class="govuk-summary-list govuk-!-margin-bottom-4">
+
+                        <!-- Certificate available -->
+                        <template if:true={isCertificateFromAPI}>
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value" style="margin:0;">
+                                    <a href={epcLink.url} class="govuk-link" target="_blank" rel="noopener">
+                                        View the energy performance certificate
+                                    </a>
+                                    <div class="govuk-!-margin-top-2">
+                                        This is the EPC that was valid for this property on the date the exemption was registered.
+                                    </div>
+                                </dd>
+                            </div> 
+                        </template>
+
+                        <!-- Certificate available -->
+                        <template if:true={isCertificate}>
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value" style="margin:0;">
+                                    <a href={epcLink.url} class="govuk-link" target="_blank" rel="noopener">
+                                        View the energy performance certificate
+                                    </a>
+                                    <div class="govuk-!-margin-top-2">
+                                        This is the EPC that was valid for this property on the date the exemption was registered.
+                                    </div>                                  
+                                </dd>
+                            </div> 
+                        </template>
+
+                        <!-- File available -->
+                        <template if:true={isFile}>
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value" style="margin:0;">
+                                    <div class="file-row">
+                                        <span class="file-row__name">{epcLink.fileName}</span>                                        
+                                        <a href={epcLink.DocumentUrl}  target="_blank" rel="noopener">
+                                            Download
+                                        </a>                                      
+                                    </div>
+                                    <template if:true={isFileFoundAPI}>
+                                        <div class="govuk-!-margin-top-2">
+                                            This is the EPC that was uploaded on the date the exemption was registered. There is a current valid EPC
+                                        </div>
+                                    </template>
+                                    <template if:false={isFileFoundAPI}>
+                                        <div class="govuk-!-margin-top-2">
+                                            This is the EPC that was uploaded on the date the exemption was registered.
+                                        </div>
+                                    </template>  
+                                </dd>
+                            </div>
+                        </template>
+
+                        
+                        <template if:true={isNoneButExists}>
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    There is a current EPC for this property but we don't know the certificate number. You can perform a manual serach.
+                                </dd>
+                            </div>
+                        </template>
+
+                        <!-- None available -->
+                        <template if:true={isNone}>
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    No EPC information currently available
+                                </dd>
+                            </div>
+                        </template>
+                    </dl>
+                </div>
+
+                <div>
+                    <h2 class="govuk-heading-m govuk-!-margin-top-4">
+                        Additional information given on the exemption registration
+                    </h2>
+
+                    <p class="govuk-body govuk-!-text-break-word">
+                        {parentExemption.AdditionalInformation__c}
+                    </p>
+                </div>
+            </template>
+
+            <template if:false={hasDetails}>
+                <p>No exemption details available...or loading.</p>
+            </template>
+        </div>
+    </div>
+</template>

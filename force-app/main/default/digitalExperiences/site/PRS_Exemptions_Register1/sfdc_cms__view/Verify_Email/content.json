@@ -1,0 +1,73 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Verify Email",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"f3242379-82a8-4ad7-bfa0-b145a8f2c8af\",\"columns\":[{\"UUID\":\"49eaf3d3-6d63-4cf1-98b8-8447c30cc1e7\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "dxpStyle" : { },
+                "flowArguments" : "[{\"label\":\"token\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"token\",\"type\":\"String\",\"value\":\"{!token}\"}]",
+                "flowName" : "{\"flowName\":\"PRSE_EmailHasBeenVerified\",\"flowLabel\":\"PRSE_EmailHasBeenVerified\"}"
+              },
+              "definition" : "dxp_flow:flow",
+              "id" : "cd95d1e9-03fe-4046-93ca-451a258b56f7",
+              "type" : "component"
+            } ],
+            "id" : "49eaf3d3-6d63-4cf1-98b8-8447c30cc1e7",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "f3242379-82a8-4ad7-bfa0-b145a8f2c8af",
+          "type" : "component"
+        } ],
+        "id" : "0b74d848-a280-467f-bf81-14afe809e423",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Verify Email",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "4d88654d-e42c-4bd7-b746-8c1142294ff8",
+          "type" : "component"
+        } ],
+        "id" : "23eccf66-fb79-4e27-befd-29ab30fae820",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "cc2dd7f8-9c82-4450-957e-9cb477faf263",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-verify-email"
+  },
+  "urlName" : "verify-email"
+}

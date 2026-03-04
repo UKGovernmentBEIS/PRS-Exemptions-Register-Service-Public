@@ -1,0 +1,111 @@
+.govuk-link-button {
+  all: unset;
+
+  color: #1d70b8;
+  cursor: pointer;
+  text-decoration: underline !important;
+  text-decoration-thickness: max(1px, .0625rem) !important;
+  text-underline-offset: .1578em !important;
+
+  font-family: "GDS Transport", Arial, sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+
+  display: block;
+  background: none;
+  border: 0;
+  padding: 8px 10px 0px 8px;
+  margin: 0;
+}
+
+.govuk-link-button:visited {
+  color: #1d70b8;
+}
+
+.govuk-link-button:hover {
+  text-decoration-thickness: max(3px, .1875rem, .12em) !important;
+}
+
+.govuk-link-button:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+  background-color: #ffdd00;
+  color: #0b0c0c;
+  text-decoration: none;
+}
+
+.govuk-button-update {
+  font-family: "GDS Transport", arial, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-block;
+  position: relative;
+  margin: 0 0 22px 0;
+  padding: 10px 20px 8px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  background-color: #00703c;
+  box-shadow: 0 2px 0 #003618;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.govuk-button-update:hover {
+  background-color: #005a30;
+}
+
+.govuk-button-update:focus {
+  outline: 3px solid #fd0;
+  outline-offset: 0;
+  box-shadow: inset 0 0 0 1px #fd0;
+  background-color: #005a30;
+}
+
+.govuk-button-update:active {
+  top: 2px;
+  box-shadow: none;
+}
+
+.govuk-button-update--disabled,
+.govuk-button-update[disabled="disabled"],
+.govuk-button-update[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.govuk-button-update--secondary {
+  background-color: #f3f2f1;
+  box-shadow: 0 2px 0 #929191;
+  color: #0b0c0c;
+}
+
+.govuk-button-update--secondary:hover {
+  background-color: #dbdad9;
+}
+
+.govuk-button-update--warning {
+  background-color: #d4351c;
+  box-shadow: 0 2px 0 #55150b;
+}
+
+.govuk-button-update--warning:hover {
+  background-color: #aa2a16;
+}
+
+.govuk-button-update:visited {
+  color: #ffffff;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-button-update {
+    font-size: 1.1875rem;
+    line-height: 1;
+  }
+}

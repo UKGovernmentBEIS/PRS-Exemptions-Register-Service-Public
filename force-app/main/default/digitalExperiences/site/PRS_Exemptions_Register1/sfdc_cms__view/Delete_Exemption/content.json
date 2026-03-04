@@ -1,0 +1,73 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Delete Exemption",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"0dde26a5-40f5-44b9-bd8c-aa53aff78850\",\"columns\":[{\"UUID\":\"9ef01907-2a33-4e61-8fa2-81fc27b74342\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "dxpStyle" : { },
+                "flowArguments" : "[{\"label\":\"PassedExemptionID\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"PassedExemptionID\",\"type\":\"String\",\"value\":\"{!r}\"}]",
+                "flowName" : "{\"flowName\":\"PRSE_Delete_Exemption\",\"flowLabel\":\"PRSE Delete Exemption\"}"
+              },
+              "definition" : "dxp_flow:flow",
+              "id" : "cfa09d92-422f-4d36-8541-cab46894ed04",
+              "type" : "component"
+            } ],
+            "id" : "9ef01907-2a33-4e61-8fa2-81fc27b74342",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "0dde26a5-40f5-44b9-bd8c-aa53aff78850",
+          "type" : "component"
+        } ],
+        "id" : "c430b349-d5bc-4d3b-b829-b0456e51b08c",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Delete Exemption",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "9ba34890-b504-4689-afb9-fbc50bf270f0",
+          "type" : "component"
+        } ],
+        "id" : "f573f9b8-f166-4286-aa82-82b34a94e43f",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "85f6a308-956c-4375-8c96-4e2d6a4660e0",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-delete-exemption"
+  },
+  "urlName" : "delete-exemption"
+}

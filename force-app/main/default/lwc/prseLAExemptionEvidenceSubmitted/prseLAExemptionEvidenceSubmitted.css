@@ -1,0 +1,30 @@
+.doc-date-download {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none !important;
+}
+
+.doc-download {
+    /* right side (download link) */
+    margin-left: 1em;
+}
+
+.doc-date {
+    line-height: 1.2;
+}
+
+.doc-date .govuk-body-s {
+    display: block;
+    margin-bottom: 0;
+}
+
+.govuk-link {
+    text-decoration: underline !important;
+    text-decoration-thickness: max(1px, .0625rem) !important;
+    text-underline-offset: .1578em !important;
+}
+
+.govuk-link:hover {
+    text-decoration-thickness: max(3px, .1875rem, .12em) !important;
+}

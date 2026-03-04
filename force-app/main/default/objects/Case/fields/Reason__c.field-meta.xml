@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <description>Reason for help or support</description>
+    <label>Reason for Request</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>I have a question about the policy or guidance</fullName>
+                <default>false</default>
+                <label>I have a question about the policy or guidance</label>
+            </value>
+            <value>
+                <fullName>I need an account created</fullName>
+                <default>false</default>
+                <label>I need an account created</label>
+            </value>
+            <value>
+                <fullName>I cannot log in to my account</fullName>
+                <default>false</default>
+                <label>I cannot log in to my account</label>
+            </value>
+            <value>
+                <fullName>Something has gone wrong with the service</fullName>
+                <default>false</default>
+                <label>Something has gone wrong with the service</label>
+            </value>
+            <value>
+                <fullName>I need to change my permission levels</fullName>
+                <default>false</default>
+                <label>I need to change my permission levels</label>
+            </value>
+            <value>
+                <fullName>I have a complaint</fullName>
+                <default>false</default>
+                <label>I have a complaint</label>
+            </value>
+            <value>
+                <fullName>I have changed my agent and want to move my exemption</fullName>
+                <default>false</default>
+                <label>I have changed my agent and want to move my exemption</label>
+            </value>
+            <value>
+                <fullName>I cannot link my new account to my previously registered exemptions</fullName>
+                <default>false</default>
+                <label>I cannot link my new account to my previously registered exemptions</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Landlord</controllingFieldValue>
+            <controllingFieldValue>Agent registering exemptions for a landlord</controllingFieldValue>
+            <controllingFieldValue>Local authority user</controllingFieldValue>
+            <valueName>I cannot log in to my account</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Landlord</controllingFieldValue>
+            <controllingFieldValue>Agent registering exemptions for a landlord</controllingFieldValue>
+            <controllingFieldValue>Local authority user</controllingFieldValue>
+            <valueName>Something has gone wrong with the service</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Landlord</controllingFieldValue>
+            <controllingFieldValue>Agent registering exemptions for a landlord</controllingFieldValue>
+            <valueName>I have a complaint</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Landlord</controllingFieldValue>
+            <valueName>I have changed my agent and want to move my exemption</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Landlord</controllingFieldValue>
+            <valueName>I cannot link my new account to my previously registered exemptions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Landlord</controllingFieldValue>
+            <controllingFieldValue>Agent registering exemptions for a landlord</controllingFieldValue>
+            <controllingFieldValue>Local authority user</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Local authority user</controllingFieldValue>
+            <valueName>I have a question about the policy or guidance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Local authority user</controllingFieldValue>
+            <valueName>I need an account created</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Local authority user</controllingFieldValue>
+            <valueName>I need to change my permission levels</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

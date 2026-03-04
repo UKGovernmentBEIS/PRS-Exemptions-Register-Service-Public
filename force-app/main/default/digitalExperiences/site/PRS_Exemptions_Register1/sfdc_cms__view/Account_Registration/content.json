@@ -1,0 +1,72 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Account Registration",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"a24e7627-8917-4607-8941-6745b32332a8\",\"columns\":[{\"UUID\":\"4136382b-9a55-4507-a1b6-2d8fcedb7df9\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "dxpStyle" : { },
+                "flowName" : "{\"flowName\":\"PRSE_AccountRegistration\",\"flowLabel\":\"PRSE_AccountRegistration\"}"
+              },
+              "definition" : "dxp_flow:flow",
+              "id" : "9878965b-458e-4f7d-9ee0-f9905d1b1c0b",
+              "type" : "component"
+            } ],
+            "id" : "4136382b-9a55-4507-a1b6-2d8fcedb7df9",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "a24e7627-8917-4607-8941-6745b32332a8",
+          "type" : "component"
+        } ],
+        "id" : "b5cb6311-ff47-4978-be15-7e00786a261d",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Account Registration",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "dc4780c5-9556-4f87-bef9-b847071c12ea",
+          "type" : "component"
+        } ],
+        "id" : "5113d91a-9510-4d12-97fb-85348f27c050",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "d7b3b93e-be34-4136-87ca-6e4c7fa0723a",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-account-registration"
+  },
+  "urlName" : "account-registration"
+}

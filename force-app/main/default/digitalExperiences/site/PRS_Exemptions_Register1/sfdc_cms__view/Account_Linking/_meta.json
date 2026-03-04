@@ -1,0 +1,5 @@
+{
+  "apiName" : "Account_Linking",
+  "type" : "sfdc_cms__view",
+  "path" : "views"
+}

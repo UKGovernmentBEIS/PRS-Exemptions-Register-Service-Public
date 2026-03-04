@@ -1,0 +1,118 @@
+{
+  "type" : "sfdc_cms__themeLayout",
+  "title" : "GOV UK Black",
+  "contentBody" : {
+    "component" : {
+      "attributes" : {
+        "hideThemeFooter" : false,
+        "showThemeFooterAtBottom" : true,
+        "stickyThemeHeader" : false
+      },
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "dxpStyle" : { },
+            "headerBannerRole" : "",
+            "headerLabel" : "GOV.UK",
+            "headerURL" : "https://www.gov.uk/",
+            "menuLabel" : "Menu",
+            "navigationMenuDevName" : "Navigation_Menu",
+            "serviceName" : "Review exemptions for private rented sector energy standards",
+            "serviceURL" : "/"
+          },
+          "definition" : "c:gdsHeader",
+          "id" : "249b3d51-2648-4068-b03e-527526e005a3",
+          "type" : "component"
+        }, {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"bcccf14b-30ce-4eb6-891a-cf6a08688ff9\",\"columns\":[{\"UUID\":\"9c20a503-3718-4821-a881-0b2426d376c1\",\"columnName\":\"Column 1\",\"columnKey\":\"headerSection\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "bodyText" : "This is a new service - your <a href=\"mailto:PRSregisterfeedback@energysecurity.gov.uk\" class=\"govuk-link\">feedback</a> will help us improve it.",
+                "dxpStyle" : { },
+                "phaseText" : "BETA"
+              },
+              "definition" : "uxgovuk:govPhaseBanner",
+              "id" : "b2d700f6-fa23-4b0d-8995-29cd2641f7ea",
+              "type" : "component"
+            } ],
+            "id" : "9c20a503-3718-4821-a881-0b2426d376c1",
+            "name" : "headerSection",
+            "title" : "Theme Header",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "bcccf14b-30ce-4eb6-891a-cf6a08688ff9",
+          "type" : "component"
+        } ],
+        "id" : "a4986c95-c69f-424e-a0e7-10eadda6aaff",
+        "name" : "header",
+        "title" : "Theme Header",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "columnTypes" : "",
+            "crownLogoRequired" : false,
+            "dxpStyle" : { },
+            "metalinkNames" : "Help;Privacy;Cookies;Accessibility statement;Contact;Terms and Conditions;Site map",
+            "metalinkURL" : "/support;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/cookies;https://prsregister.beis.gov.uk/NdsBeisUi/accessibility;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/terms-and-conditions;https://www.gov.uk",
+            "metalinksRequired" : true,
+            "navigationLinks" : "",
+            "navigationNames" : "",
+            "secondaryNavigationRequired" : false,
+            "sectionNames" : ""
+          },
+          "definition" : "c:gdsFooter",
+          "id" : "c703f26d-0381-4128-b790-64f74c0bd11b",
+          "type" : "component"
+        }, {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"244bd92e-efc6-4938-83e8-17036a38fcd8\",\"columns\":[{\"UUID\":\"e9de69ef-774d-42e5-badb-8f5b510a179b\",\"columnName\":\"Column 1\",\"columnKey\":\"footerSection\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "id" : "e9de69ef-774d-42e5-badb-8f5b510a179b",
+            "name" : "footerSection",
+            "title" : "Theme Footer",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "244bd92e-efc6-4938-83e8-17036a38fcd8",
+          "type" : "component"
+        } ],
+        "id" : "ad4ed788-c08c-48cf-80d9-1af5ffc2472b",
+        "name" : "footer",
+        "title" : "Theme Footer",
+        "type" : "region"
+      } ],
+      "definition" : "community_byo:scopedHeaderAndFooter",
+      "id" : "522809c6-bc8e-4763-af4b-eee50ea107c9",
+      "type" : "component"
+    }
+  },
+  "urlName" : "scoped-header-and-footer"
+}

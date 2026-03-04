@@ -1,0 +1,5 @@
+{
+  "apiName" : "Account_Registration",
+  "type" : "sfdc_cms__view",
+  "path" : "views"
+}

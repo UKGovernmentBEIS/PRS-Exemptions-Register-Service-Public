@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Ended Exemptions",
+  "contentBody" : {
+    "activeViewId" : "Ended_Exemptions",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-ended-exemptions",
+    "urlPrefix" : "ended-exemptions"
+  },
+  "urlName" : "ended-exemptions"
+}

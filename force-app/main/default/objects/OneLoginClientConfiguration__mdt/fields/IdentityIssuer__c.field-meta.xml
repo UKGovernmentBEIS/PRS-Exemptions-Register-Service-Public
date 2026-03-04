@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IdentityIssuer__c</fullName>
+    <defaultValue>&quot;https://identity.integration.account.gov.uk/&quot;</defaultValue>
+    <description>The issuer specified in the iss claim in the coreIdentityJWT</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>IdentityIssuer</label>
+    <required>false</required>
+    <type>Url</type>
+</CustomField>

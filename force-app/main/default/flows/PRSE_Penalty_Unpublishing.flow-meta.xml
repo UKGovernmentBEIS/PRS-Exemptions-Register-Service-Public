@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <assignments>
+        <name>AddRecordToUpdateToCollection</name>
+        <label>Add Record To Update To Collection</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Published__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>col_RecordsToUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UpdateIfRecordAvailable</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>CheckIfPenaltyUnpublishDateIsInPast</name>
+        <label>Check If Penalty Unpublish Date Is In Past</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>UpdateIfRecordAvailable</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>UnpublishDateInPast</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Unpublish_Date__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <elementReference>fla_dateToday</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AddRecordToUpdateToCollection</targetReference>
+            </connector>
+            <label>Unpublish Date In Past</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>UpdateIfRecordAvailable</name>
+        <label>Update If Record Available</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>UpdateRecords</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>col_RecordsToUpdate</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdatePenalties</targetReference>
+            </connector>
+            <label>Update Records</label>
+        </rules>
+    </decisions>
+    <description>Flow that runs daily at midnight and checks if a penalty needs to be unpublished today, and if so unpublishes it.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fla_dateToday</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <interviewLabel>PRSE Penalty Unpublishing {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PRSE Penalty Unpublishing</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>UpdatePenalties</name>
+        <label>Update Penalties</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputReference>col_RecordsToUpdate</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>CheckIfPenaltyUnpublishDateIsInPast</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Published__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Unpublish_Date__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Penalty__c</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2026-01-12</startDate>
+            <startTime>00:15:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>col_RecordsToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Penalty__c</objectType>
+    </variables>
+</Flow>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Flow Navigation</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="redirectUrl" type="String" label="Url to redirect to" required="true" default="" description="Url of the page you would like to be navigated to on component load."/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

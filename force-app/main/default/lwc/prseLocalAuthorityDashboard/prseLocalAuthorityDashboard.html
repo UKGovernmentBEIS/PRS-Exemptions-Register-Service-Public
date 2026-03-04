@@ -1,0 +1,115 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container govuk-width-container--wide js-enabled">
+      <div class="govuk-main-wrapper">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-l">{displayName}</h1>
+            <details class="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  Your local authorities ({localAuthorityCount})
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                {localAuthorityNames}
+              </div>
+            </details>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <button
+              type="submit" 
+              class="govuk-button" 
+              style="width: 112.16px; display: inline-block;"
+              data-module="govuk-button" 
+              onclick={handleFilters}>
+              {filterButtonLabel}
+            </button>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div id="filterPanel" class="govuk-grid-column-one-quarter" aria-hidden={isFilterHidden} hidden={isFilterHidden}>
+            <c-prse-local-authority-dashboard-filters></c-prse-local-authority-dashboard-filters>
+          </div>
+          <div id="dataTable" class={dataTableClass}>
+            <!-- change button dynamically to say Hide Filter -->
+            <div class="govuk-tabs" data-module="govuk-tabs">
+              <ul class="govuk-tabs__list" role="tablist">
+                <!-- Tab header: Domestic -->
+                <li data-id="Domestic" class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+                  <a class="govuk-tabs__tab govuk-tabs_focus"
+                    href="#Domestic"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="Domestic"
+                    data-id="Domestic"
+                    style="cursor: pointer;"
+                    onclick={handleTabSelection}>
+                    Domestic ({domesticExemptionCount} to review)
+                  </a>
+                </li>
+                <!-- Tab header: Non-domestic -->
+                <li data-id="Non-domestic" class="govuk-tabs__list-item" role="presentation">
+                  <a class="govuk-tabs__tab govuk-tabs_underline"
+                    href="#Non-domestic"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="Non-domestic"
+                    data-id="Non-domestic"
+                    style="cursor: pointer;"
+                    onclick={handleTabSelection}>
+                    Non-domestic ({nonDomesticExemptionCount} to review)
+                  </a>
+                </li>
+                <!-- Tab header: Penalties -->
+                <li data-id="Penalties" class="govuk-tabs__list-item" role="presentation">
+                  <a class="govuk-tabs__tab govuk-tabs_underline"
+                    href="#Penalties"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="Penalties"
+                    data-id="Penalties"
+                    style="cursor: pointer;"
+                    onclick={handleTabSelection}>
+                    Penalties
+                  </a>
+                </li>
+              </ul>
+              <template if:true={dataFinishedLoading}>
+                <!-- Tab body: Domestic -->
+                <div id="Domestic" data-id="Domestic" class="govuk-tabs__panel" role="tabpanel">
+                  <c-prse-local-authority-dashboard-tab 
+                    panel-heading="Domestic exemptions" 
+                    property-type="Residential" 
+                    local-authority-codes={localAuthorityCodes}
+                    no-data-message="No domestic exemptions found">
+                  </c-prse-local-authority-dashboard-tab>
+                </div>
+
+                <!-- Tab body: Non-domestic -->
+                <div id="Non-domestic" data-id="Non-domestic" class="govuk-tabs__panel--hidden" role="tabpanel">
+                  <c-prse-local-authority-dashboard-tab 
+                    panel-heading="Non-domestic exemptions" 
+                    property-type="Commercial" 
+                    local-authority-codes={localAuthorityCodes}
+                    no-data-message="No non-domestic exemptions found">
+                  </c-prse-local-authority-dashboard-tab>
+                </div>
+
+                <!-- Tab body: Penalties -->
+                <div id="Penalties" data-id="Penalties" class="govuk-tabs__panel--hidden" role="tabpanel">
+                  <c-prse-local-authority-dashboard-penalties-tab
+                      panel-heading="Penalties"
+                      local-authority-codes={localAuthorityCodes}
+                      no-data-message="No penalties found">
+                  </c-prse-local-authority-dashboard-penalties-tab>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</template>

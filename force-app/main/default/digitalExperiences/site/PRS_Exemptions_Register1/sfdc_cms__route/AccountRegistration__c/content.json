@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Account Registration",
+  "contentBody" : {
+    "activeViewId" : "Account_Registration",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-account-registration",
+    "urlPrefix" : "account-registration"
+  },
+  "urlName" : "account-registration"
+}

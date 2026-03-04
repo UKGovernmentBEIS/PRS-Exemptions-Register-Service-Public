@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PRSE_Case_Layout</fullName>
+    <fields>CaseNumber</fields>
+    <fields>Exemption__c</fields>
+    <fields>Type</fields>
+    <fields>CreatedDate</fields>
+    <fields>Status</fields>
+    <label>PRSE Case Layout</label>
+</CompactLayout>

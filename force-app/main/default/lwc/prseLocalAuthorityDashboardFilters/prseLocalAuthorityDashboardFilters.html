@@ -1,0 +1,181 @@
+<template>
+    <c-moj-c-s-s-provider></c-moj-c-s-s-provider>
+    <div if:false={isLoading}>
+        <div class="moj-filter" data-module="moj-filter">
+            <div class="moj-filter__header">
+                <div class="moj-filter__header-title">
+                    <h1 class="govuk-heading-m" tabindex="-1" data-id="filter-heading">
+                        Filter
+                    </h1>
+                </div>
+                <div class="moj-filter__header-action"></div>
+            </div>
+            <div class="moj-filter__content">
+                <div class="moj-filter__selected" if:true={showFilterHeader}>
+                    <div class="moj-filter__selected-heading">
+                        <div class="moj-filter__heading-title">
+                            <h2 class="govuk-heading-m">Selected filters</h2>
+                        </div>
+                    </div>
+                    <div if:true={showFilterStatusSubheader} class="govuk-!-margin-bottom-2">
+                        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Status</h3>
+                        <ul class="moj-filter-tags">
+                            <template for:each={selectedStatuses} for:item="status">
+                                <li key={status.key}>
+                                    <a class="moj-filter__tag" href={status.href}>
+                                        <span class="govuk-visually-hidden">Remove this filter</span>
+                                        {status.name}
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                    <div if:true={showFilterExemptionTypeSubheader}>
+                        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Exemption type(s)</h3>
+                        <ul class="moj-filter-tags">
+                            <template for:each={selectedExemptionTypes} for:item="exemptionType">
+                                <li key={exemptionType.key}>
+                                    <a class="moj-filter__tag" href={exemptionType.href}>
+                                        <span class="govuk-visually-hidden">Remove this filter</span>
+                                        {exemptionType.name}
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>  
+                    </div>
+                    <div if:true={showFilterPropertyTypeSubheader} class="govuk-!-margin-bottom-2">
+                        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Property type</h3>
+                        <ul class="moj-filter-tags">
+                            <li key={selectedPropertyType}>
+                                <a class="moj-filter__tag" href={selectedPropertyTypeHref}>
+                                    <span class="govuk-visually-hidden">Remove this filter</span>
+                                    {selectedPropertyType}
+                                </a>
+                            </li>
+                        </ul>  
+                    </div>
+                    <div if:true={showFilterPenaltyTypeSubheader}>
+                        <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Penalty type(s)</h3>
+                        <ul class="moj-filter-tags">
+                            <template for:each={selectedPenaltyTypes} for:item="penaltyType">
+                                <li key={penaltyType.key}>
+                                    <a class="moj-filter__tag" href={penaltyType.href}>
+                                        <span class="govuk-visually-hidden">Remove this filter</span>
+                                        {penaltyType.name}
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>  
+                    </div>
+                </div>
+                <div class="moj-filter__options">
+                    <button type="submit" class="govuk-button" data-module="govuk-button" data-test-id="submit-button" onclick={handleApplyFilters} disabled={disableFilterButtons}>
+                        Apply filters
+                    </button>
+                    <button type="submit" class="govuk-button govuk-button--secondary button--reduced-margin" data-module="govuk-button" data-test-id="clear-button" if:true={showClearFilters} onclick={handleClearFilters} disabled={disableFilterButtons}>
+                        Clear filters
+                    </button>
+                    <div class="govuk-form-group">
+                        <h2 class="govuk-heading-m">
+                            <label class="govuk-label govuk-label--m" for="keywords">
+                                Search
+                            </label>
+                        </h2>
+                        <input class="govuk-input" id="keywords" name="keywords" type="text" value={searchTerm} onchange={handleKeywordsChange}>
+                    </div>
+                    <!-- Exemption Filter Panel -->
+                    <template if:true={showExemptionFilterPanel}>
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <h2 class="govuk-heading-m">
+                                    Status
+                                </h2>
+                                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="Received" name="Received" type="checkbox" value="Received" onchange={handleCheckboxChange}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="Received">Received ({numberOfReceivedExemptions})</label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="NeedsUpdate" name="NeedsUpdate" type="checkbox" value="Needs update" onchange={handleCheckboxChange}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="NeedsUpdate">Needs update ({numberOfNeedsUpdateExemptions})</label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="Updated" name="Updated" type="checkbox" value="Updated" onchange={handleCheckboxChange}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="Updated">Updated ({numberOfUpdatedExemptions})</label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="PenaltySent" name="PenaltySent" type="checkbox" value="Penalty sent" onchange={handleCheckboxChange}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="PenaltySent">Penalty sent ({numberOfPenaltySentExemptions})</label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="Approved" name="Approved" type="checkbox" value="Approved" onchange={handleCheckboxChange}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="Approved">Approved ({numberOfApprovedExemptions})</label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="Ended" name="Ended" type="checkbox" value="Ended" onchange={handleCheckboxChange}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="Ended">Ended ({numberOfEndedExemptions})</label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input" id="Expired" name="Expired" type="checkbox" value="Expired" onchange={handleCheckboxChange}>
+                                        <label class="govuk-label govuk-checkboxes__label" for="Expired">Expired ({numberOfExpiredExemptions})</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <h2 class="govuk-heading-m">
+                                    Exemption type(s)
+                                </h2>
+                                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                    <template for:each={exemptionsByType} for:item="exemptionType">
+                                        <div key={exemptionType.key} class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input" id={exemptionType.code} name={exemptionType.code} type="checkbox" value={exemptionType.name}  onchange={handleExemptionTypeCheckboxChange}>
+                                            <label class="govuk-label govuk-checkboxes__label" for={exemptionType.code}>{exemptionType.nameWithNumber}</label>
+                                        </div>
+                                    </template>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </template>
+
+                    <!-- Penalty Filter Panel -->
+                    <template if:false={showExemptionFilterPanel}>
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <h2 class="govuk-heading-m">
+                                    Property type
+                                </h2>
+                                <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="Domestic" name="Domestic" type="checkbox" value="Residential" onchange={handlePropertyTypeRadioChange}>
+                                        <label class="govuk-label govuk-radios__label" for="Domestic">Domestic</label>
+                                    </div>
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="Non-domestic" name="Non-domestic" type="checkbox" value="Commercial" onchange={handlePropertyTypeRadioChange}>
+                                        <label class="govuk-label govuk-radios__label" for="Non-domestic">Non-domestic</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <h2 class="govuk-heading-m">
+                                    Penalty type(s)
+                                </h2>
+                                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                    <template for:each={penaltiesByTypes} for:item="penaltyType">
+                                        <div key={penaltyType.key} class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input" id={penaltyType.code} name={penaltyType.code} type="checkbox" value={penaltyType.name}  onchange={handlePenaltyTypeCheckboxChange}>
+                                            <label class="govuk-label govuk-checkboxes__label" for={penaltyType.code}>{penaltyType.nameWithNumber}</label>
+                                        </div>
+                                    </template>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
