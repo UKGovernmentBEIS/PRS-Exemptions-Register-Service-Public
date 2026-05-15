@@ -1,0 +1,55 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Terms of Use",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "id" : "efc31961-fbb0-4c70-a7cf-498d3f533061",
+        "name" : "header",
+        "title" : "header",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "markupText" : "<h1 class=\"govuk-heading-l\">Private Rented Sector (PRS) Minimum Energy Efficiency Standards (MEES) Exemptions Register: Terms of use</h1> <h2 class=\"govuk-heading-m\">1. Introduction</h2> <p class=\"govuk-body\">These terms of use outline the security, data protection, and system access obligations for all external agencies and their personnel who access, process, or handle organisational information or systems. Compliance with these requirements is mandatory as a condition of access to the PRS MEES exemptions register (the register). You must confirm that you have read and understood these procedures before we can grant you access to the system. You must follow the procedures when you use the system, and handling any data related to the system. It is your responsibility to ensure you take the correct actions.</p> <h2 class=\"govuk-heading-m\">2. Legal and regulatory compliance</h2> <h3 class=\"govuk-heading-s\">UK GDPR and Data Protection Act 2018</h3> <p class=\"govuk-body\">Information in the Register is provided by landlords and agents. An individual record may contain information that makes its Security Classification OFFICIAL SENSITIVE. The information held in the Register is for official purposes only.</p> <p class=\"govuk-body\">Personal data must be processed in accordance with the UK General Data Protection Regulations (UK GDPR) and the Data Protection Act 2018 (as amended). You should not disclose information in the register to any individual or organisation that does not have authority to access the information. Be careful about the level of information you disclose. If you identify a potential data breach you should follow your organisations procedures and also notify DESNZ where the incident relates to the system at <a class=\"govuk-link\" href=\"mailto:prsregistersupport@energysecurity.gov.uk\">prsregistersupport@energysecurity.gov.uk</a></p> <p class=\"govuk-body\">The Local Authority or Enforcement Agency is an Independent Data Controller for the data that they collect and process for their own purposes.</p> <h3 class=\"govuk-heading-s\">Unauthorised access</h3> <p class=\"govuk-body\">You are only allowed to access information that you need to carry out your job. You shall only access information you are authorised to use. Typically, your own submissions and any records you are permitted to manage. You shall not attempt to view or interact with other users’ data or any other area of the platform. Such attempts may be treated as a security incident and may constitute an offence. If you identify an exemption or any information that has been incorrectly allocated to a local authority you should notify DESNZ at <a class=\"govuk-link\" href=\"mailto:prsregistersupport@energysecurity.gov.uk\">prsregistersupport@energysecurity.gov.uk</a>. You shall not maintain copies of this information offline, and any such information should be removed from all organisation devices and drives, and any hard copies shall be securely disposed of in confidential waste.</p> <h3 class=\"govuk-heading-s\">System integrity</h3> <p class=\"govuk-body\">You should not attempt to upload any data, programs or code onto the system. You must only export data needed for compliance and enforcement activities. Any information you download for this purpose shall be stored securely and managed in line with your organisation’s data protection and retention policies. As above, unauthorised data should not be accessed, copied downloaded or stored.</p> <h3 class=\"govuk-heading-s\">Use of your account</h3> <p class=\"govuk-body\">Your account is exclusively for your use, on an appropriate work device and with an appropriate an official email address. You should not allow other people to log in to the register using your account.</p> <p class=\"govuk-body\">You must not misuse the Register. Examples of misusing the register include violating the terms of use, illegal activity, libellous statements, introducing malicious programs or content, and allowing others to use your account.</p> <h3 class=\"govuk-heading-s\">Computer Misuse Act 1990</h3> <p class=\"govuk-body\">Your account shall be used only by you, on an approved device, with your official email address. You shall not share your login details or allow anyone else to access the register using your account. Misuse—including attempts to bypass security, upload harmful content, or provide false information—may be investigated and may constitute an offence under the Computer Misuse Act 1990</p> <h2 class=\"govuk-heading-m\">3. Account and passwords</h2> <p class=\"govuk-body\">You must use GOV.UK One Login with your work (or official) email address to access the register. Your actions are logged for security and audit purposes. If you leave your organisation or no longer require access, you shall notify DESNZ at <a class=\"govuk-link\" href=\"mailto:prsregistersupport@energysecurity.gov.uk\">prsregistersupport@energysecurity.gov.uk</a> so your account can be removed. DESNZ may disable accounts that have not been used for more than six months.</p> <h2 class=\"govuk-heading-m\">4. Good working practices</h2> <h3 class=\"govuk-heading-s\">Controllers and processors: shared responsibilities</h3> <p class=\"govuk-body\">External agencies acting as processors must ensure that personal data is:</p> <ul class=\"govuk-list govuk-list--bullet\">    <li>collected and processed only for authorised, legitimate purposes</li>    <li>protected using suitable technical and organisational controls</li>    <li>shared, stored, transmitted, and disposed of securely</li>    <li>managed in accordance with retention schedules and governance requirements</li> </ul> <p class=\"govuk-body\">Agencies must ensure that personnel accessing organisational systems understand their responsibilities and operate within their authorised role.</p> <h3 class=\"govuk-heading-s\">Unattended devices</h3> <p class=\"govuk-body\">Do not log into the register and leave your device unattended. Follow your organisation’s working practice policy.</p> <h3 class=\"govuk-heading-s\">Clear desk policy</h3> <p class=\"govuk-body\">Documents downloaded from the register shall be saved only to secure, approved locations (for example, your organisation’s protected network or document system) and shall not be stored on personal devices. If you print documents, they shall be stored securely when not in use and disposed of using confidential waste processes. You should minimise local copies and download only what you need.</p> <h3 class=\"govuk-heading-s\">Press and social media</h3> <p class=\"govuk-body\">Do not comment on the Register on social media or if approached by journalists</p> <h2 class=\"govuk-heading-m\">5. Protective monitoring and security incidents</h2> <h3 class=\"govuk-heading-s\">Monitoring</h3> <p class=\"govuk-body\">The Register can record details of user actions for investigation of security incidents. By signing the terms of use and logging into the Register you acknowledge your actions may be monitored. The system logs all changes made by users.</p> <h3 class=\"govuk-heading-s\">Security incidents</h3> <p class=\"govuk-body\">If you notice anything that might put information at risk—such as suspicious activity, compromised login details, or personal data shared in error—you shall report it immediately to <a class=\"govuk-link\" href=\"mailto:prsregistersupport@energysecurity.gov.uk\">prsregistersupport@energysecurity.gov.uk</a> and follow your organisation’s incident reporting process. Early reporting can reduce harm and help protect everyone’s information.</p>"
+          },
+          "definition" : "uxgovuk:govMarkupText",
+          "id" : "67a92cce-c57b-4352-ac2e-5cb54ef039c9",
+          "type" : "component"
+        } ],
+        "id" : "7b75f7c7-09ea-45e0-a8cf-eeba3d5998eb",
+        "name" : "content",
+        "title" : "content",
+        "type" : "region"
+      }, {
+        "id" : "f1dcea32-70fb-443c-9867-03ad14ec2dde",
+        "name" : "footer",
+        "title" : "footer",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "pageTitle" : "Terms of Use",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "b97446a9-c49f-4d3b-a74a-63e0fdaf7668",
+          "type" : "component"
+        } ],
+        "id" : "aceffedc-fdcd-4993-803a-88e9419bb542",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsOneColLayout",
+      "id" : "9569098b-7c95-49be-8999-9e5e76f291b4",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-terms-of-use"
+  },
+  "urlName" : "terms-of-use"
+}

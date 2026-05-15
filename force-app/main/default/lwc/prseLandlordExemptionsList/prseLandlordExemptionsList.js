@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import getExemptionRecords from '@salesforce/apex/PRSE_DashboardController.getExemptionRecords';
+import basePath from '@salesforce/community/basePath';
 
 export default class PrseLandlordExemptionsList extends LightningElement {
     @api status = 'draft'; // draft, registered, ended
@@ -79,7 +80,7 @@ export default class PrseLandlordExemptionsList extends LightningElement {
 
                 if (!fullPropertyAddress) {
                     fullPropertyAddress = 'Not yet provided';
-}
+                }
 
                 let dateToFormat;
                 if (this.status === 'draft') {
@@ -93,11 +94,11 @@ export default class PrseLandlordExemptionsList extends LightningElement {
                 return {
                     ...record,
                     formattedDate: this.formatDate(dateToFormat),
-                    deleteExemptionUrl: `/PRSExemptionsRegister/delete-exemption/?r=${record.Id}`,
-                    endExemptionUrl: `/PRSExemptionsRegister/end-exemption/?r=${record.Id}`,
-                    resumeExemptionUrl: `/PRSExemptionsRegister/exemption-registration/?existingExemption=${record.Id}`,
-                    viewEndedExemptionUrl: `/PRSExemptionsRegister/ended-exemption/?recordId=${record.Id}`,
-                    viewRegisteredExemptionUrl: `/PRSExemptionsRegister/view-exemption/?r=${record.Id}`,
+                    deleteExemptionUrl: `${basePath}/delete-exemption/?r=${record.Id}`,
+                    endExemptionUrl: `${basePath}/end-exemption/?r=${record.Id}`,
+                    resumeExemptionUrl: `${basePath}/exemption-registration/?existingExemption=${record.Id}`,
+                    viewEndedExemptionUrl: `${basePath}/ended-exemption/?recordId=${record.Id}`,
+                    viewRegisteredExemptionUrl: `${basePath}/view-exemption/?r=${record.Id}`,
                     needsMoreInfo: record.Status__c === 'Needs update',
                     fullPropertyAddress: fullPropertyAddress
                 };

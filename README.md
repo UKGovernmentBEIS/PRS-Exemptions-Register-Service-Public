@@ -55,6 +55,7 @@ The folder structure follows standards Salesforce repo structure with the bulk o
   * Experience Cloud
   * Public Sector Solutions
   * Salesforce GOV.UK Service Builder
+  * Civic Cookie Control Integration
   * Digital Modus Base
 
 ### Build

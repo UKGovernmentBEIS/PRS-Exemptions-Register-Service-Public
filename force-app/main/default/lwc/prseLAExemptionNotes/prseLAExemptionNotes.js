@@ -1,6 +1,7 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import getExemptionNotes from '@salesforce/apex/PRSE_LAViewExemptionController.getExemptionNotes';
 import saveExemptionNotes from '@salesforce/apex/PRSE_LAViewExemptionController.saveExemptionNotes';
+import systemLog from '@salesforce/apex/digitalmodus.SystemLogLwcWrapper.systemLog';
 import { refreshApex } from '@salesforce/apex';
 
 export default class PrseLAExemptionNotes extends LightningElement {
@@ -43,11 +44,7 @@ export default class PrseLAExemptionNotes extends LightningElement {
         this.updateRemainingChars();
     }
 
-    handleTextareaChange(event) {
-        this.editableNotes = event.target.value;
-    }
-
-    handleTextAreaOnInput(event) {
+    handleKeyUp(event) {
         this.editableNotes = event.target.value;
         this.updateRemainingChars();
     }
@@ -66,13 +63,31 @@ export default class PrseLAExemptionNotes extends LightningElement {
 
     // Save changes to Apex
     handleSaveClick() {
-        saveExemptionNotes({ exemptionId: this.exemptionId, notes: this.editableNotes  })
+        saveExemptionNotes({ exemptionId: this.exemptionId, notes: this.editableNotes })
             .then(() => {
                 this.isEditing = false;
+                this.notes = this.editableNotes;
                 return refreshApex(this.wiredNotesResult);
             })
             .catch(error => {
                 console.error('Error saving notes:', error);
+                this.handleError(error, 'handleSaveClick-saveExemptionNotes');
             });
+    }
+
+    handleError(error, methodName){
+        let log = {
+            relatedService : 'prseLAExemptionNotes.js',
+            logMessage : error.errorType || error.name,
+            logFullMessage : error.body?.message || error.message,
+            logType : 'Error',
+            logCode : 'LWC-LA-Exemption-Notes',
+            relatedRecordId : '500A00000000123AAA',
+            triggeringAutomationName : methodName
+        }
+        systemLog({log: log})
+        .catch(methodError => {
+            console.log('Failed to log error');
+        });
     }
 }

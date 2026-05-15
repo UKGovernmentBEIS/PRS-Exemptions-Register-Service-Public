@@ -1,0 +1,76 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Privacy Notice",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"a41b09e6-2ced-498b-ab72-9dee2414592d\",\"columns\":[{\"UUID\":\"56ea0662-2fac-4651-8752-4c86812dcdfe\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "divHeight" : "3.125"
+              },
+              "definition" : "c:prseSpacer",
+              "id" : "91a36d1c-e199-4aeb-b13c-eb52a2d2a952",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "markupText" : "<h1 class=\"govuk-heading-l\">Private Rented Sector Exemptions (PRSE) – Local Authority Portal Privacy Notice</h1> <p class=\"govuk-body\">This notice sets out how we will process your personal data, and your information rights. It is     made under Articles 13 and/or 14 of the UK General Data Protection Regulation (UK GDPR). It applies to Local     Authority and Local Weights and Measures Authority staff who use the PRSE Local Authority Portal.</p> <section id=\"about\">     <h2 class=\"govuk-heading-m\">About the PRSE Local Authority Portal</h2>     <p class=\"govuk-body\">The portal helps Local Authorities and Local Weights and Measures Authorities carry out their         legal duties under the Energy Efficiency (Private Rented Property) (England and Wales) Regulations 2015.</p>     <p class=\"govuk-body\">It allows authorised officers to:</p>     <ul class=\"govuk-list govuk-list--bullet\">         <li>Access and review exemption data submitted by landlords and agents</li>         <li>Contact landlords or agents</li>         <li>Record compliance and enforcement activity</li>     </ul> </section> <section id=\"your-data\">     <h2 class=\"govuk-heading-m\">1. Your Data</h2>     <p class=\"govuk-body\">We will process the following personal data:</p>     <ul class=\"govuk-list govuk-list--bullet\">         <li>Your name</li>         <li>Work email address</li>         <li>Work phone number</li>         <li>Job role</li>         <li>Name of your organisation (Local Authority or Local Weights and Measures Authority)</li>         <li>User account details (username, role-based permissions, audit logs)</li>         <li>Records of portal activity (login history and actions taken)</li>     </ul> </section> <section id=\"purpose\">     <h2 class=\"govuk-heading-m\">2. Purpose</h2>     <p class=\"govuk-body\">The purpose(s) for which we are processing your personal data are:</p>     <ul class=\"govuk-list govuk-list--bullet\">         <li>The Department for Energy Security and Net Zero (DESNZ) processes your personal data under the Energy             Efficiency (Private Rented Property) (England and Wales) Regulations 2015 in order to administer and enforce             the Minimum Energy Efficiency Standards (MEES).</li>     </ul>     <p class=\"govuk-body\">The main purposes of processing are to:</p>     <ul class=\"govuk-list govuk-list--bullet\">         <li>Provide and manage secure access to the PRSE Local Authority Portal for authorised officers.</li>         <li>Enable Local Authorities and Local Weights and Measures Authorities to review exemption registrations             submitted by landlords and agents.</li>         <li>Allow authorised officers to contact landlords or agents and record compliance and enforcement actions.         </li>         <li>Support monitoring and enforcement of the regulations to improve energy efficiency and housing quality in             the private rented sector.</li>         <li>Maintain audit trails and system security, including monitoring portal usage and preventing unauthorised             access.</li>         <li>Support research, evaluation, and statistical analysis relating to the operation of the MEES regulations,             housing quality, and energy efficiency policies. Data used for these purposes will be anonymised wherever             possible.</li>         <li>Compile statistical reports relating to the minimum standards regulations. This may include linking data to             other government-held datasets for policy development. Information used for these purposes will be             anonymised.</li>         <li>Use your email address to send service-related notices (including any notices required by law, in lieu of             postal mail).</li>     </ul> </section> <h2 class=\"govuk-heading-m\">3. Legal basis of processing</h2> <p class=\"govuk-body\">The legal basis for processing your personal data under Article 6 of the UK GDPR is:</p> <h3 class=\"govuk-heading-s\">Legal obligation (Article 6(1)(c))</h3> <p class=\"govuk-body\">Processing is necessary for compliance with a legal obligation placed on the DESNZ under the     Energy Efficiency (Private Rented Property) (England and Wales) Regulations 2015, made under the Energy         Act 2011.</p> <p class=\"govuk-body\">These regulations require DESNZ to maintain and manage the PRS Exemptions Register and provide     Local Authorities and Local Weights and Measures Authorities with access to exemption data so they can carry out     compliance and enforcement duties.</p> <p class=\"govuk-body\">This includes enabling authorised officers to:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>Review exemption registrations submitted by landlords and agents</li>     <li>Contact landlords or agents where necessary</li>     <li>Record enforcement actions and monitor compliance with the Minimum Energy Efficiency Standards (MEES)</li> </ul> <h3 class=\"govuk-heading-s\">Public task (Article 6(1)(e))</h3> <p class=\"govuk-body\">Processing is necessary for the performance of a task carried out in the public interest or in the     exercise of official authority vested in the data controller.</p> <p class=\"govuk-body\">The specific public task is to:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>Administer and enforce the Energy Efficiency (Private Rented Property) (England and Wales) Regulations 2015     </li>     <li>Enable Local Authorities and Local Weights and Measures Authorities to perform their statutory compliance and         enforcement functions under these regulations</li> </ul> <h2 class=\"govuk-heading-m\">4. Recipients</h2> <p class=\"govuk-body\">Your personal data may be shared with:</p> <p class=\"govuk-body\">Your personal data may be shared by us where necessary to support the administration, compliance,     and enforcement of the minimum energy efficiency standards.</p> <p class=\"govuk-body\">This may include sharing your personal data with:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>Other authorised users within your local authority for operational purposes</li>     <li>Other government departments, compliance authorities, or public authorities, where necessary to support         enforcement activity, policy development, audit, or the exercise of statutory functions</li>     <li>For properties located in Wales, Rent Smart Wales, the licensing and enforcement authority for landlords and         agents in Wales, where necessary to support compliance and enforcement activity under the minimum energy         efficiency standards and related housing regulations</li> </ul> <h2 class=\"govuk-heading-m\">5. Retention</h2> <p class=\"govuk-body\">DESNZ will store your personal data for up to 7 years after your account is closed. DESNZ may store the     personal data beyond that date for statistical purposes.</p> <h2 class=\"govuk-heading-m\">6. Automated decisions making</h2> <p class=\"govuk-body\">Your personal data will not be subject to automated decision making.</p> <h2 class=\"govuk-heading-m\">7. International Transfers</h2> <p class=\"govuk-body\">Your personal data will be processed and stored in the United Kingdom and the EU.</p> <p class=\"govuk-body\">Salesforce's backup and recovery services are provided by OwnBackup, whose data centres are     located in the European Union (EU). Transfers of data to these centres are protected by the UK–EU adequacy decision,     which recognises EU data protection law as providing an equivalent level of protection to that in the UK.</p> <h2 class=\"govuk-heading-m\">8. Your rights</h2> <p class=\"govuk-body\">You have the right to request information about how your personal data are processed, and to     request a copy of that personal data.</p> <p class=\"govuk-body\">You have the right to request that any inaccuracies in your personal data are rectified without     delay.</p> <p class=\"govuk-body\">You have the right to request that any incomplete personal data are completed, including by means     of a supplementary statement.</p> <p class=\"govuk-body\">You have the right to request that your personal data are erased if there is no longer a     justification for them to be processed.</p> <p class=\"govuk-body\">You have the right in certain circumstances (for example, where accuracy is contested) to request     that the processing of your personal data is restricted.</p> <p class=\"govuk-body\">You have the right to object to the processing of your personal data where it is processed for     direct marketing purposes.</p> <p class=\"govuk-body\">You have the right to object to the processing of your personal data.</p> <p class=\"govuk-body\">To exercise your rights please contact the Data Protection Officer using the contact details     below.</p> <h2 class=\"govuk-heading-m\">9. Contact Details</h2> <p class=\"govuk-body\">The data controller for your personal data is the Department for Energy Security and Net Zero     (DESNZ). You can contact the DESNZ Data Protection Officer at:</p> <p class=\"govuk-body\"> DESNZ Data Protection Officer<br> Department for Energy Security and Net Zero<br> 3-8 Whitehall     Place<br> London<br> SW1A 2EG </p> <p class=\"govuk-body\">Email: <a class=\"govuk-link\"         href=\"mailto:dataprotection@energysecurity.gov.uk\">dataprotection@energysecurity.gov.uk</a></p> <p class=\"govuk-body\">If you are unhappy with the way we have handled your personal data, please write to the     department's Data Protection Officer in the first instance using the contact details above.</p> <h2 class=\"govuk-heading-m\">10. Complaints</h2> <p class=\"govuk-body\">If you consider that your personal data has been misused or mishandled, you may make a complaint     to the Information Commissioner, who is an independent regulator. The Information Commissioner can be contacted at: </p> <p class=\"govuk-body\"> Information Commissioner's Office<br> Wycliffe House<br> Water Lane<br> Wilmslow<br> Cheshire<br>     SK9 5AF </p> <p class=\"govuk-body\">Telephone: <a class=\"govuk-link\" href=\"tel:03031231113\">0303 123 1113</a></p> <p class=\"govuk-body\"><a class=\"govuk-link\" href=\"https://ico.org.uk/make-a-complaint/\"         rel=\"external\">https://ico.org.uk/make-a-complaint/</a></p> <p class=\"govuk-body\">Any complaint to the Information Commissioner is without prejudice to your right to seek redress     through the courts.</p> <h2 class=\"govuk-heading-m\">11. Updates to this notice</h2> <p class=\"govuk-body\">If this privacy notice changes in any way, we will place an updated version on this page.     Regularly reviewing this page ensures you are always aware of what information we collect, how we use it, and under     what circumstances we will share it with other parties. The 'last updated' date at the bottom of this page will also     change.</p> <p class=\"govuk-body\">If these changes affect how your personal data is processed, we will take reasonable steps to let     you know.</p> <p class=\"govuk-body govuk-!-colour-secondary govuk-!-margin-top-6\"> <strong>Last updated:</strong> 23 March 2026 </p>"
+              },
+              "definition" : "uxgovuk:govMarkupText",
+              "id" : "003f45ce-0966-42f4-9714-1c6b12fa4f01",
+              "type" : "component"
+            } ],
+            "id" : "56ea0662-2fac-4651-8752-4c86812dcdfe",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "a41b09e6-2ced-498b-ab72-9dee2414592d",
+          "type" : "component"
+        } ],
+        "id" : "262372b3-d7f2-473b-b9a8-0b3380ab5415",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "pageTitle" : "Privacy Notice",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "471c0749-cd03-4761-9538-bf29a2785c92",
+          "type" : "component"
+        } ],
+        "id" : "7b16ec4e-647b-4b02-a4f9-2b3712f39fe2",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "a6a0ee0c-f446-4b59-81ed-0f2c890cec3b",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-privacy-notice"
+  },
+  "urlName" : "privacy-notice"
+}

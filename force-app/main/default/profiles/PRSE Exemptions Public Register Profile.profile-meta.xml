@@ -6,6 +6,10 @@
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>CivicConfigController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CoreIdentity</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -34,10 +38,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>FileUploadHelper</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>GovComponentHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -47,10 +47,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>GovNotifyInteractionServiceLayer</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>GovUkNotifyFlow</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -144,6 +140,10 @@
     <classAccesses>
         <apexClass>PRSE_TokenGeneratorAction</apexClass>
         <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>uxgovuk__GovComponentHelper</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
@@ -449,21 +449,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Exemption__c.AdditionalInformation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Exemption__c.Agency__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Exemption__c.Agent__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Exemption__c.Business__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -971,10 +956,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
-        <recordType>Account.Business_Accounts</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Account-Account Layout</layout>
         <recordType>Account.Local_Authority</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -1026,11 +1007,6 @@
         <object>Exemption__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Account.Business_Accounts</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.Local_Authority</recordType>

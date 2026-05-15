@@ -8,6 +8,7 @@ public without sharing class CustomSettingsServiceLayer implements CustomSetting
     private static final Integer DEFAULT_PENALTIES_PAGE_SIZE  = 20;
 
     // Cached metadata record
+    @TestVisible
     private static PRSE_Configuration__mdt cfg {
         get {
             if (cfg == null) {

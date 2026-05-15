@@ -1,0 +1,96 @@
+.govuk-notification-banner-custom {
+    font-family: "GDS Transport", arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+    margin-bottom: 30px;
+    border: 5px solid #1d70b8;
+    background-color: #1d70b8;
+}
+
+.govuk-notification-banner--success-custom {
+    border-color: #00703c;
+    background-color: #00703c;
+}
+
+.govuk-notification-banner-custom:focus {
+    outline: 3px solid #fd0;
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-\!-margin-bottom-6 {
+        margin-bottom: 30px !important;
+    }
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-notification-banner__header-custom {
+        padding: 2px 20px 5px;
+    }
+}
+
+.govuk-notification-banner__header-custom {
+    padding: 2px 15px 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+
+.govuk-notification-banner__title-custom {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-notification-banner__content-custom {
+        padding: 20px;
+    }
+}
+
+.govuk-notification-banner__content-custom {
+    color: #0b0c0c;
+    padding: 15px;
+    background-color: #fff;
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-notification-banner__heading-custom {
+        font-size: 1.5rem;
+        line-height: 1.25;
+    }
+}
+
+.govuk-notification-banner__heading-custom {
+    font-size: 1.3125rem;
+    line-height: 1.1904761905;
+    font-weight: 700;
+    margin: 0 0 15px;
+    padding: 0;
+}
+
+.govuk-notification-banner__content-custom>* {
+    box-sizing: border-box;
+    max-width: 605px;
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-body, .govuk-body-m {
+        margin-bottom: 20px;
+    }
+}
+
+.govuk-body-custom, .govuk-body-m-custom {
+    color: #0b0c0c;
+    font-family: "GDS Transport", arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+    margin-top: 0;
+    margin-bottom: 15px;
+}

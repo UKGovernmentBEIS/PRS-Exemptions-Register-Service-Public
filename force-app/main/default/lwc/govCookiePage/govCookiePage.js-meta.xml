@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>GOV UK Cookie Page</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="cookieHeading" type="String" description="Enter the title of the page here. E.g. Cookies on GOVUK"></property>
+            <property name="cookieDescription" type="String" description="Please provide a description of the cookies"></property>
+            <property name="showCookiesTable" type="Boolean" description="Toggle to enable a table with relevant cookies that are captured"></property>
+            <property name="cookieTableRowNames" type="String" description="For each defined row in the table input the name of the cookie followed by a semicolon, e.g. cookieName1;cookieName2"></property>
+            <property name="cookieTableRowPurposes" type="String" description="For each defined row in the table input a purpose for the cookie followed by a semicolon, e.g. cookiePurpose1;cookiePurpose2"></property>
+            <property name="cookieTableRowExpires" type="String" description="For each defined row in the table input a expiry time followed by a semicolon, e.g. 20 hours;1 day"></property>
+            <property name="cookieSectionHeading" type="String" description="For the cookie sections please input a heading, e.g. Change your cookie Settings"></property>
+            <property name="sectionNames" type="String" description="For each defined section input a section name followed by a semicolon, e.g. Section1;Section2"></property>
+            <property name="sectionsContent" type="String" description="For each defined section input any text you would like to show followed by a semicolon, e.g. Section1Content;Section2Content"></property>
+            <property name="sectionsCategories" type="String" description="For each defined section input a cookie category separated by a semicolon to indicate if it is a necessary cookie, analytical or marketing, e.g. necessary;analytics;marketing"></property>
+            <property name="successText" type="String" description="Text to show in the success banner of the cookie page when the cookie settings have been saved"></property>
+            <!-- <property name="enableRequiredCookiesSection" type="Boolean" description="Set as true to show a section with option to enable only necessary cookies"></property> -->
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -2,7 +2,7 @@
  * Derived from GOV.UK Frontend v3.13.1
  * Source: https://github.com/alphagov/govuk-frontend
  **/
-import { LightningElement,track ,api} from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 
 export default class GdsFooter extends LightningElement {
     // Secondary Navigation Input variables
@@ -19,80 +19,96 @@ export default class GdsFooter extends LightningElement {
     @api crownLogoRequired = false;
 
     // fields to show consolidated data on UI
-    @track finalNavData = []; 
+    @track finalNavData = [];
     @track finalMetaLinkData = [];
     @track isMetalinksPresent = false;
     @track isNavLLinksPresent = false;
 
-    connectedCallback(){
-        //splitting all comma separated values to form an array
+    normalizeUrl(url) {
+        if (!url) {
+            return '#';
+        }
+        if (
+            url.startsWith('http://') ||
+            url.startsWith('https://') ||
+            url.startsWith('/') ||
+            url.startsWith('#')
+        ) {
+            return url;
+        }
+        return '/' + url;
+    }
+
+    connectedCallback() {
         let sectionNamesList = this.sectionNames ? this.sectionNames.split(';') : [];
         let navigationNamesList = this.navigationNames ? this.navigationNames.split(';') : [];
         let navigationLinksList = this.navigationLinks ? this.navigationLinks.split(';') : [];
         let columnTypeList = this.columnTypes ? this.columnTypes.split(';') : [];
-        let metalinkNameList = this.metalinkNames? this.metalinkNames.split(';') : [];
+        let metalinkNameList = this.metalinkNames ? this.metalinkNames.split(';') : [];
         let metalinkURLList = this.metalinkURL ? this.metalinkURL.split(';') : [];
 
         // json format to store secondary information for each section
         let jsonData = {
-            sectionName : '',
-            twoColumnType : true,
-            relatedNavItems : []
+            sectionName: '',
+            twoColumnType: true,
+            relatedNavItems: []
         };
         let innerObj = {
-            navLinkName :'',
-            navLinkURL : ''
+            navLinkName: '',
+            navLinkURL: ''
         };
 
         //array to store multiple metalinks and URLs
         let metalinkObj = {
-            metaLinkName :'',
-            metaLinkURL : ''
-        }
+            metaLinkName: '',
+            metaLinkURL: ''
+        };
 
-        // This loop will populate Secondary Navigation data ie for each section , its related nav item names and URLS
-        for(let i=0; i<navigationNamesList.length;i++){
+        //This loop will populate Secondary Navigation data ie for each section, its related nav item names and URLs
+        for (let i = 0; i < navigationNamesList.length; i++) {
             jsonData.sectionName = sectionNamesList[i];
             jsonData.twoColumnType = columnTypeList[i] === 2 ? true : false;
             jsonData.sectionClass = columnTypeList[i] === 2 ? "two-column-section" : "one-column-section";
-            if(navigationNamesList[i].includes('|')){
-                let navNames = navigationNamesList[i]?navigationNamesList[i].split('|'):[];
-                let navLinks = navigationLinksList[i]?navigationLinksList[i].split('|'):[];
-                for(let j=0; j<navNames.length;j++){
+
+            if (navigationNamesList[i].includes('|')) {
+                let navNames = navigationNamesList[i] ? navigationNamesList[i].split('|') : [];
+                let navLinks = navigationLinksList[i] ? navigationLinksList[i].split('|') : [];
+
+                for (let j = 0; j < navNames.length; j++) {
                     innerObj.navLinkName = navNames[j];
-                    innerObj.navLinkURL = navLinks[j];
+                    innerObj.navLinkURL = this.normalizeUrl(navLinks[j]);
                     jsonData.relatedNavItems.push(innerObj);
                     innerObj = {
-                    navLinkName :'',
-                    navLinkURL : ''
+                        navLinkName: '',
+                        navLinkURL: ''
                     };
                 }
-            }else{
+            } else {
                 innerObj.navLinkName = navigationNamesList[i];
-                innerObj.navLinkURL = navigationLinksList[i];
+                innerObj.navLinkURL = this.normalizeUrl(navigationLinksList[i]);
                 jsonData.relatedNavItems.push(innerObj);
                 innerObj = {
-                    navLinkName :'',
-                    navLinkURL : ''
+                    navLinkName: '',
+                    navLinkURL: ''
                 };
             }
+
             this.finalNavData.push(jsonData);
             jsonData = {
-                sectionName : '',
-                twoColumnType : true,
-                relatedNavItems : []
+                sectionName: '',
+                twoColumnType: true,
+                relatedNavItems: []
             };
         }
 
-        //This loop will save the array of metalinks and URLs to iterate on the UI
-        for(let i=0; i<metalinkNameList.length;i++){
+        for (let i = 0; i < metalinkNameList.length; i++) {
             metalinkObj.metaLinkName = metalinkNameList[i];
-            metalinkObj.metaLinkURL = metalinkURLList[i];
+            metalinkObj.metaLinkURL = this.normalizeUrl(metalinkURLList[i]);
             this.finalMetaLinkData.push(metalinkObj);
             metalinkObj = {
-                metaLinkName :'',
-                metaLinkURL : ''
-            }
+                metaLinkName: '',
+                metaLinkURL: ''
+            };
         }
     }
 }

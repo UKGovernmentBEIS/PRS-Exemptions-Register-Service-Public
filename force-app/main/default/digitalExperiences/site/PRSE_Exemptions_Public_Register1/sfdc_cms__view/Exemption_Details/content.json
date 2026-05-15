@@ -1,6 +1,6 @@
 {
   "type" : "sfdc_cms__view",
-  "title" : "Exemption Details",
+  "title" : "Property exemption details",
   "contentBody" : {
     "component" : {
       "children" : [ {
@@ -9,7 +9,6 @@
             "backgroundImageConfig" : "",
             "backgroundImageOverlay" : "rgba(0,0,0,0)",
             "componentSpacerSize" : "",
-            "dxpStyle" : { },
             "layoutDirectionDesktop" : "row",
             "layoutDirectionMobile" : "column",
             "layoutDirectionTablet" : "column",
@@ -27,7 +26,6 @@
           }, {
             "children" : [ {
               "attributes" : {
-                "dxpStyle" : { },
                 "flowArguments" : "[{\"label\":\"displayResultsAtPropertyLevel\",\"dataType\":\"Boolean\",\"supportsRecordId\":false,\"inputType\":\"checkbox\",\"name\":\"displayResultsAtPropertyLevel\",\"type\":\"Boolean\",\"value\":true,\"checked\":true},{\"label\":\"recordId\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"recordId\",\"type\":\"String\",\"value\":\"{!recordId}\"}]",
                 "flowName" : "{\"flowName\":\"PRSE_Property_Exemption_Details\",\"flowLabel\":\"PRSE Property Exemption Details\"}"
               },
@@ -58,8 +56,7 @@
           "attributes" : {
             "customHeadTags" : "",
             "description" : "",
-            "dxpStyle" : { },
-            "pageTitle" : "Exemption Details",
+            "pageTitle" : "Property exemption details",
             "recordId" : "{!recordId}"
           },
           "definition" : "community_builder:seoAssistant",

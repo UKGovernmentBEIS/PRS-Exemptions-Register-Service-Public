@@ -1,0 +1,5 @@
+{
+  "apiName" : "Accessibility_Statement__c",
+  "type" : "sfdc_cms__route",
+  "path" : "routes"
+}

@@ -4,7 +4,7 @@
   "contentBody" : {
     "activeViewId" : "error",
     "configurationTags" : [ ],
-    "pageAccess" : "UseParent",
+    "pageAccess" : "Public",
     "routeType" : "error",
     "urlPrefix" : "error"
   },

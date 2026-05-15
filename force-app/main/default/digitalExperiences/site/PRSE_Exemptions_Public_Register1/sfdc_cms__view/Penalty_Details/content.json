@@ -1,6 +1,6 @@
 {
   "type" : "sfdc_cms__view",
-  "title" : "Penalty Details",
+  "title" : "Property penalty notice details",
   "contentBody" : {
     "component" : {
       "children" : [ {
@@ -9,7 +9,6 @@
             "backgroundImageConfig" : "",
             "backgroundImageOverlay" : "rgba(0,0,0,0)",
             "componentSpacerSize" : "",
-            "dxpStyle" : { },
             "layoutDirectionDesktop" : "row",
             "layoutDirectionMobile" : "column",
             "layoutDirectionTablet" : "column",
@@ -27,7 +26,6 @@
           }, {
             "children" : [ {
               "attributes" : {
-                "dxpStyle" : { },
                 "flowArguments" : "[{\"label\":\"recordid\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"recordid\",\"type\":\"String\",\"value\":\"{!recordId}\"}]",
                 "flowName" : "{\"flowName\":\"PRSE_Property_Penalty_Details\",\"flowLabel\":\"PRSE Property Penalty Details\"}"
               },
@@ -58,8 +56,7 @@
           "attributes" : {
             "customHeadTags" : "",
             "description" : "",
-            "dxpStyle" : { },
-            "pageTitle" : "Penalty Details",
+            "pageTitle" : "Property penalty notice details",
             "recordId" : "{!recordId}"
           },
           "definition" : "community_builder:seoAssistant",

@@ -31,7 +31,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Exemption__c</field>
             </layoutItems>
             <layoutItems>

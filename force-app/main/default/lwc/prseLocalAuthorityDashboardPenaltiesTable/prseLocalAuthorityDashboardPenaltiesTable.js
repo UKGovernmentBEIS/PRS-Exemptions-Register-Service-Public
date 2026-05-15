@@ -6,6 +6,7 @@ import upsertPenalty from '@salesforce/apex/PRSE_LADashboardPenaltiesController.
 import deletePenalty from '@salesforce/apex/PRSE_LADashboardPenaltiesController.deletePenalty';
 import hasAccessToParentExemption from '@salesforce/apex/PRSE_LADashboardPenaltiesController.hasAccessToParentExemption';
 import systemLog from '@salesforce/apex/digitalmodus.SystemLogLwcWrapper.systemLog';
+import basePath from '@salesforce/community/basePath';
 
 export default class PrseLocalAuthorityDashboardPenaltiesTable extends LightningElement {
 
@@ -227,7 +228,7 @@ export default class PrseLocalAuthorityDashboardPenaltiesTable extends Lightning
     }
 
     generateFilteredPenaltyUrl(recordId) {
-        const base = '/PRSELocalAuthority/view-exemption/';
+        const base = `${basePath}/view-exemption/`;
         
         const params = [];
 
@@ -490,7 +491,7 @@ export default class PrseLocalAuthorityDashboardPenaltiesTable extends Lightning
             let valueAsString = String(value);
             this.currentPenalty.published = valueAsString === 'Yes' ? true : false;
             this.currentPenalty.publishedRadioValue = valueAsString === 'Yes' ? 'Yes' : 'No';
-            this.currentPenalty.publishedRadioLabel = valueAsString === 'Yes' ? 'Yes, publish the penalty' : 'No, do not publish the penalty';
+            this.currentPenalty.publishedRadioLabel = valueAsString === 'Yes' ? 'Yes, this is a publication penalty' : 'No, this is not a publication penalty';
             this.currentPenalty = {... this.currentPenalty};
         }
 
@@ -531,7 +532,7 @@ export default class PrseLocalAuthorityDashboardPenaltiesTable extends Lightning
 
                 record.previouslyPublished = record.published;
                 record.publishedRadioValue = record.published === true ? 'Yes' : 'No';
-                record.publishedRadioLabel = record.published === true ? 'Yes, publish the penalty' : 'No, do not publish the penalty';
+                record.publishedRadioLabel = record.published === true ? 'Yes, this is a publication penalty' : 'No, this is not a publication penalty';
                 return record;
             }
             return null;
@@ -624,7 +625,8 @@ export default class PrseLocalAuthorityDashboardPenaltiesTable extends Lightning
     }
 
     handleViewAllPenalties() {
-        const url = new URL(window.location.origin + '/PRSELocalAuthority/dashboard/');
+        let siteBaseUrl = `${window.location.origin}${basePath}`;
+        const url = new URL(`${siteBaseUrl}/dashboard/`);
         url.searchParams.set('filterTab', 'Penalties');
         window.location.href = url.href;
     }

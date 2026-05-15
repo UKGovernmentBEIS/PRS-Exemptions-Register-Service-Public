@@ -27,7 +27,7 @@
                 "disableLogoutLink" : false,
                 "disableProfileSettings" : true,
                 "dxpStyle" : { },
-                "logoutLink" : "/PRSELocalAuthority/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSELocalAuthority",
+                "logoutLink" : "",
                 "useWideVariant" : true
               },
               "definition" : "c:prseHeaderLinks",

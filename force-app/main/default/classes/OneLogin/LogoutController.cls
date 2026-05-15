@@ -5,26 +5,27 @@
 public without sharing class LogoutController {
     final static digitalmodus.SystemLogService errorLoggingService = new digitalmodus.SystemLogService('LogoutController');
 
+    static Map<String, String> sitesToLogoutRedirects = new Map<String, String> {
+        'https://www.register-energy-efficiency-exemption.service.gov.uk' => 'https://www.register-energy-efficiency-exemption.service.gov.uk/services/auth/rp/oidc/logout?post_logout_redirect_uri=https://www.gov.uk/register-prs-energy-standard-exemption',
+        'https://www.review-energy-efficiency-exemption.service.gov.uk' => 'https://www.review-energy-efficiency-exemption.service.gov.uk/services/auth/rp/oidc/logout?post_logout_redirect_uri=https://www.review-energy-efficiency-exemption.service.gov.uk'
+    };
+
     @AuraEnabled
     public static Map<String, String> getLogoutUrl() {
         try {
+            Boolean isProduction = Site.getBaseCustomUrl().endsWith('gov.uk');
+            String logoutInstance = isProduction ? 'https://oidc.account.gov.uk/logout?id_token_hint=' : 'https://oidc.integration.account.gov.uk/logout?id_token_hint=';
+            String logoutLink = isProduction ? getProductionLink() : getDevLink();
             String idTokenHint = getIdTokenFromAuthSession();
 
             if (String.isBlank(idTokenHint)) {
                 System.debug('No active session found so no idTokenHint');
                 throw new AuraHandledException('No active session found');
             }
-            
-            System.debug('Id token: ' + idTokenHint);
-            String postLogoutRedirectUri = Site.getBaseUrl().replace('vforcesite', '').replaceAll('/$', '');
-            String sitePrefix = postLogoutRedirectUri.substringAfterLast('/');
-
-            String logoutUrl = 'https://oidc.integration.account.gov.uk/logout?id_token_hint=' + idTokenHint +
-                    '&post_logout_redirect_uri=' + postLogoutRedirectUri + '/services/auth/rp/oidc/logout?post_logout_redirect_uri=/' + sitePrefix;
-
-            return new Map<String, String>{
-                    'logoutUrl' => logoutUrl,
-                    'success' => 'true'
+            String logoutUrl = logoutInstance + idTokenHint + '&post_logout_redirect_uri=' + logoutLink;
+            return new Map<String, String> {
+                'logoutUrl' => logoutUrl,
+                'success' => 'true'
             };
         } catch (Exception ex) {
             errorLoggingService.setLogCode('LogoutController')
@@ -36,6 +37,16 @@ public without sharing class LogoutController {
                 'Could not generate logout URL. ' + ex.getMessage()
             );
         }
+    }
+
+    private static String getProductionLink() {
+        return sitesToLogoutRedirects.get(Site.getBaseCustomUrl());
+    }
+
+    private static String getDevLink() {
+        String postLogoutRedirectUri = Site.getBaseUrl().replace('vforcesite', '').replaceAll('/$', '');
+        String sitePrefix = postLogoutRedirectUri.substringAfterLast('/');
+        return postLogoutRedirectUri + '/services/auth/rp/oidc/logout?post_logout_redirect_uri=/' + sitePrefix;
     }
 
     private static String getIdTokenFromAuthSession() {

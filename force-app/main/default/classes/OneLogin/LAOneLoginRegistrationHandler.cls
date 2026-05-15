@@ -11,10 +11,10 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
         System.debug('LAOneLoginRegistrationHandler CreateUser fired');
         try {
             Account existingPersonAccount = findExistingPersonAccount(data.email);
-            System.debug('existingPersonAccount ' +existingPersonAccount);
+            System.debug('existingPersonAccount ' + existingPersonAccount);
             if (existingPersonAccount == null) {
                 String errorMessage = 'No existing Person Account found for email: ' + data.email + '. User creation not allowed.';
-                LogErrors('LAOneLoginRegistrationHandler.createUser - No Account Found', errorMessage);
+                LogErrors('createUser - No Account Found', errorMessage);
                 return null;
             }
             Account pa = existingPersonAccount;
@@ -30,7 +30,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
             //So in login to the compliance site will throw and error due to existing identifier for the user. It should be unique.
             //String username  = data.email + '.prseLA.co.uk';
             List<User> existingUser = [SELECT Id FROM User WHERE FederationIdentifier =: data.identifier AND Email =:data.email];
-            if(!existingUser.isEmpty()){
+            if(!existingUser.isEmpty()) {
                 System.debug('existing user is found ' +existingUser);
                 return existingUser[0];
             }
@@ -43,7 +43,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
                 for (Database.Error error : userResult.getErrors()) {
                     errorMessage += error.getMessage() + ' ';
                 }
-                LogErrors('LAOneLoginRegistrationHandler.createUser - User Creation', errorMessage);
+                LogErrors('createUser - User Creation', errorMessage);
                 return null;
             }
             assignPermissionSetGroup(u.Id);
@@ -53,7 +53,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
         } catch (Exception ex) {
             String errorMessage = 'Unexpected error during user creation: ' + ex.getMessage();
             System.debug('LAonelogin createCommunityUser ERROR' +ex.getMessage());
-            LogErrors('LAOneLoginRegistrationHandler.createUser - Unexpected Error', errorMessage);
+            LogErrors('createUser - Unexpected Error', errorMessage);
             return null;
         }
     }
@@ -65,7 +65,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
                 User__c = data.email,
                 Id_Token__c = data.attributeMap.get('oauthSecretOrRefreshToken')
         );
-        insert session ;
+        insert session;
     }
     private static Account findExistingPersonAccount(String email) {
         try {
@@ -86,7 +86,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
 
         } catch (QueryException ex) {
             String errorMessage = 'Query exception while finding Person Account: ' + ex.getMessage();
-            LogErrors('LAOneLoginRegistrationHandler.findExistingPersonAccount', errorMessage);
+            LogErrors('findExistingPersonAccount', errorMessage);
             return null;
         }
     }
@@ -104,14 +104,14 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
         try {
             if (!Schema.SObjectType.PermissionSetAssignment.isCreateable()) {
                 String errorMessage = 'No permission to assign permission sets';
-                LogErrors('LAOneLoginRegistrationHandler.assignPermissionSetGroup - Security', errorMessage);
+                LogErrors('assignPermissionSetGroup - Security', errorMessage);
                 return;
             }
 
             PermissionData permData = queryPermissionData();
             if (permData == null) {
                 String errorMessage = 'Failed to retrieve permission configuration';
-                LogErrors('LAOneLoginRegistrationHandler.assignPermissionSetGroup - Config', errorMessage);
+                LogErrors('assignPermissionSetGroup - Config', errorMessage);
                 return;
             }
 
@@ -132,38 +132,28 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
 
         } catch (Exception ex) {
             String errorMessage = 'Unexpected error during permission assignment: ' + ex.getMessage();
-            LogErrors('LAOneLoginRegistrationHandler.assignPermissionSetGroup - Unexpected Error', errorMessage);
+            LogErrors('assignPermissionSetGroup - Unexpected Error', errorMessage);
         }
     }
 
     global void updateUser(Id userId, Id portalId, Auth.UserData data) {
         System.debug('LAOneLoginRegistrationHAndler UpdateUser Fired');
         try {
-
             //Create a user session record that will be accessed when logout is pressed. This function will fire on create and update user in the registration handler.
             createUserSessionToLogOut(data);
+            
             //Check if the email address is changed on the Salesforce after the first registration is created. The email address can be changed on the User or personaAccount.
-            List<Account> acc = [SELECT Id, PersonEmail FROM Account WHERE PersonEmail =:data.email];
-            if(acc.isEmpty()){
+            List<Account> acc = [SELECT Id, PersonEmail FROM Account WHERE PersonEmail = :data.email];
+            if(acc.isEmpty()) {
                 String errorMessage = 'Email address is not matching with the onelogin username';
-                LogErrors('LAOneLoginRegistrationHandler.updateUser', errorMessage);
+                LogErrors('updateUser', errorMessage);
 
                 // Option 1: Use the full Experience Cloud page URL
-                PageReference errorPage = new PageReference(Site.getBaseUrl() + '/denied-access?ErrorCode=DUPLICATE_EMAIL&ErrorMessage='+errorMessage);
-                /*errorPage.getParameters().put('ErrorCode', 'DUPLICATE_EMAIL');
-                errorPage.getParameters().put('ErrorDescription', 'Email already exists');*/
+                PageReference errorPage = new PageReference(Site.getBaseUrl() + '/denied-access?ErrorCode=DUPLICATE_EMAIL&ErrorMessage=' + errorMessage);
 
                 // This will redirect but you need to return null or throw. This doesn't work because by default the urls is always. It does go tot eh denied access page but no custom message:
                 // denied-access?ErrorCode=REGISTRATION_HANDLER_ERROR&ErrorDescription=Can+only+throw+this+exception+type+from+VisualForce+or+Aura+context&ProviderId=0SOPv0000004KZd&startURL=%2Fcompliance%2Flanding-page
                 throw new AuraHandledException(errorPage.getUrl());
-
-                //Below all three options will not work as they redirect to the Landing-page.
-                /*throw new CustomRegistrationException(errorPage.getUrl());
-                  throw new Auth.AuthProviderPluginException(
-                           'DUPLICATE_EMAIL'
-                   );
-                throw  new Auth.DiscoveryCustomErrorException('DUPLICATE_EMAIL');
-                */
             }
             User u = [SELECT Id, FirstName, LastName, Email FROM User WHERE Id = :userId];
             u.FirstName = data.firstName;
@@ -172,9 +162,10 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
             update u;
         } catch (Exception ex) {
             String errorMessage = 'Failed to update user: ' + ex.getMessage();
-            LogErrors('LAOneLoginRegistrationHandler.updateUser', errorMessage);
+            LogErrors('updateUser', errorMessage);
         }
     }
+
     private static User createCommunityUser(Auth.UserData data, Id contactId, Id profileId, Account personAccount) {
         String rawAlias = data.email.substringBefore('@');
         String shortAlias = rawAlias.length() > 5 ? rawAlias.substring(0, 5) : rawAlias;
@@ -212,7 +203,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
 
             if (permGroups.isEmpty()) {
                 String errorMessage = 'Permission Set Group not found: DEZNZ_PRS_Portal_Local_Authority_Access';
-                LogErrors('LAOneLoginRegistrationHandler.queryPermissionData - Permission Group', errorMessage);
+                LogErrors('queryPermissionData - Permission Group', errorMessage);
                 return null;
             }
             permData.permissionSetGroupId = permGroups[0].Id;
@@ -226,7 +217,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
 
             if (permSets.isEmpty()) {
                 String errorMessage = 'Permission Set not found: PublicSectorAccsForCmnyUser';
-                LogErrors('LAOneLoginRegistrationHandler.queryPermissionData - Permission Set', errorMessage);
+                LogErrors('queryPermissionData - Permission Set', errorMessage);
                 return null;
             }
             permData.permissionSetId = permSets[0].Id;
@@ -235,7 +226,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
 
         } catch (QueryException ex) {
             String errorMessage = 'Failed to query permission configuration: ' + ex.getMessage();
-            LogErrors('LAOneLoginRegistrationHandler.queryPermissionData - Query Error', errorMessage);
+            LogErrors('queryPermissionData - Query Error', errorMessage);
             return null;
         }
     }
@@ -256,7 +247,7 @@ global class LAOneLoginRegistrationHandler implements Auth.RegistrationHandler {
 
         if (!errors.isEmpty()) {
             String errorMessage = 'Permission assignment failed for user ' + userId + ': ' + String.join(errors, '; ');
-            LogErrors('LAOneLoginRegistrationHandler.handlePermissionAssignmentResults', errorMessage);
+            LogErrors('handlePermissionAssignmentResults', errorMessage);
         }
     }
 

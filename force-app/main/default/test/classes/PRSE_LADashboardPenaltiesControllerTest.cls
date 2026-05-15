@@ -201,7 +201,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Exemption__c = :parentExemptionId ' +
                 'ORDER BY Issued_Date__c DESC ' +
@@ -260,7 +260,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Exemption__c = :parentExemptionId ' +
                 'ORDER BY Issued_Date__c DESC ' +
@@ -331,7 +331,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Exemption__c = :parentExemptionId ' +
                 'ORDER BY Issued_Date__c DESC ' +
@@ -388,7 +388,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Exemption__c = :parentExemptionId ' +
                 'ORDER BY Issued_Date__c DESC ' +
@@ -487,7 +487,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Local_Custodian_Code__c IN :localAuthorityCodes AND Penalty_Type__r.Code__c IN :penaltyTypeCodes AND PropertyType__c = :propertyType ' +
                 'AND (Penalty_Reference__c LIKE :searchTerm OR Penalty_Reference__c LIKE :trimmedSearchTerm OR ' +
@@ -572,7 +572,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Local_Custodian_Code__c IN :localAuthorityCodes AND Penalty_Type__r.Code__c IN :penaltyTypeCodes AND PropertyType__c = :propertyType ' +
                 'AND (Penalty_Reference__c LIKE :searchTerm OR Penalty_Reference__c LIKE :trimmedSearchTerm OR ' +
@@ -669,7 +669,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Local_Custodian_Code__c IN :localAuthorityCodes AND Penalty_Type__r.Code__c IN :penaltyTypeCodes AND PropertyType__c = :propertyType ' +
                 'AND (Penalty_Reference__c LIKE :searchTerm OR Penalty_Reference__c LIKE :trimmedSearchTerm OR ' +
@@ -754,7 +754,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
                 'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
                 'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+                'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
                 'FROM Penalty__c ' +
                 'WHERE Local_Custodian_Code__c IN :localAuthorityCodes AND Penalty_Type__r.Code__c IN :penaltyTypeCodes AND PropertyType__c = :propertyType ' +
                 'AND (Penalty_Reference__c LIKE :searchTerm OR Penalty_Reference__c LIKE :trimmedSearchTerm OR ' +
@@ -959,6 +959,96 @@ private class PRSE_LADashboardPenaltiesControllerTest {
         Assert.areEqual(penaltyToUpdate.penaltyTypeId, penalty.Penalty_Type__c, 'Incorrect Penalty_Type__c on Penalty.');
         Assert.areEqual(penaltyToUpdate.published, penalty.Published__c, 'Incorrect Published__c on Penalty.');
         Assert.areEqual(Date.newInstance(2026, 12, 31), penalty.Unpublish_Date__c, 'Incorrect Unpublish_Date__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.penaltyId, penalty.Id, 'Incorrect Id on Penalty.');
+
+        Assert.areEqual(testExemption.LandlordBusinessName__c, penalty.LandlordBusinessName__c, 'Incorrect LandlordBusinessName__c on Penalty.');
+        Assert.areEqual(testExemption.LandlordFirstName__c, penalty.LandlordFirstName__c, 'Incorrect LandlordFirstName__c on Penalty.');
+        Assert.areEqual(testExemption.LandlordLastName__c, penalty.LandlordLastName__c, 'Incorrect LandlordLastName__c on Penalty.');
+        Assert.areEqual(testExemption.PropertyAddress__c, penalty.PropertyAddress__c, 'Incorrect PropertyAddress__c on Penalty.');
+        Assert.areEqual(testExemption.PropertyCity__c, penalty.PropertyCity__c, 'Incorrect PropertyCity__c on Penalty.');
+        Assert.areEqual(testExemption.PropertyCounty__c, penalty.PropertyCounty__c, 'Incorrect PropertyCounty__c on Penalty.');
+        Assert.areEqual(testExemption.PropertyPostcode__c, penalty.PropertyPostcode__c, 'Incorrect PropertyPostcode__c on Penalty.');
+        Assert.areEqual(testExemption.PropertyType__c, penalty.PropertyType__c, 'Incorrect PropertyType__c on Penalty.');
+        Assert.areEqual(testExemption.Local_Custodian_Code__c, penalty.Local_Custodian_Code__c, 'Incorrect Local_Custodian_Code__c on Penalty.');
+        Assert.areEqual(testExemption.PropertyUPRN__c, penalty.PropertyUPRN__c, 'Incorrect PropertyUPRN__c on Penalty.');
+    }
+
+    @isTest
+    static void upsertPenalty_withJSONStringAsExistringPenaltyAndNotPublishedDate_updatesExistingPenalty() {
+        //Arrange
+        Account testAccount = new Account(Name = 'Test');
+        insert testAccount;
+
+        Exemption__c testExemption = new Exemption__c(
+            Status__c = 'Received', 
+            Account__c = testAccount.Id,
+            Published__c = true,
+            AdditionalInformation__c = 'Test Exemption 1',
+            LandlordBusinessName__c = 'Test Business Name',
+            LandlordFirstName__c = 'Test First Name',
+            LandlordLastName__c = 'Test Last Name',
+            PropertyAddress__c = 'Address 123',
+            PropertyCity__c = 'London',
+            PropertyCounty__c = 'Greater London',
+            PropertyPostcode__c = 'SW1A 2AW',
+            PropertyType__c = 'Commercial',
+            Local_Custodian_Code__c = '5330',
+            PropertyUPRN__c = '10033612794'
+        );
+        insert testExemption;
+
+        Penalty_Type__c parentPenaltyType = new Penalty_Type__c();
+        parentPenaltyType.Name = 'Test Penalty Type';
+        parentPenaltyType.Code__c = 'P009';
+        insert parentPenaltyType;
+
+        Penalty__c existingPenalty = new Penalty__c();
+        existingPenalty.Exemption__c = testExemption.Id;
+        existingPenalty.Issued_Date__c = Date.newInstance(2024, 04, 12);
+        existingPenalty.Penalty_Amount__c = 2000;
+        existingPenalty.Penalty_Reference__c = 'Penalty Reference Before';
+        existingPenalty.Penalty_Type__c = parentPenaltyType.Id;
+        existingPenalty.Published__c = true;
+        existingPenalty.Unpublish_Date__c = Date.today().addYears(1);
+        insert existingPenalty;
+
+        PRSE_LADashboardPenaltiesController.Penalty penaltyToUpdate = new PRSE_LADashboardPenaltiesController.Penalty();
+        penaltyToUpdate.exemptionId = testExemption.Id;
+        penaltyToUpdate.dateIssued = '12/04/2024';
+        penaltyToUpdate.penaltyAmount = 3000;
+        penaltyToUpdate.reference = 'Penalty Reference After';
+        penaltyToUpdate.penaltyTypeId = parentPenaltyType.Id;
+        penaltyToUpdate.published = false;
+        penaltyToUpdate.unpublishDate = 'Not published';
+        penaltyToUpdate.penaltyId = existingPenalty.Id;
+
+        String penaltyJSONString = JSON.serialize(penaltyToUpdate);
+
+        //Act
+        Test.startTest();
+        Id upsertedPenaltyId = PRSE_LADashboardPenaltiesController.upsertPenalty(penaltyJSONString);
+        Test.stopTest();
+
+        //Assert
+        ErrorLogChecker.checkNoErrors();
+        List<Penalty__c> penalties = [
+            SELECT Id, Exemption__c, Issued_Date__c, Penalty_Amount__c, 
+            Penalty_Reference__c, Penalty_Type__c, Published__c, Unpublish_Date__c,
+            LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c,
+            PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c,
+            Local_Custodian_Code__c, PropertyType__c, PropertyUPRN__c
+            FROM Penalty__c
+        ];
+        Assert.areEqual(existingPenalty.Id, upsertedPenaltyId, 'Incorrect upsertedPenaltyId.');
+        Assert.areEqual(1, penalties.size(), 'Incorrect number of penalties present.');
+        Penalty__c penalty = penalties[0];
+        Assert.areEqual(testExemption.Id, penalty.Exemption__c, 'Incorrect Exemption__c on Penalty.');
+        Assert.areEqual(Date.newInstance(2024, 04, 12), penalty.Issued_Date__c, 'Incorrect Issued_Date__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.penaltyAmount, penalty.Penalty_Amount__c, 'Incorrect Penalty_Amount__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.reference, penalty.Penalty_Reference__c, 'Incorrect Penalty_Reference__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.penaltyTypeId, penalty.Penalty_Type__c, 'Incorrect Penalty_Type__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.published, penalty.Published__c, 'Incorrect Published__c on Penalty.');
+        Assert.areEqual(null, penalty.Unpublish_Date__c, 'Incorrect Unpublish_Date__c on Penalty.');
         Assert.areEqual(penaltyToUpdate.penaltyId, penalty.Id, 'Incorrect Id on Penalty.');
 
         Assert.areEqual(testExemption.LandlordBusinessName__c, penalty.LandlordBusinessName__c, 'Incorrect LandlordBusinessName__c on Penalty.');
@@ -1297,6 +1387,98 @@ private class PRSE_LADashboardPenaltiesControllerTest {
         Assert.areEqual(penaltyToUpdate.penaltyTypeId, penalty.Penalty_Type__c, 'Incorrect Penalty_Type__c on Penalty.');
         Assert.areEqual(penaltyToUpdate.published, penalty.Published__c, 'Incorrect Published__c on Penalty.');
         Assert.areEqual(Date.newInstance(2026, 12, 31), penalty.Unpublish_Date__c, 'Incorrect Unpublish_Date__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.landlordBusinessName, penalty.LandlordBusinessName__c, 'Incorrect LandlordBusinessName__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.landlordFirstName, penalty.LandlordFirstName__c, 'Incorrect LandlordFirstName__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.landlordLastName, penalty.LandlordLastName__c, 'Incorrect LandlordLastName__c on Penalty.');
+        Assert.areEqual(existingPenalty.Local_Custodian_Code__c, penalty.Local_Custodian_Code__c, 'Incorrect Local_Custodian_Code__c on Penalty.');
+        Assert.areEqual(existingPenalty.PropertyUPRN__c, penalty.PropertyUPRN__c, 'Incorrect PropertyUPRN__c on Penalty.');
+    }
+
+    @isTest
+    static void upsertPenaltyWithoutExemption_withJSONStringAsExistringPenaltyAndNotPublishedDate_updatesExistingPenalty() {
+        //Arrange
+        Account testAccount = new Account(Name = 'Test');
+        insert testAccount;
+
+        Penalty_Type__c parentPenaltyType = new Penalty_Type__c();
+        parentPenaltyType.Name = 'Test Penalty Type';
+        parentPenaltyType.Code__c = 'P009';
+        insert parentPenaltyType;
+
+        Penalty__c existingPenalty = new Penalty__c();
+        existingPenalty.Issued_Date__c = Date.newInstance(2024, 04, 12);
+        existingPenalty.Penalty_Amount__c = 2000;
+        existingPenalty.Penalty_Reference__c = 'Penalty Reference Before';
+        existingPenalty.Penalty_Type__c = parentPenaltyType.Id;
+        existingPenalty.LandlordBusinessName__c = 'DEPARTMENT FOR ENERGY SECURITY & NET ZERO';
+        existingPenalty.LandlordFirstName__c = 'Jim';
+        existingPenalty.LandlordLastName__c = 'Jimothy';
+        existingPenalty.PropertyAddress__c = 'Department For Energy Security & Net Zero, 3, Whitehall Place';
+        existingPenalty.PropertyCity__c = 'London';
+        existingPenalty.PropertyCounty__c = 'Greater London Before';
+        existingPenalty.PropertyPostcode__c = 'SW1A 2AW2';
+        existingPenalty.Local_Custodian_Code__c = '5990';
+        existingPenalty.PropertyType__c = 'Commercial';
+        existingPenalty.PropertyUPRN__c = '10038612291';
+        existingPenalty.Published__c = true;
+        existingPenalty.Unpublish_Date__c = Date.today().addYears(1);
+        insert existingPenalty;
+
+        PRSE_LADashboardPenaltiesController.Penalty penaltyToUpdate = new PRSE_LADashboardPenaltiesController.Penalty();
+        penaltyToUpdate.propertyAddress = '3 Whitehall Place After';
+        penaltyToUpdate.propertyCity = 'LONDON After';
+        penaltyToUpdate.propertyPostcode = 'SW1A 2AW';
+        penaltyToUpdate.propertyCounty = 'Greater London After';
+        penaltyToUpdate.propertyType = 'Commercial';
+        penaltyToUpdate.dateIssued = '12/04/2024';
+        penaltyToUpdate.penaltyAmount = 3000;
+        penaltyToUpdate.reference = 'Penalty Reference After';
+        penaltyToUpdate.penaltyTypeId = parentPenaltyType.Id;
+        penaltyToUpdate.published = false;
+        penaltyToUpdate.unpublishDate = 'Not published';
+        penaltyToUpdate.landlordBusinessName = 'DEPARTMENT FOR ENERGY SECURITY & NET ZERO';
+        penaltyToUpdate.landlordFirstName = 'James';
+        penaltyToUpdate.landlordLastName = 'Jimmy';
+        penaltyToUpdate.penaltyId = existingPenalty.Id;
+
+        String penaltyJSONString = JSON.serialize(penaltyToUpdate);
+
+        String dpaQueryAddress = penaltyToUpdate.propertyAddress + ', ' + penaltyToUpdate.propertyCity + ', ' + penaltyToUpdate.propertyPostcode;
+        MockProvider mockProvider = new MockProvider();
+        OSPlacesInteractionService.API mockLayer = (OSPlacesInteractionService.API) mockProvider.createMock(OSPlacesInteractionServiceLayer.class);
+        OSPlacesInteractionServiceLayer.instance = mockLayer;
+        mockProvider.when(mockLayer.matchAddressForEnglandOrWalesOnly(dpaQueryAddress)).thenReturn(new List<DeliveryPointAddress>());
+
+        //Act
+        Test.startTest();
+        Id upsertedPenaltyId = PRSE_LADashboardPenaltiesController.upsertPenaltyWithoutExemption(penaltyJSONString);
+        Test.stopTest();
+
+        //Assert
+        ErrorLogChecker.checkNoErrors();
+        List<Penalty__c> penalties = [
+            SELECT Id, Exemption__c, Issued_Date__c, Penalty_Amount__c, 
+            Penalty_Reference__c, Penalty_Type__c, Published__c, Unpublish_Date__c,
+            LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c,
+            PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c,
+            Local_Custodian_Code__c, PropertyType__c, PropertyUPRN__c
+            FROM Penalty__c
+        ];
+        Assert.areEqual(existingPenalty.Id, upsertedPenaltyId, 'Incorrect upsertedPenaltyId.');
+        Assert.areEqual(1, penalties.size(), 'Incorrect number of penalties present.');
+        Penalty__c penalty = penalties[0];
+        Assert.areEqual(penalty.Id, upsertedPenaltyId, 'Incorrect upsertedPenaltyId.');
+        Assert.areEqual(penaltyToUpdate.propertyAddress, penalty.PropertyAddress__c, 'Incorrect PropertyAddress__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.propertyCity, penalty.PropertyCity__c, 'Incorrect PropertyCity__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.propertyPostcode, penalty.PropertyPostcode__c, 'Incorrect PropertyPostcode__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.propertyCounty, penalty.PropertyCounty__c, 'Incorrect PropertyCounty__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.propertyType, penalty.PropertyType__c, 'Incorrect PropertyType__c on Penalty.');
+        Assert.areEqual(Date.newInstance(2024, 04, 12), penalty.Issued_Date__c, 'Incorrect Issued_Date__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.penaltyAmount, penalty.Penalty_Amount__c, 'Incorrect Penalty_Amount__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.reference, penalty.Penalty_Reference__c, 'Incorrect Penalty_Reference__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.penaltyTypeId, penalty.Penalty_Type__c, 'Incorrect Penalty_Type__c on Penalty.');
+        Assert.areEqual(penaltyToUpdate.published, penalty.Published__c, 'Incorrect Published__c on Penalty.');
+        Assert.areEqual(null, penalty.Unpublish_Date__c, 'Incorrect Unpublish_Date__c on Penalty.');
         Assert.areEqual(penaltyToUpdate.landlordBusinessName, penalty.LandlordBusinessName__c, 'Incorrect LandlordBusinessName__c on Penalty.');
         Assert.areEqual(penaltyToUpdate.landlordFirstName, penalty.LandlordFirstName__c, 'Incorrect LandlordFirstName__c on Penalty.');
         Assert.areEqual(penaltyToUpdate.landlordLastName, penalty.LandlordLastName__c, 'Incorrect LandlordLastName__c on Penalty.');
@@ -1716,6 +1898,7 @@ private class PRSE_LADashboardPenaltiesControllerTest {
                 'PropertyCounty__c' => 'County  ' + i,
                 'PropertyCountry__c' => 'Country  ' + i,
                 'PropertyPostcode__c' => 'Postcode  ' + i,
+                'Full_Property_Address__c' => 'Address  ' + i + ', City  ' + i + ', County  ' + i + ', Country  ' + i + ', Postcode  ' + i,
                 'Status__c' => 'Received',
                 'Registered_Date__c' => Datetime.now().addDays(i)
             };

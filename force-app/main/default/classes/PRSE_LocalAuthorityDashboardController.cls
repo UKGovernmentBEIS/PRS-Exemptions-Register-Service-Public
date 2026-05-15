@@ -129,7 +129,8 @@ public with sharing class PRSE_LocalAuthorityDashboardController {
                     'Exemption__r.PropertyCity__c',
                     'Exemption__r.PropertyCounty__c',
                     'Exemption__r.PropertyCountry__c',
-                    'Exemption__r.PropertyPostcode__c'
+                    'Exemption__r.PropertyPostcode__c',
+                    'Exemption__r.Full_Property_Address__c'
                 };
                 query += buildLikeClauses(bindMap, fieldsToSearchOn, filtersToApply.searchTerm);
             }
@@ -277,7 +278,8 @@ public with sharing class PRSE_LocalAuthorityDashboardController {
                 'Exemption__r.PropertyCity__c',
                 'Exemption__r.PropertyCounty__c',
                 'Exemption__r.PropertyCountry__c',
-                'Exemption__r.PropertyPostcode__c'
+                'Exemption__r.PropertyPostcode__c',
+                'Exemption__r.Full_Property_Address__c'
             };
             query += buildLikeClauses(bindMap, fieldsToSearchOn, filters.searchTerm);
         }
@@ -323,6 +325,7 @@ public with sharing class PRSE_LocalAuthorityDashboardController {
                 'PropertyCounty__c',
                 'PropertyCountry__c',
                 'PropertyPostcode__c',
+                'Full_Property_Address__c',
                 'Name'
             };
             parentWhereClause += buildLikeClauses(bindMap, fieldsToSearchOn, filters.searchTerm);
@@ -337,7 +340,7 @@ public with sharing class PRSE_LocalAuthorityDashboardController {
         parentExemptions = (List<Exemption__c>) DatabaseWrapper.getInstance().queryWithBinds(
                 'SELECT Id, Ref_Number__c, LandlordFirstName__c, LandlordLastName__c, LandlordBusinessName__c, ' + 
                 'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, ' + 
-                'PropertyType__c, Status__c, Registered_Date__c, ' +
+                'PropertyType__c, Status__c, Registered_Date__c, Full_Property_Address__c, ' +
                 '(SELECT Id, Exemption__c, Exemption_Type__r.Name FROM ExemptionTypeLinks__r) ' +
                 'FROM Exemption__c ' + parentWhereClause +
                 'AND Id IN ' + childWhereSubQuery +
@@ -493,8 +496,8 @@ public with sharing class PRSE_LocalAuthorityDashboardController {
     }
 
     private static String buildLikeClauses(Map<String, Object> bindMapToAddTo, List<String> fieldsToAddFor, String filterSearchTerm) {
-        String escapedSearchTerm = String.escapeSingleQuotes(filterSearchTerm);
-        String trimmedAndEscapedSearchTerm = String.escapeSingleQuotes(filterSearchTerm).trim().remove(' ');
+        String escapedSearchTerm = filterSearchTerm.trim();
+        String trimmedAndEscapedSearchTerm = escapedSearchTerm.remove(' ');
         String searchTerm = '%' + escapedSearchTerm + '%';
         String trimmedSearchTerm = '%' + trimmedAndEscapedSearchTerm + '%';
         String likeClauses = ' AND (';
@@ -575,12 +578,7 @@ public with sharing class PRSE_LocalAuthorityDashboardController {
         }
 
         public void withPropertyAddress() {
-            String county = String.isBlank(exemption.PropertyCounty__c) ? '' : exemption.PropertyCounty__c + ', ';
-            this.propertyAddress = exemption.PropertyAddress__c + ', ' + 
-                exemption.PropertyCity__c + ', ' + 
-                county + 
-                exemption.PropertyCountry__c + ', ' + 
-                exemption.PropertyPostcode__c;
+            this.propertyAddress = exemption.Full_Property_Address__c;
         }
 
         public void withStatus() {

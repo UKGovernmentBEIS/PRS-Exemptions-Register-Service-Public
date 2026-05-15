@@ -179,7 +179,7 @@
             <assignToReference>col_AgentDetailsValues</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>fla_SummaryPersonalAddress</elementReference>
+                <elementReference>fla_SummaryAgentAddress</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -200,7 +200,7 @@
             <assignToReference>col_LandlordDetailsValues</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>fla_SummaryPersonalAddress</elementReference>
+                <elementReference>fla_SummaryLandlordAddress</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -404,6 +404,11 @@
         <expression>IF(ISPICKVAL({!Get_Registered_Exemption.Status__c}, &quot;Ended&quot;),&quot;Ended exemption for&quot;,&quot;Registered exemption for&quot;)</expression>
     </formulas>
     <formulas>
+        <name>fla_SummaryAgentAddress</name>
+        <dataType>String</dataType>
+        <expression>{!Get_Registered_Exemption.Account__r.PersonMailingStreet} + BR() + {!Get_Registered_Exemption.Account__r.PersonMailingCity} + BR() + {!Get_Registered_Exemption.Account__r.PersonMailingPostalCode}</expression>
+    </formulas>
+    <formulas>
         <name>fla_SummaryAgentDetails</name>
         <dataType>String</dataType>
         <expression>IF(
@@ -437,6 +442,11 @@
         <expression>&quot;Uploaded evidence for&quot; + BR() + {!Get_Child_Exemption.Name} + BR() +&quot; Exemption code: &quot; + {!Get_Child_Exemption.Exemption_Type_Code__c}</expression>
     </formulas>
     <formulas>
+        <name>fla_SummaryLandlordAddress</name>
+        <dataType>String</dataType>
+        <expression>{!Get_Registered_Exemption.LandlordAddress__c} + BR() + {!Get_Registered_Exemption.LandlordCity__c} + BR() + {!Get_Registered_Exemption.LandlordPostcode__c}</expression>
+    </formulas>
+    <formulas>
         <name>fla_SummaryLandlordDetails</name>
         <dataType>String</dataType>
         <expression>IF(ISBLANK({!Get_Registered_Exemption.LandlordBusinessName__c}), {!Get_Registered_Exemption.LandlordFirstName__c} + &quot; &quot; + {!Get_Registered_Exemption.LandlordLastName__c}, {!Get_Registered_Exemption.LandlordBusinessName__c}) + BR() + {!Get_Registered_Exemption.LandlordEmail__c} + BR() + {!Get_Registered_Exemption.LandlordPhone__c}</expression>
@@ -445,11 +455,6 @@
         <name>fla_SummaryLandlordType</name>
         <dataType>String</dataType>
         <expression>IF(ISBLANK({!Get_Registered_Exemption.LandlordBusinessName__c}), &quot;Individual&quot;, &quot;Business&quot;)</expression>
-    </formulas>
-    <formulas>
-        <name>fla_SummaryPersonalAddress</name>
-        <dataType>String</dataType>
-        <expression>{!Get_Registered_Exemption.LandlordAddress__c} + BR() + {!Get_Registered_Exemption.LandlordCity__c} + BR() + {!Get_Registered_Exemption.LandlordPostcode__c}</expression>
     </formulas>
     <formulas>
         <name>fla_SummaryPropertyAddress</name>
@@ -633,7 +638,7 @@
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/dashboard</stringValue>
+                    <stringValue>dashboard</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -681,7 +686,7 @@
             <inputParameters>
                 <name>markupText</name>
                 <value>
-                    <stringValue>&lt;h1 class=&apos;govuk-heading-l&apos;&gt;Ended exemption for {!Get_Registered_Exemption.PropertyAddress__c}, {!Get_Registered_Exemption.PropertyPostcode__c}&lt;/h1&gt;</stringValue>
+                    <stringValue>&lt;h1 class=&apos;govuk-heading-l govuk-!-text-break-word&apos;&gt;Ended exemption for {!Get_Registered_Exemption.PropertyAddress__c}, {!Get_Registered_Exemption.PropertyPostcode__c}&lt;/h1&gt;</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

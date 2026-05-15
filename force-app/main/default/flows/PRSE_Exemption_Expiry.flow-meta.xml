@@ -11,7 +11,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>$Record.LandlordEmail__c</elementReference>
+                <elementReference>$Record.Account__r.PersonEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -47,7 +47,7 @@
         <inputParameters>
             <name>templateId</name>
             <value>
-                <stringValue>4361afc9-25c4-4a19-aec5-59b93d95f0ca</stringValue>
+                <stringValue>84762d61-fcd8-41a6-8d11-64e8f0e2a62d</stringValue>
             </value>
         </inputParameters>
         <nameSegment>PRSE_SendLetterAction</nameSegment>
@@ -71,7 +71,7 @@
         <inputParameters>
             <name>phoneNumber</name>
             <value>
-                <elementReference>$Record.Landlord__r.Phone</elementReference>
+                <elementReference>$Record.Account__r.Phone</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -95,7 +95,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>$Record.LandlordEmail__c</elementReference>
+                <elementReference>$Record.Account__r.PersonEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -155,7 +155,7 @@
         <inputParameters>
             <name>phoneNumber</name>
             <value>
-                <elementReference>$Record.Landlord__r.Phone</elementReference>
+                <elementReference>$Record.Account__r.Phone</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -179,7 +179,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>$Record.LandlordEmail__c</elementReference>
+                <elementReference>$Record.Account__r.PersonEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -209,7 +209,7 @@
         <inputParameters>
             <name>personalisationJson</name>
             <value>
-                <elementReference>JSON_Notify</elementReference>
+                <elementReference>JSON_Notify_New_Landlord</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -233,13 +233,13 @@
         <inputParameters>
             <name>personalisationJson</name>
             <value>
-                <elementReference>JSON_Notify</elementReference>
+                <elementReference>JSON_Notify_New_Landlord</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>phoneNumber</name>
             <value>
-                <elementReference>$Record.Landlord__r.Phone</elementReference>
+                <elementReference>$Record.Account__r.Phone</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -263,7 +263,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>$Record.LandlordEmail__c</elementReference>
+                <elementReference>$Record.Account__r.PersonEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -323,13 +323,13 @@
         <inputParameters>
             <name>phoneNumber</name>
             <value>
-                <elementReference>$Record.Landlord__r.Phone</elementReference>
+                <elementReference>$Record.Account__r.Phone</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>templateId</name>
             <value>
-                <stringValue>2b0b6000-460f-408f-96be-59339979b91a</stringValue>
+                <stringValue>6a88041f-141c-4a45-8532-ec184b682b85</stringValue>
             </value>
         </inputParameters>
         <nameSegment>PRSE_SendSmsAction</nameSegment>
@@ -347,7 +347,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>$Record.LandlordEmail__c</elementReference>
+                <elementReference>$Record.Account__r.PersonEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -407,7 +407,7 @@
         <inputParameters>
             <name>phoneNumber</name>
             <value>
-                <elementReference>$Record.Landlord__r.Phone</elementReference>
+                <elementReference>$Record.Account__r.Phone</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -430,7 +430,7 @@
             <assignToReference>JSON_Notify</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>fla_ExemptionInfoFormatted</elementReference>
+                <elementReference>fla_JSONSetterExemptionInfo</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -509,6 +509,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Add_To_Child_Exemption_Ids</name>
+        <label>Add To Child Exemption Ids</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_ChildExemptionIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_through_Exemptions_Not_Including_New_Landlord.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Is_Child_Exemption_New_Landlord</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Exemption_Expired_Flag</name>
         <label>Assign Exemption Expired Flag</label>
         <locationX>0</locationX>
@@ -577,6 +593,22 @@
         </assignmentItems>
         <connector>
             <targetReference>Is_Exemption_Close_to_Expiry_Excluding_New_Landlord</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>AssignChildExemption</name>
+        <label>Assign Child Exemption</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>rcd_SingleChildExemption</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AssignSingleChildExemption</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>AssignSingleChildExemption</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -652,7 +684,7 @@
             <assignToReference>JSON_Notify</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>&quot;]}</stringValue>
+                <stringValue>]}</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -665,7 +697,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
-            <assignToReference>JSON_Notify</assignToReference>
+            <assignToReference>JSON_Notify_New_Landlord</assignToReference>
             <operator>Add</operator>
             <value>
                 <stringValue>&quot;}</stringValue>
@@ -723,7 +755,7 @@
             <assignToReference>JSON_Notify</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>fla_JSONSetterDateExpired</elementReference>
+                <stringValue>&quot;exemptioninfo&quot;: [ &quot;</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -776,6 +808,13 @@
             <assignToReference>JSON_Notify</assignToReference>
             <operator>Add</operator>
             <value>
+                <stringValue>]</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>JSON_Notify</assignToReference>
+            <operator>Add</operator>
+            <value>
                 <elementReference>fla_JSONNewLandlordLetterSetter</elementReference>
             </value>
         </assignmentItems>
@@ -788,6 +827,13 @@
         <label>Set Letter JSON Expired</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>JSON_Notify</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>&quot;</stringValue>
+            </value>
+        </assignmentItems>
         <assignmentItems>
             <assignToReference>JSON_Notify</assignToReference>
             <operator>Add</operator>
@@ -808,6 +854,13 @@
             <assignToReference>JSON_Notify</assignToReference>
             <operator>Add</operator>
             <value>
+                <stringValue>&quot;</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>JSON_Notify</assignToReference>
+            <operator>Add</operator>
+            <value>
                 <elementReference>fla_JSONLetterSetter</elementReference>
             </value>
         </assignmentItems>
@@ -821,14 +874,14 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
-            <assignToReference>JSON_Notify</assignToReference>
+            <assignToReference>JSON_Notify_New_Landlord</assignToReference>
             <operator>Add</operator>
             <value>
                 <stringValue>&quot;</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>JSON_Notify</assignToReference>
+            <assignToReference>JSON_Notify_New_Landlord</assignToReference>
             <operator>Add</operator>
             <value>
                 <elementReference>fla_JSONNewLandlordLetterSetter</elementReference>
@@ -958,7 +1011,7 @@
             <name>Text_6_Month_Warning</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Text</stringValue>
@@ -983,7 +1036,7 @@
             <name>Text_Multiple_Expired</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Text</stringValue>
@@ -1008,7 +1061,7 @@
             <name>Text_New_Landlord</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Text</stringValue>
@@ -1033,7 +1086,7 @@
             <name>Text_Single_Expired</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Text</stringValue>
@@ -1058,7 +1111,7 @@
             <name>Text_Warning_Multiple</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Text</stringValue>
@@ -1083,7 +1136,7 @@
             <name>Letter_Multiple_Expired</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Letter</stringValue>
@@ -1108,7 +1161,7 @@
             <name>Letter_New_Landlord</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Letter</stringValue>
@@ -1133,7 +1186,7 @@
             <name>Letter_Single_Expired</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Letter</stringValue>
@@ -1158,7 +1211,7 @@
             <name>Letter_Warning_Multiple</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Letter</stringValue>
@@ -1183,7 +1236,7 @@
             <name>Letter_Warning_6_Month</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>$Record.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Letter</stringValue>
@@ -1196,8 +1249,8 @@
         </rules>
     </decisions>
     <decisions>
-        <name>What_Expired_Email_Template_s_to_use</name>
-        <label>What Expired Email Template(s) to use</label>
+        <name>What_Expired_Template_to_use</name>
+        <label>What Expired Template to use</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -1212,7 +1265,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Go_through_all_Child_Exemptions</targetReference>
+                <targetReference>End_Multiple_Exemptions</targetReference>
             </connector>
             <label>Multiple General Exemptions Exist</label>
         </rules>
@@ -1249,7 +1302,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Single_Warning_Exemption</targetReference>
+                <targetReference>AssignSingleChildExemption</targetReference>
             </connector>
             <label>Email Send Single Warning for Exemptions</label>
         </rules>
@@ -1276,7 +1329,7 @@
         <locationY>0</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Email_Expired</name>
+            <name>Expired</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>ExemptionExpiredFlag</leftValueReference>
@@ -1288,10 +1341,10 @@
             <connector>
                 <targetReference>Set_Exemption_to_Expired</targetReference>
             </connector>
-            <label>Email Expired</label>
+            <label>Expired</label>
         </rules>
         <rules>
-            <name>Email_6_Months</name>
+            <name>Expiresin6Months</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>ExemptionWarningFlag</leftValueReference>
@@ -1303,10 +1356,10 @@
             <connector>
                 <targetReference>What_warning_template_to_use</targetReference>
             </connector>
-            <label>Email 6 Months</label>
+            <label>Expires in 6 Months</label>
         </rules>
         <rules>
-            <name>Email_New_Landlord_Expired</name>
+            <name>NewLandlordExpired</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>NewLandlordExpiryFlag</leftValueReference>
@@ -1323,9 +1376,9 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Exemption_to_Expired_Single</targetReference>
+                <targetReference>Set_New_landlord_to_expired</targetReference>
             </connector>
-            <label>Email New Landlord Expired</label>
+            <label>New Landlord Expired</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -1383,18 +1436,34 @@
         <name>fla_JSONCommon</name>
         <dataType>String</dataType>
         <expression>&quot;{&quot; &amp; 
-&quot;\&quot;full name\&quot;:\&quot;&quot; &amp; {!$Record.Account__r.FirstName} &amp; &quot; &quot; &amp; {!$Record.Account__r.LastName} &amp; &quot;\&quot;,&quot; &amp; 
+&quot;\&quot;full name\&quot;:\&quot;&quot; &amp; SUBSTITUTE({!$Record.Account__r.FirstName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) &amp; &quot; &quot; &amp;  SUBSTITUTE({!$Record.Account__r.LastName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) &amp; &quot;\&quot;,&quot; &amp; 
 &quot;\&quot;address\&quot;:\&quot;&quot; &amp; {!$Record.PropertyAddress__c} &amp; &quot;, &quot; &amp; {!$Record.PropertyCity__c} &amp; &quot;, &quot; &amp; {!$Record.PropertyPostcode__c} &amp; &quot;\&quot;,&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_JSONLetterSetter</name>
         <dataType>String</dataType>
-        <expression>&quot;],\&quot;address_line1\&quot;: \&quot;&quot; + {!$Record.LandlordFirstName__c} + &quot; &quot; + {!$Record.LandlordLastName__c} + &quot;\&quot;, \&quot;address_line2\&quot;: \&quot;&quot; + {!$Record.LandlordAddress__c} + &quot;\&quot;, \&quot;address_line3\&quot;: \&quot;&quot; + {!$Record.LandlordPostcode__c} + &quot;\&quot;}&quot;</expression>
+        <expression>&quot;],\&quot;address_line_1\&quot;: \&quot;&quot; + 
+SUBSTITUTE({!$Record.Account__r.FirstName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) + 
+&quot; &quot; + 
+SUBSTITUTE({!$Record.Account__r.LastName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) + 
+&quot;\&quot;, \&quot;address_line_2\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingStreet} + 
+&quot;\&quot;, \&quot;address_line_3\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingCity} + 
+&quot;\&quot;, \&quot;address_line_4\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingPostalCode} + 
+&quot;\&quot;, \&quot;address_line_5\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingCountry} +
+&quot;\&quot;}&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_JSONNewLandlordLetterSetter</name>
         <dataType>String</dataType>
-        <expression>&quot;,\&quot;address_line1\&quot;: \&quot;&quot; + {!$Record.LandlordFirstName__c} + &quot; &quot; + {!$Record.LandlordLastName__c} + &quot;\&quot;, \&quot;address_line2\&quot;: \&quot;&quot; + {!$Record.LandlordAddress__c} + &quot;\&quot;, \&quot;address_line3\&quot;: \&quot;&quot; + {!$Record.LandlordPostcode__c} + &quot;\&quot;}&quot;</expression>
+        <expression>&quot;,\&quot;address_line_1\&quot;: \&quot;&quot; + 
+SUBSTITUTE({!$Record.Account__r.FirstName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) + 
+&quot; &quot; + 
+SUBSTITUTE({!$Record.Account__r.LastName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) + 
+&quot;\&quot;, \&quot;address_line_2\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingStreet} + 
+&quot;\&quot;, \&quot;address_line_3\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingCity} + 
+&quot;\&quot;, \&quot;address_line_4\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingPostalCode} + 
+&quot;\&quot;, \&quot;address_line_5\&quot;: \&quot;&quot; + {!$Record.Account__r.PersonMailingCountry} + 
+&quot;\&quot;}&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_JSONSetterDateExpired</name>
@@ -1411,7 +1480,7 @@
     <formulas>
         <name>fla_JSONSetterExemptionInfo</name>
         <dataType>String</dataType>
-        <expression>&quot;- &quot; &amp; {!fla_ExemptionInfoFormatted}</expression>
+        <expression>{!fla_ExemptionInfoFormatted}</expression>
     </formulas>
     <formulas>
         <name>fla_JSONSetterNewLandlordExpired</name>
@@ -1427,7 +1496,7 @@
     <formulas>
         <name>fla_JSONSetterSingleExemptionWarning</name>
         <dataType>String</dataType>
-        <expression>{!Get_Single_Warning_Exemption.Name} &amp; &quot; : &quot; &amp; {!Get_Single_Warning_Exemption.Child_Exemption_Ref__c} &amp; &quot;\&quot;&quot;</expression>
+        <expression>{!rcd_SingleChildExemption.Name} &amp; &quot; : &quot; &amp; {!rcd_SingleChildExemption.Child_Exemption_Ref__c} &amp; &quot;\&quot;&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_RemoveTrailingComma</name>
@@ -1437,17 +1506,17 @@
     <interviewLabel>PRSE Exemption Expriry {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PRSE Exemption Expiry</label>
     <loops>
-        <name>Go_through_all_Child_Exemptions</name>
-        <label>Go through all Child Exemptions</label>
+        <name>AssignSingleChildExemption</name>
+        <label>Assign Single Child Exemption</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <collectionReference>Get_Child_Exemption</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>End_Multiple_Exemptions</targetReference>
+            <targetReference>AssignChildExemption</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>What_Communication_Style_to_use_Multiple_Expired</targetReference>
+            <targetReference>Set_JSON_for_Single_Warning_Exemption</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -1458,7 +1527,7 @@
         <collectionReference>Get_Child_Exemption</collectionReference>
         <iterationOrder>Desc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Is_Child_Exemption_New_Landlord</targetReference>
+            <targetReference>Add_To_Child_Exemption_Ids</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Remove_Trailing_Comma</targetReference>
@@ -1500,6 +1569,13 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
+        <filters>
+            <field>End_Date__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Exemption_Type_Link__c</object>
         <sortField>Exemption_Type_Code__c</sortField>
@@ -1523,25 +1599,11 @@
                 <stringValue>New landlord</stringValue>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Exemption_Type_Link__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Single_Warning_Exemption</name>
-        <label>Get Single Warning Exemption</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Set_JSON_for_Single_Warning_Exemption</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
         <filters>
-            <field>Name</field>
-            <operator>NotEqualTo</operator>
+            <field>Exemption__c</field>
+            <operator>EqualTo</operator>
             <value>
-                <stringValue>New landlord</stringValue>
+                <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -1554,14 +1616,14 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Go_through_all_Child_Exemptions</targetReference>
+            <targetReference>What_Communication_Style_to_use_Multiple_Expired</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>Go_through_all_Child_Exemptions.Id</elementReference>
+                <elementReference>var_ChildExemptionIds</elementReference>
             </value>
         </filters>
         <filters>
@@ -1583,6 +1645,12 @@
                 <elementReference>$Flow.CurrentDateTime</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>End_Reason__c</field>
+            <value>
+                <stringValue>Other</stringValue>
+            </value>
+        </inputAssignments>
         <object>Exemption_Type_Link__c</object>
     </recordUpdates>
     <recordUpdates>
@@ -1591,23 +1659,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>What_Expired_Email_Template_s_to_use</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>Status__c</field>
-            <value>
-                <stringValue>Expired</stringValue>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Set_Exemption_to_Expired_Single</name>
-        <label>Set Exemption to Expired</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <connector>
-            <targetReference>Set_New_landlord_to_expired</targetReference>
+            <targetReference>What_Expired_Template_to_use</targetReference>
         </connector>
         <inputAssignments>
             <field>Status__c</field>
@@ -1652,6 +1704,12 @@
                 <elementReference>$Flow.CurrentDateTime</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>End_Reason__c</field>
+            <value>
+                <stringValue>Other</stringValue>
+            </value>
+        </inputAssignments>
         <object>Exemption_Type_Link__c</object>
     </recordUpdates>
     <recordUpdates>
@@ -1680,6 +1738,12 @@
             <field>End_Date__c</field>
             <value>
                 <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>End_Reason__c</field>
+            <value>
+                <stringValue>Other</stringValue>
             </value>
         </inputAssignments>
         <object>Exemption_Type_Link__c</object>
@@ -1712,13 +1776,20 @@
                 <stringValue>Expired</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>InternalExemptionExpiry__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
         <object>Exemption__c</object>
         <schedule>
             <dayOfMonthToRun>0</dayOfMonthToRun>
-            <frequency>Once</frequency>
+            <frequency>Daily</frequency>
             <frequencyNumber>0</frequencyNumber>
-            <startDate>2026-02-12</startDate>
-            <startTime>17:15:00.000Z</startTime>
+            <startDate>2026-04-09</startDate>
+            <startTime>00:00:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
@@ -1806,11 +1877,26 @@
         </value>
     </variables>
     <variables>
+        <name>rcd_SingleChildExemption</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Exemption_Type_Link__c</objectType>
+    </variables>
+    <variables>
         <name>temp</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Exemption_Type_Link__c</objectType>
+    </variables>
+    <variables>
+        <name>var_ChildExemptionIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
 </Flow>

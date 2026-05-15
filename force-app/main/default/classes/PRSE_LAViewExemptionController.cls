@@ -62,6 +62,9 @@ public without sharing class PRSE_LAViewExemptionController {
 
             Exemption__c exemptionRecord = [
                 SELECT Id,
+                    Account__c,
+                    Account__r.Landlord_Type__c,
+                    Account__r.BusinessName__c,
                     LandlordFirstName__c,
                     LandlordLastName__c,
                     LandlordBusinessName__c,
@@ -69,47 +72,28 @@ public without sharing class PRSE_LAViewExemptionController {
                     LandlordCity__c,
                     LandlordPostcode__c,
                     LandlordPhone__c,
-                    LandlordEmail__c,
+                    LandlordEmail__c,                    
+                    DigitallyAssisted__c,
+                    ReasonForCallingADRoute__c,
                     OwnerId
                 FROM Exemption__c
                 WHERE Id = :exemptionId
                 LIMIT 1
             ];
             
-            User ownerUser = [
-                SELECT Id, ContactId
-                FROM User
-                WHERE Id = :exemptionRecord.OwnerId
-                LIMIT 1
-            ];
-
-            Account personAccount;
-            if (ownerUser.ContactId != null) {
-                Contact ownerContact = [
-                    SELECT Id,
-                        Account.Landlord_Type__c,
-                        Account.BusinessName__c
-                    FROM Contact
-                    WHERE Id = :ownerUser.ContactId
-                    LIMIT 1
-                ];
-                personAccount = ownerContact.Account;
-            }
-
-            String landlordType = personAccount?.Landlord_Type__c;
-            String personAccountBusinessName = personAccount?.BusinessName__c;
-            
             wrapper.Id = exemptionRecord.Id;
             wrapper.LandlordFirstName = exemptionRecord.LandlordFirstName__c;
             wrapper.LandlordLastName = exemptionRecord.LandlordLastName__c;
             wrapper.LandlordBusinessName = exemptionRecord.LandlordBusinessName__c;
-            wrapper.personAccountBusinessName = personAccountBusinessName;
+            wrapper.personAccountBusinessName = exemptionRecord.Account__r.BusinessName__c;
             wrapper.LandlordAddress = exemptionRecord.LandlordAddress__c + ', ' + 
                                       exemptionRecord.LandlordCity__c + ', ' +  
                                       exemptionRecord.LandlordPostcode__c;
             wrapper.LandlordPhone = exemptionRecord.LandlordPhone__c;
             wrapper.LandlordEmail = exemptionRecord.LandlordEmail__c;
-            wrapper.LandlordType = landlordType;
+            wrapper.DigitallyAssisted = exemptionRecord.DigitallyAssisted__c;
+            wrapper.ReasonForCallingADRoute = exemptionRecord.ReasonForCallingADRoute__c;
+            wrapper.LandlordType = exemptionRecord.Account__r?.Landlord_Type__c;
 
         } catch (Exception e) {
             errorLoggingService.setLogCode('PRSE_LAViewExemptionController')
@@ -132,8 +116,8 @@ public without sharing class PRSE_LAViewExemptionController {
      * @throws AuraHandledException If exemptionId is null.
      */
     @AuraEnabled(cacheable=true)
-    public static Account getExemptionAgentDetails(Id exemptionId) { 
-        Account agent;
+    public static AgentWrapper getExemptionAgentDetails(Id exemptionId) { 
+        AgentWrapper wrapper = new AgentWrapper();
 
         try {
             if (exemptionId == null) {
@@ -145,13 +129,15 @@ public without sharing class PRSE_LAViewExemptionController {
             }
 
             Exemption__c exemption = [
-                SELECT Account__c
+                SELECT Account__c,
+                        DigitallyAssisted__c,
+                        ReasonForCallingADRoute__c
                 FROM Exemption__c
                 WHERE Id = :exemptionId
                 LIMIT 1
             ];
 
-            agent = [
+            Account agent = [
                 SELECT FirstName,
                     LastName,
                     Name,
@@ -168,6 +154,38 @@ public without sharing class PRSE_LAViewExemptionController {
             if(agent.Landlord_Type__c != 'Agent') {
                 return null;
             }
+
+            wrapper.Id = agent.Id;
+            wrapper.FirstName = agent.FirstName;
+            wrapper.LastName = agent.LastName;
+            wrapper.Name = agent.Name;
+            wrapper.BusinessName = agent.BusinessName__c;
+            Address addr = agent.PersonMailingAddress;
+            List<String> parts = new List<String>();
+
+            if (addr.street != null) {
+                String street = addr.street.trim();
+
+                // remove trailing comma if present
+                if (street.endsWith(',')) {
+                    street = street.substring(0, street.length() - 1);
+                }
+
+                parts.add(street);
+            }
+            if (addr.city != null) parts.add(addr.city);
+            if (addr.state != null) parts.add(addr.state);
+            if (addr.postalCode != null) parts.add(addr.postalCode);
+            if (addr.country != null) parts.add(addr.country);
+
+            wrapper.Address = String.join(parts, ', ');
+            wrapper.Phone = agent.Phone;
+            wrapper.Email = agent.PersonEmail;
+            wrapper.LandlordType = agent.Landlord_Type__c;
+
+            wrapper.DigitallyAssisted = exemption.DigitallyAssisted__c;
+            wrapper.ReasonForCallingADRoute = exemption.ReasonForCallingADRoute__c;
+
         } catch (Exception e) {
             errorLoggingService.setLogCode('PRSE_LAViewExemptionController')
             .setTriggeringAutomationName('getExemptionAgentDetails')
@@ -178,7 +196,7 @@ public without sharing class PRSE_LAViewExemptionController {
             throw new AuraHandledException('Error retrieving agent details: ' + e.getMessage());
         }
 
-        return agent;
+        return wrapper;
     }
 
 
@@ -236,8 +254,11 @@ public without sharing class PRSE_LAViewExemptionController {
                 child.EndDate = link.End_Date__c;
                 child.EndReason = link.End_Reason__c;
                 child.AdditionalEndReason = link.Additional_End_Reason__c;
-                child.Status = (link.End_Date__c != null) ? 'Ended' : 'Active';
-
+                if(link.End_Date__c != null) {
+                    child.Status = link.Additional_End_Reason__c == 'Exemption Expired by System' ? 'Expired' : 'Ended';
+                } else {
+                    child.Status = 'Active';
+                }
                 detailsWrapper.childExemptions.add(child);
             }
         } catch (Exception e) {
@@ -457,70 +478,65 @@ public without sharing class PRSE_LAViewExemptionController {
      */
     @AuraEnabled(cacheable=true)
     public static EpcLinkWrapper  getExemptionEpcOrFile(Id exemptionId, String UPRN, String propertyType) {
+        //File check on Exemption -> EPC_Certificate__c URL building -> GET Request
         EpcLinkWrapper result = new EpcLinkWrapper();
-        try {           
-            if (exemptionId == null || UPRN == null || propertyType == null) {
-                throw new AuraHandledException('Exemption Id,UPRN and propertyType are required');
+        result.sourceType = 'none';
+        try {
+            if (exemptionId == null || propertyType == null) {
+                throw new AuraHandledException('Exemption Id and propertyType are required');
             }
-            
-            // Build a single EPCRequest for the new endpoint
-            PRSE_RetrieveEPCInfoAction.EPCRequest req = new PRSE_RetrieveEPCInfoAction.EPCRequest();
-            req.uprn = UPRN;
-            req.propertyType = propertyType;
 
-            // Wrap in a list
-            List<PRSE_RetrieveEPCInfoAction.EPCRequest> requests = new List<PRSE_RetrieveEPCInfoAction.EPCRequest>{ req };
-
-            // Call the new EPC method directly
-            List<PRSE_RetrieveEPCInfoAction.EPCResponse> responses = PRSE_RetrieveEPCInfoAction.fetchEPCData(requests);
-
-            Boolean errorResponse = false;
-            if(responses[0].address == 'Error') {
-                errorResponse = true;
-                result.url = null;
-                result.sourceType = 'none';
+            List<ContentDocumentLink> cdls = [
+                SELECT 
+                    ContentDocumentId,
+                    ContentDocument.Title,
+                    ContentDocument.FileExtension
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :exemptionId
+                ORDER BY ContentDocument.CreatedDate DESC
+                LIMIT 1
+            ];
+            if (!cdls.isEmpty()) {
+                result.url = '/sfc/servlet.shepherd/document/download/' + cdls[0].ContentDocumentId;
+                result.sourceType = 'file';
+                result.fileName = cdls[0].ContentDocument.Title + (cdls[0].ContentDocument.FileExtension != null ? '.' + cdls[0].ContentDocument.FileExtension.toLowerCase() : '');
+                result.contentDocumentId = cdls[0].ContentDocumentId;
+                return result;
             }
-            
 
-            if(responses[0].certificateNumber != null && responses[0].certificateNumber != '' && responses[0].isExpired == false) {
-                result.url = 'https://find-energy-certificate.service.gov.uk/energy-certificate/' + responses[0].certificateNumber;
-                result.sourceType = 'api';
-            } else {
-                Exemption__c ex = [SELECT EPC_Certificate__c
-                                    FROM Exemption__c
-                                    WHERE Id = :exemptionId
-                                    LIMIT 1];
+            Exemption__c ex = [
+                SELECT EPC_Certificate__c
+                FROM Exemption__c
+                WHERE Id = :exemptionId
+                LIMIT 1
+            ];
 
-                if (!String.isBlank(ex.EPC_Certificate__c)) {
-                    result.url = 'https://find-energy-certificate.service.gov.uk/energy-certificate/' + ex.EPC_Certificate__c;
-                    result.sourceType = 'certificate';
-                } else {
-                    List<ContentDocumentLink> cdls = [SELECT ContentDocumentId,
-                                                        ContentDocument.Title,
-                                                        ContentDocument.FileExtension
-                                                      FROM ContentDocumentLink
-                                                      WHERE LinkedEntityId = :exemptionId
-                                                      ORDER BY ContentDocument.CreatedDate DESC
-                                                      LIMIT 1];
-                    if (!cdls.isEmpty()) {
-                        result.url = '/sfc/servlet.shepherd/document/download/' + cdls[0].ContentDocumentId;
-                        
-                        if(responses[0].isExpired == false && !errorResponse) {
-                            result.sourceType = 'file-foundapi';
-                        } else {
-                            result.sourceType = 'file';
-                        }
-                        
-                        result.fileName = cdls[0].ContentDocument.Title + (cdls[0].ContentDocument.FileExtension != null ? '.' + cdls[0].ContentDocument.FileExtension.toLowerCase() : '');
-                        result.contentDocumentId = cdls[0].ContentDocumentId;
-                    } else {
-                        result.url = null;
-                        if(responses[0].isExpired == false) {
-                            result.sourceType = 'none-foundapi';
-                        } else {
-                            result.sourceType = 'none';
-                        }                         
-                    }
+            if (!String.isBlank(ex.EPC_Certificate__c)) {
+                result.url = 'https://find-energy-certificate.service.gov.uk/energy-certificate/' + ex.EPC_Certificate__c;
+                result.sourceType = 'certificate';
+                return result;
+            }
+
+            if(!String.isBlank(UPRN)) {
+                // Build a single EPCRequest for the new endpoint
+                PRSE_RetrieveEPCInfoAction.EPCRequest req = new PRSE_RetrieveEPCInfoAction.EPCRequest();
+                req.uprn = UPRN;
+                req.propertyType = propertyType;
+
+                // Wrap in a list
+                List<PRSE_RetrieveEPCInfoAction.EPCRequest> requests = new List<PRSE_RetrieveEPCInfoAction.EPCRequest>{ req };
+
+                // Call the new EPC method directly
+                List<PRSE_RetrieveEPCInfoAction.EPCResponse> responses = PRSE_RetrieveEPCInfoAction.fetchEPCData(requests);
+
+                Boolean errorResponse = false;
+                if(responses[0].address == 'Error') {
+                    errorResponse = true;
+                    result.url = null;
+                    result.sourceType = 'none';
+                } else if(String.isNotBlank(responses[0].certificateNumber) && responses[0].isExpired == false) {
+                    result.url = 'https://find-energy-certificate.service.gov.uk/energy-certificate/' + responses[0].certificateNumber;
+                    result.sourceType = 'api';
                 }
             }
             return result;
@@ -535,7 +551,6 @@ public without sharing class PRSE_LAViewExemptionController {
             throw new AuraHandledException('Error retrieving EPC or file: ' + e.getMessage());
         }
     }
-
 
     /**
      * @description Wrapper DTO for returning EPC data.
@@ -561,7 +576,27 @@ public without sharing class PRSE_LAViewExemptionController {
         @AuraEnabled public String LandlordAddress;
         @AuraEnabled public String LandlordPhone;
         @AuraEnabled public String LandlordEmail;
+        @AuraEnabled public Boolean DigitallyAssisted;
+        @AuraEnabled public String ReasonForCallingADRoute;
         @AuraEnabled public String LandlordType;
+    }
+
+
+    /**
+     * @description Wrapper DTO for returning agent data.
+     */
+    public class AgentWrapper {
+        @AuraEnabled public Id Id;
+        @AuraEnabled public String FirstName;
+        @AuraEnabled public String LastName;
+        @AuraEnabled public String Name;
+        @AuraEnabled public String BusinessName;
+        @AuraEnabled public String Address;
+        @AuraEnabled public String Phone;
+        @AuraEnabled public String Email;
+        @AuraEnabled public String LandlordType;
+        @AuraEnabled public Boolean DigitallyAssisted;
+        @AuraEnabled public String ReasonForCallingADRoute;
     }
 
 

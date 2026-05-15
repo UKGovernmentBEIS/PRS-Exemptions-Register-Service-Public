@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import getExemption from '@salesforce/apex/PRSE_LAViewExemptionController.getExemption';
 import systemLog from '@salesforce/apex/digitalmodus.SystemLogLwcWrapper.systemLog';
+import basePath from '@salesforce/community/basePath';
 
 export default class PrseLocalAuthorityViewExemption extends LightningElement {
 
@@ -11,7 +12,7 @@ export default class PrseLocalAuthorityViewExemption extends LightningElement {
     @api filterExemptionTypes;
     @api filterSearch;
     @api filterTab;
-    @api filterPage;
+    @api page;
     pageRefExemptionId = null;      // extracted from URL
 
     @track exemptionName = '';
@@ -42,7 +43,7 @@ export default class PrseLocalAuthorityViewExemption extends LightningElement {
             this.filterExemptionTypes = state.filterExemptionTypes || null;
             this.filterSearch         = state.filterSearch || null;
             this.filterTab            = state.filterTab || null;
-            this.filterPage           = state.filterPage || null;
+            this.page                 = state.page || null;
         }
     }
 
@@ -65,7 +66,7 @@ export default class PrseLocalAuthorityViewExemption extends LightningElement {
 
         // Always include tab and page
         if (this.filterTab) params.set('filterTab', this.filterTab);
-        if (this.filterPage) params.set('filterPage', this.filterPage);
+        if (this.page) params.set('page', this.page);
 
         // Append filters only if any exist
         if (hasAnyFilter) {
@@ -75,7 +76,7 @@ export default class PrseLocalAuthorityViewExemption extends LightningElement {
         }
 
         const queryString = params.toString();
-        return queryString ? `/PRSELocalAuthority/dashboard/?${queryString}` : '/PRSELocalAuthority/dashboard/';
+        return queryString ? `${basePath}/dashboard/?${queryString}` : `${basePath}/dashboard/`;
     }
 
 

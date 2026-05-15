@@ -190,7 +190,7 @@
             <inputParameters>
                 <name>markupText</name>
                 <value>
-                    <stringValue>&lt;h1 class=&apos;govuk-heading-l&apos;&gt;
+                    <stringValue>&lt;h1 class=&apos;govuk-heading-l govuk-!-text-break-word&apos;&gt;
       Are you sure you want to delete your draft exemption{!fla_FullAddress}?
   &lt;/h1&gt;
 &lt;p class=&quot;govuk-hint&quot;&gt;You will not be able to retrieve this once it is deleted&lt;/p&gt;</stringValue>
@@ -362,7 +362,7 @@
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/dashboard</stringValue>
+                    <stringValue>dashboard</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

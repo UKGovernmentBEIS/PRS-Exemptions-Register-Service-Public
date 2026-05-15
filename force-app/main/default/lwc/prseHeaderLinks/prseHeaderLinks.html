@@ -2,11 +2,11 @@
   <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
   <div class={containerClass}>
     <div class="header-flex">
-      <a if:false={disableBackButton} href={backLink} class="govuk-back-link">Back</a>
-        <ul class="govuk-list govuk-list--inline header-links">
-            <li if:false={disableProfileSettings}><a class="govuk-link" href="/PRSExemptionsRegister/profile">Profile settings</a></li>
-            <li if:false={disableLogoutLink}><a class="govuk-link" href="#" onclick={handleLogout}>Sign out</a></li>
-        </ul>
+      <a if:false={disableBackButton} href="#" class="govuk-back-link" onclick={handleBack}>Back</a>
+      <ul class="govuk-list govuk-list--inline header-links">
+          <li if:false={disableProfileSettings}><a class="govuk-link" href='/profile'>Profile settings</a></li>
+          <li if:false={disableLogoutLink}><a class="govuk-link" href="#" onclick={handleLogout}>Sign out</a></li>
+      </ul>
     </div>
   </div>
 </template>

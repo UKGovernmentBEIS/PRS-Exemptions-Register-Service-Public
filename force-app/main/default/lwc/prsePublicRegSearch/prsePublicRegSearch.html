@@ -1,6 +1,6 @@
 <template>
 
-    <div class="govuk-width-container govuk-!-margin-top-4" style="max-width: 60%; width: 100%; text-align: left;">
+    <div class="govuk-width-container govuk-!-margin-top-4" style="text-align: left;">
         <template if:true={hasErrors}>
             <c-gds-error-messages-imperative components={components}></c-gds-error-messages-imperative>
         </template>
@@ -26,7 +26,7 @@
     </div>
 
 
-    <div class="govuk-width-container" style="max-width: 60%; width: 100%; text-align: left;">
+    <div class="govuk-width-container" style="text-align: left;">
         <div class="govuk-body govuk-!-padding-3 prse-grey-box">
             <div data-field-id="selectSearchType">
                 <c-gds-radios-white data-id="selectSearchType" question-label="Search for" name="searchFor" question-font-size="medium"
@@ -160,7 +160,12 @@
                                     <td class="govuk-table__cell" data-label="Date of registration">
                                         <lightning-formatted-date-time value={result.Registered_Date__c} year="numeric" month="short" day="2-digit" weekday="long"></lightning-formatted-date-time>
                                     </td>
-                                    <td class="govuk-table__cell" data-label="Action"><a href="javascript:void(0);" class="govuk-link" data-id={result.Id} onclick={handleViewClick}>View</a></td>
+                                    <td class="govuk-table__cell" data-label="Action">
+                                        <a href="javascript:void(0);" class="govuk-link" data-id={result.Id} onclick={handleViewClick}>
+                                            View
+                                            <span class="govuk-visually-hidden"> exemption for {result.Full_Property_Address__c}</span>
+                                        </a>
+                                    </td>
                                 </tr>
                             </template>            
                         </tbody>
@@ -184,7 +189,12 @@
                                 <tr class="govuk-table__row" key={result.Id}>
                                     <td class="govuk-table__cell" data-label="Property">{result.Full_Property_Address__c}</td>
                                     <td class="govuk-table__cell" data-label="Landlord">{result.LandlordBusinessName__c}</td>
-                                    <td class="govuk-table__cell" data-label="Action"><a href="javascript:void(0);" class="govuk-link" data-id={result.Id} onclick={handleViewClick}>View</a></td>
+                                    <td class="govuk-table__cell" data-label="Action">
+                                        <a href="javascript:void(0);" class="govuk-link" data-id={result.Id} onclick={handleViewClick}>
+                                            View
+                                            <span class="govuk-visually-hidden"> penalty for {result.Full_Property_Address__c}</span>
+                                        </a>
+                                    </td>
                                 </tr>
                             </template>            
                         </tbody>

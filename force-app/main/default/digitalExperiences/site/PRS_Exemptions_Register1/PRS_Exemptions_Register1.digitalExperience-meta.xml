@@ -8,6 +8,10 @@
             <status>ENABLED</status>
         </module>
         <module>
+            <fullyQualifiedName>sfdc_cms__googleAnalytics</fullyQualifiedName>
+            <status>ENABLED</status>
+        </module>
+        <module>
             <fullyQualifiedName>sfdc_cms__mobilePublisherConfig</fullyQualifiedName>
             <status>ENABLED</status>
         </module>

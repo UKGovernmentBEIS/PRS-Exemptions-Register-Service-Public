@@ -24,7 +24,7 @@
             <ul class="govuk-footer__inline-list" >
               <template for:each={finalMetaLinkData} for:item="option">
                 <li class="govuk-footer__inline-list-item"  key={option.metaLinkName}>
-                  <a class="govuk-footer__link"  href={option.metaLinkURL}>
+                  <a class="govuk-footer__link" target="_self" href={option.metaLinkURL}>
                     {option.metaLinkName}
                   </a>
                 </li>
@@ -37,12 +37,12 @@
           </svg>
           <span class="govuk-footer__licence-description">
           
-            All content is available under the <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="licence">Open Government Licence v3.0</a>, except where otherwise stated
+            All content is available under the <a class="govuk-footer__link" target="_self" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="licence">Open Government Licence v3.0</a>, except where otherwise stated
           
           </span>
         </div>
         <div class="govuk-footer__meta-item">
-          <a class="govuk-footer__link govuk-footer__copyright-logo" style="padding-top: unset;" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">
+          <a class="govuk-footer__link govuk-footer__copyright-logo" target="_self" style="padding-top: unset;" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">
           
             © Crown copyright
           

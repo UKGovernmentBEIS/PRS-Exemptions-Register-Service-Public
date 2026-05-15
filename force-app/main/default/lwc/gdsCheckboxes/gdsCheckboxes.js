@@ -37,6 +37,9 @@ export default class GovCheckboxes extends LightningElement {
     @track checkboxArray = [];
     @track checked = false;
 
+    @api clashingSelectionsConfig;
+    clashingSelections = []; 
+
     // other attributes
     initialised;
     hasErrors;
@@ -77,37 +80,62 @@ export default class GovCheckboxes extends LightningElement {
         this.getHSize(); 
 
         let selectedLabels = [];
-        if(this.outputValue && this.outputValue.length > 0) {
+        if (this.outputValue && this.outputValue.length > 0) {
             selectedLabels = this.outputValue.split('|');
         }
 
-        //user provided values
-        let labelsList = this.labels ? this.labels.split('|') : [];
-        let hintList = this.hints ? this.hints.split('|') : [];
-        for(let i=0; i<labelsList.length;i++){
-            let checkboxObj = {
-                checkboxLabel : '',
-                checkboxHint : '',
-                checkboxValue : false
-                };
+        const labelsList = this.labels ? this.labels.split('|') : [];
+        const hintList = this.hints ? this.hints.split('|') : [];
+        this.checkboxArray = [];
+
+        for (let i = 0; i < labelsList.length; i++) {
+            const checkboxObj = {
+                checkboxLabel: '',
+                checkboxHint: '',
+                checkboxValue: false
+            };
             checkboxObj.checkboxLabel = labelsList[i].trim();
             checkboxObj.checkboxHint = hintList[i] ? hintList[i].trim() : '';
-            
-            if(selectedLabels.includes(labelsList[i].trim())) {
-                checkboxObj.checkboxValue = true;
-            } else {
-                checkboxObj.checkboxValue = false;
-            }
+
+            checkboxObj.checkboxValue = selectedLabels.includes(labelsList[i].trim());
             this.checkboxArray.push(checkboxObj);
         }
 
-        this.updateOutputValues();
+        if (this.clashingSelectionsConfig) {
+            this.clashingSelections = this.clashingSelectionsConfig
+                .split(';')
+                .map(rule => {
+                    const parts = rule.split('|').map(p => p.trim());
+                    if (parts.length < 3) {
+                        return null;
+                    }
+                    const i1 = Number(parts[0]);
+                    const i2 = Number(parts[1]);
+                    const message = parts.slice(2).join('|');
 
+                    if (Number.isNaN(i1) || Number.isNaN(i2)) {
+                        return null;
+                    }
+
+                    return {
+                        indexes: [i1, i2],
+                        message
+                    };
+                })
+                .filter(rule => rule !== null);
+        } else {
+            this.clashingSelections = [];
+        }
+
+        this.updateOutputValues();
         this.subscribeMCs();
 
         this.checkboxFieldIdForFocus = this.fieldId;
         setTimeout(() => {
-            publish(this.messageContext, REGISTER_MC, {componentId:this.fieldId, focusId: this.checkboxFieldIdForFocus});
+            publish(this.messageContext, REGISTER_MC, {
+                componentId: this.fieldId,
+                focusId: this.checkboxFieldIdForFocus
+            });
         }, 100);
     }
 
@@ -117,8 +145,8 @@ export default class GovCheckboxes extends LightningElement {
         this.outputValueBoolean = '';
         this.outputValue = '';
 
-        for(var i=0; i<this.checkboxArray.length; i++){
-            if (i==0) {
+        for(var i = 0; i < this.checkboxArray.length; i++) {
+            if (i == 0) {
                 this.outputValueBoolean = this.checkboxArray[i].checkboxValue;
             } else {
                 this.outputValueBoolean = this.outputValueBoolean + ';' + this.checkboxArray[i].checkboxValue;
@@ -135,7 +163,7 @@ export default class GovCheckboxes extends LightningElement {
             }
         }
 
-        if(checkedCount > 0){
+        if(checkedCount > 0) {
             this.checked = true;
             this.dispatchCheckboxEvent();
         } else {
@@ -147,14 +175,12 @@ export default class GovCheckboxes extends LightningElement {
         this.unsubscribeMCs();
     }
 
-    allCheckboxFieldComps;
     renderedCallback() {
         setTimeout(() => {
             const firstChecboxName = this.checkboxArray[0].checkboxLabel;
 
-            this.allCheckboxFieldComps = this.template.querySelectorAll('input[name="'+firstChecboxName+'"]');
-
-            this.checkboxFieldIdForFocus = allCheckboxFieldComps[0].id;
+            this.allCheckboxFieldComps = this.template.querySelectorAll('input[name="' + firstChecboxName + '"]');
+            this.checkboxFieldIdForFocus = this.allCheckboxFieldComps[0].id;
 
             if(this.initialised) {
                 return;
@@ -193,48 +219,68 @@ export default class GovCheckboxes extends LightningElement {
         //return labelClass;
     }
 
-    // Event Functions
+   handleClick(event) {
+        const checkboxIndex = Number(event.target.dataset.index);
+        const newCheckedValue = event.target.checked;
 
-    handleClick(event) {
-        
+        this.checkboxArray[checkboxIndex].checkboxValue = newCheckedValue;
+
+        const clashingRule = this.getClashingRule();
+        if (clashingRule) {
+            this.checkboxArray[checkboxIndex].checkboxValue = !newCheckedValue;
+            event.target.checked = !newCheckedValue;
+
+            this.hasErrors = true;
+            this.errorMessage =
+                clashingRule.message || 'You cannot select this combination of options.';
+
+            publish(this.messageContext, VALIDATION_STATE_MC, {
+                componentId: this.fieldId,
+                isValid: false,
+                error: this.errorMessage,
+                focusId: this.checkboxFieldIdForFocus
+            });
+
+            return;
+        }
+
         this.outputValueCollection = [];
         this.outputValueBoolean = '';
         this.outputValue = '';
-        let outputString = '';
-        let checkboxId = event.target.dataset.id;
+
         let checkedCount = 0;
 
-        for(var i=0; i<this.checkboxArray.length; i++){
-            if(this.checkboxArray[i].checkboxLabel == checkboxId){
-                this.checkboxArray[i].checkboxValue = event.target.checked;
-            }
-            if (i==0) {
-                this.outputValueBoolean = this.checkboxArray[i].checkboxValue;
+        for (let i = 0; i < this.checkboxArray.length; i++) {
+            const isChecked = this.checkboxArray[i].checkboxValue;
+
+            if (i === 0) {
+                this.outputValueBoolean = isChecked;
             } else {
-                this.outputValueBoolean = this.outputValueBoolean + ';' + this.checkboxArray[i].checkboxValue;
+                this.outputValueBoolean =
+                    this.outputValueBoolean + ';' + isChecked;
             }
-            if(this.checkboxArray[i].checkboxValue == true){
-                checkedCount ++;
-                outputString = this.checkboxArray[i].checkboxLabel;
-                this.outputValueCollection.push(outputString);
-                if (this.outputValue.length==0) {
-                    this.outputValue = outputString;
+
+            if (isChecked) {
+                checkedCount++;
+                const label = this.checkboxArray[i].checkboxLabel;
+                this.outputValueCollection.push(label);
+
+                if (!this.outputValue || this.outputValue.length === 0) {
+                    this.outputValue = label;
                 } else {
-                    this.outputValue = this.outputValue + '|' + outputString;
+                    this.outputValue = this.outputValue + '|' + label;
                 }
-                outputString = '';
             }
         }
-        if(checkedCount>0){
-            this.checked = true;
-            
-        }else{
-            this.checked = false;
+
+        this.checked = checkedCount > 0;
+
+        if (!this.getClashingRule()) {
+            this.clearError();
         }
 
         this.dispatchCheckboxEvent();
     }
-
 
 
     dispatchCheckboxEvent() {
@@ -329,5 +375,16 @@ export default class GovCheckboxes extends LightningElement {
 
     @api clearError() {
         this.hasErrors = false;
+    }
+
+    getClashingRule() {
+        const selectedIndexes = this.checkboxArray
+            .map((c, index) => (c.checkboxValue ? index : -1))
+            .filter(index => index !== -1);
+
+        return this.clashingSelections.find(rule => {
+            const [i1, i2] = rule.indexes;
+            return selectedIndexes.includes(i1) && selectedIndexes.includes(i2);
+        }) || null;
     }
 }

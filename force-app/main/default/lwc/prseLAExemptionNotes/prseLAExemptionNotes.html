@@ -6,6 +6,7 @@
                     <label class="govuk-label govuk-label--m govuk-!-margin-top-4" for="notes">
                         Notes
                     </label>
+                    <p class="govuk-hint">This space is for you to make notes about the work you have done on the exemption. Notes are not visible to landlords</p>
                 </h2>
 
                 <!-- Editable textarea -->
@@ -14,8 +15,10 @@
                         id="notes"
                         class="govuk-textarea" 
                         rows="8"
-                        onchange={handleTextareaChange}
-                        oninput={handleTextAreaOnInput}>{editableNotes}</textarea>
+                        onkeyup={handleKeyUp}
+                    >
+                        {editableNotes}
+                    </textarea>
                     <p class="govuk-hint" style={remainingCharsStyle}>{remainingChars} characters remaining.</p>
                     <button class="govuk-button" type="button" onclick={handleSaveClick}  disabled={isOverLimit}>
                         Save changes

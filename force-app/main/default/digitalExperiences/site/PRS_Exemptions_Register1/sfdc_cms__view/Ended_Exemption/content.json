@@ -22,9 +22,9 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "backLink" : "/ended-exemptions",
+                "backLink" : "ended-exemptions",
                 "dxpStyle" : { },
-                "logoutLink" : "/PRSExemptionsRegister/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSExemptionsRegister"
+                "logoutLink" : ""
               },
               "definition" : "c:prseHeaderLinks",
               "id" : "e3d68e21-b456-494a-98b8-ad4d45f8ba28",

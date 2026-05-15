@@ -11,6 +11,18 @@
       "children" : [ {
         "children" : [ {
           "attributes" : {
+            "acceptLabel" : "Accept analytics cookies",
+            "bannerContent" : "We use some essential cookies to make this service work.  We’d also like to set analytics cookies so we can understand how people use the service and make improvements. <br><br>",
+            "cookiePageUrl" : "cookies",
+            "dxpStyle" : { },
+            "label" : "Cookies on Review exemptions for private rented sector energy standards",
+            "rejectLabel" : "Reject analytics cookies"
+          },
+          "definition" : "c:govCookieBannerCivic",
+          "id" : "8f5f0064-869f-4b91-a9db-d1c82746bf00",
+          "type" : "component"
+        }, {
+          "attributes" : {
             "dxpStyle" : { },
             "headerBannerRole" : "",
             "headerLabel" : "GOV.UK",
@@ -41,7 +53,7 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "bodyText" : "This is a new service - your <a href=\"mailto:PRSregisterfeedback@energysecurity.gov.uk\" class=\"govuk-link\">feedback</a> will help us improve it.",
+                "bodyText" : "This is a new service - your <a href=\"https://forms.office.com/pages/responsepage.aspx?id=BXCsy8EC60O0l-ZJLRst2JLjxV-lvAJDv5zzKDz_HmdUOFFKUDZUWlMwQ1VHWFFNNk44Q0RLSk9ZVS4u&route=shorturl\" class=\"govuk-link\">feedback</a> will help us improve it.",
                 "dxpStyle" : { },
                 "phaseText" : "BETA"
               },
@@ -68,8 +80,8 @@
             "columnTypes" : "",
             "crownLogoRequired" : false,
             "dxpStyle" : { },
-            "metalinkNames" : "Help;Privacy;Cookies;Accessibility statement;Contact;Terms and Conditions;Site map",
-            "metalinkURL" : "/support;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/cookies;https://prsregister.beis.gov.uk/NdsBeisUi/accessibility;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/terms-and-conditions;https://www.gov.uk",
+            "metalinkNames" : "Help;Privacy;Cookies;Accessibility statement;Terms of Use",
+            "metalinkURL" : "support;privacy-notice;cookies;accessibility-statement;terms-of-use",
             "metalinksRequired" : true,
             "navigationLinks" : "",
             "navigationNames" : "",

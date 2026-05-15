@@ -22,12 +22,13 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "backLink" : "/",
+                "backLink" : "https://www.gov.uk/register-prs-energy-standard-exemption",
                 "disableBackButton" : false,
                 "disableLogoutLink" : false,
                 "disableProfileSettings" : false,
                 "dxpStyle" : { },
-                "logoutLink" : "/PRSExemptionsRegister/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSExemptionsRegister",
+                "externalBackLink" : true,
+                "logoutLink" : "",
                 "useWideVariant" : false
               },
               "definition" : "c:prseHeaderLinks",

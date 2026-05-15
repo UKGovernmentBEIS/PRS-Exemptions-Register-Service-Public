@@ -85,9 +85,13 @@ a.govuk-button.govuk-button:focus-visible {
   top: 0 !important;
 }
 
-.govuk-table td,
-.govuk-table th {
+.govuk-table td {
   word-break: break-word;
+}
+
+.govuk-table th {
+  white-space: nowrap;
+  word-break: normal;
 }
 
 /* Button styled as GOV.UK link */
@@ -153,5 +157,21 @@ button.govuk-link:focus-visible {
     left: 0;
     width: 45%;
     font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .govuk-table td {
+    position: static;
+    padding-left: 0;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .govuk-table td::before {
+    position: static;
+    width: auto;
+    display: block;
+    margin-bottom: 0.15rem;
   }
 }

@@ -11,10 +11,22 @@
       "children" : [ {
         "children" : [ {
           "attributes" : {
+            "acceptLabel" : "Accept analytics cookies",
+            "bannerContent" : "We use some essential cookies to make this service work.  We’d also like to set analytics cookies so we can understand how people use the service and make improvements. <br><br>",
+            "cookiePageUrl" : "cookies",
+            "dxpStyle" : { },
+            "label" : "Cookies on View exemptions for private rented sector energy standards",
+            "rejectLabel" : "Reject analytics cookies"
+          },
+          "definition" : "c:govCookieBannerCivic",
+          "id" : "89f9982a-9730-4f73-b643-d6e9537d1624",
+          "type" : "component"
+        }, {
+          "attributes" : {
             "dxpStyle" : { },
             "headerBannerRole" : "",
             "headerLabel" : "GOV.UK",
-            "headerURL" : "#",
+            "headerURL" : "https://www.gov.uk",
             "menuLabel" : "Menu",
             "navigationMenuDevName" : "Navigation_Menu",
             "serviceName" : "View exemptions for private rented sector energy standards",
@@ -41,7 +53,7 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "bodyText" : "This is a new service - your <a href=\"mailto:PRSregisterfeedback@energysecurity.gov.uk\" class=\"govuk-link\">feedback</a> will help us improve it.",
+                "bodyText" : "This is a new service - your <a href=\"https://www.gov.uk/done/view-private-rented-sector-energy-standards-exemptions\" class=\"govuk-link\">feedback</a> will help us improve it.",
                 "dxpStyle" : { },
                 "phaseText" : "Beta"
               },
@@ -68,8 +80,8 @@
             "columnTypes" : "",
             "crownLogoRequired" : false,
             "dxpStyle" : { },
-            "metalinkNames" : "Help;Privacy;Cookies;Accessibility statement;Contact;Terms and Conditions;Site map",
-            "metalinkURL" : "/support;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/cookies;https://prsregister.beis.gov.uk/NdsBeisUi/accessibility;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/terms-and-conditions;https://www.gov.uk",
+            "metalinkNames" : "Help;Cookies;Accessibility statement;Terms and Conditions",
+            "metalinkURL" : "support;cookies;accessibility-statement;terms-and-conditions",
             "metalinksRequired" : true,
             "navigationLinks" : "",
             "navigationNames" : "",

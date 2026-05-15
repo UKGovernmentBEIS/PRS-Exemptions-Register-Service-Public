@@ -1,0 +1,40 @@
+{
+  "type" : "sfdc_cms__trustedSites",
+  "title" : "trustedSites",
+  "contentBody" : {
+    "trustedSites" : [ {
+      "isActive" : true,
+      "source" : "https://*.googletagmanager.com",
+      "sourceName" : "*.googletagmanager.com"
+    }, {
+      "isActive" : true,
+      "source" : "https://cc.cdn.civiccomputing.com",
+      "sourceName" : "https://cc.cdn.civiccomputing.com"
+    }, {
+      "isActive" : true,
+      "source" : "https://api.civiccomputing.com",
+      "sourceName" : "https://api.civiccomputing.com"
+    }, {
+      "isActive" : true,
+      "source" : "https://clapi.civiccomputing.com",
+      "sourceName" : "https://clapi.civiccomputing.com"
+    }, {
+      "isActive" : true,
+      "source" : "https://apikeys.civiccomputing.com",
+      "sourceName" : "https://apikeys.civiccomputing.com"
+    }, {
+      "isActive" : true,
+      "source" : "https://www.google-analytics.com",
+      "sourceName" : "https://www.google-analytics.com"
+    }, {
+      "isActive" : true,
+      "source" : "https://stats.g.doubleclick.net",
+      "sourceName" : "https://stats.g.doubleclick.net"
+    }, {
+      "isActive" : true,
+      "source" : "https://tagmanager.google.com",
+      "sourceName" : "https://tagmanager.google.com"
+    } ]
+  },
+  "urlName" : "trustedsites"
+}

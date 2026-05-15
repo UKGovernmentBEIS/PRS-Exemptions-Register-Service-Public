@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Accessibility Statement",
+  "contentBody" : {
+    "activeViewId" : "Accessibility_Statement",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-accessibility-statement",
+    "urlPrefix" : "accessibility-statement"
+  },
+  "urlName" : "accessibility-statement"
+}

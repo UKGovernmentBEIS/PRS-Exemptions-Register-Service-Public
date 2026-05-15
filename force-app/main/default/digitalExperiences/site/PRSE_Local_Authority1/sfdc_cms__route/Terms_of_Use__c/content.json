@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Terms of Use",
+  "contentBody" : {
+    "activeViewId" : "Terms_of_Use",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-terms-of-use",
+    "urlPrefix" : "terms-of-use"
+  },
+  "urlName" : "terms-of-use"
+}

@@ -353,29 +353,35 @@ private class CustomSettingsServiceLayerTest {
     }
 
     @isTest
-    static void PublicExemptionsPageSize_withSize_retrievesSize() {
-
+    static void getPublicExemptionsPageSize_withSize_retrievesSize() {
+        //Arrange, Act
         Integer exPageSize = CustomSettingsServiceLayer.getInstance().getPublicExemptionsPageSize();
 
         //Assert
-        Assert.areEqual(20, exPageSize, 'Incorrect Public Exemptions Page Size returned');        
+        Assert.areEqual(20, exPageSize, 'Incorrect Public Exemptions Page Size returned');
     }
 
     @isTest
-    static void PublicPenaltiesPageSize_withSize_retrievesSize() {
-
+    static void getPublicPenaltiesPageSize_withSize_retrievesSize() {
+        //Arrange, Act
         Integer penPageSize = CustomSettingsServiceLayer.getInstance().getPublicPenaltiesPageSize();
 
         //Assert
-        Assert.areEqual(20, penPageSize, 'Incorrect Public Penalties Page Size returned');        
+        Assert.areEqual(20, penPageSize, 'Incorrect Public Penalties Page Size returned');
     }
 
     @isTest
     static void useNewGovEpcEndpoint_withValue_retrievesValue() {
+        //Arrange
+        PRSE_Configuration__mdt config = new PRSE_Configuration__mdt();
+        config.Use_new_gov_EPC_endpoint__c = false;
+        
+        CustomSettingsServiceLayer.cfg = config;
 
+        //Act
         Boolean returnValue = CustomSettingsServiceLayer.getInstance().useNewGovEpcEndpoint();
 
         //Assert
-        Assert.isFalse(returnValue, 'Incorrect Use New Gov EPC Endpoint value returned');        
+        Assert.isFalse(returnValue, 'Incorrect Use New Gov EPC Endpoint value returned');
     }
 }

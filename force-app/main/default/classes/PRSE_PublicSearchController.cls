@@ -6,6 +6,7 @@
  */
 public without sharing class PRSE_PublicSearchController {
     final static digitalmodus.SystemLogService errorLoggingService = new digitalmodus.SystemLogService('PRSE_LocalAuthorityDashboardController');
+    final static List<String> validExemptionStatuses = new List<String>{ 'Approved', 'Needs update', 'Penalty sent', 'Received', 'Updated'};
 
     private static final Integer defaultPageSize = 20;
 
@@ -19,23 +20,29 @@ public without sharing class PRSE_PublicSearchController {
      */
     @AuraEnabled(cacheable=true)
     public static PaginatedExemptionResult searchPropertyExemptionsPaginated(String postcode, Integer pageSize, Integer pageNumber) {
-        try{
+        try {
             if (String.isBlank(postcode)) {
                 throw new AuraHandledException('Postcode is required.');
             }
 
             // Default values
-            if (pageSize == null || pageSize <= 0) pageSize = defaultPageSize;
-            if (pageNumber == null || pageNumber <= 0) pageNumber = 1;
+            if (pageSize == null || pageSize <= 0) {
+                pageSize = defaultPageSize;
+            }
+            if (pageNumber == null || pageNumber <= 0) {
+                pageNumber = 1;
+            }
 
             // Normalize postcode and add LIKE wildcard
             String pc = postcode.trim().toUpperCase() + '%';
 
             // --- Get total count ---
-            Integer totalCount = [SELECT COUNT() 
-                                FROM Exemption__c 
-                                WHERE Property_Postcode_No_Spaces__c LIKE :pc
-                                AND Status__c != 'Draft'];
+            Integer totalCount = [
+                SELECT COUNT() 
+                FROM Exemption__c 
+                WHERE Property_Postcode_No_Spaces__c LIKE :pc
+                AND Status__c IN :validExemptionStatuses
+            ];
 
             // --- Get paginated results ---
         
@@ -43,7 +50,7 @@ public without sharing class PRSE_PublicSearchController {
                 SELECT Id, Name, Status__c, Full_Property_Address__c, PropertyPostcode__c, LandlordBusinessName__c, Registered_Date__c
                 FROM Exemption__c
                 WHERE Property_Postcode_No_Spaces__c LIKE :pc
-                AND Status__c != 'Draft'
+                AND Status__c IN :validExemptionStatuses
             ];
 
             // --- Sort ALL records ---
@@ -85,17 +92,26 @@ public without sharing class PRSE_PublicSearchController {
     @AuraEnabled(cacheable=true)
     public static PaginatedExemptionResult searchPropertyExemptionsOtherWaysPaginated(String propertyAddress, String townOrCity, String landlordsName, String propertyType, String exemptionType, Integer pageSize, Integer pageNumber) {
         // Default values
-        if (pageSize == null || pageSize <= 0) pageSize = defaultPageSize;
-        if (pageNumber == null || pageNumber <= 0) pageNumber = 1;
-        
-        String whereClause = 'WHERE Id != NULL AND Status__c != \'Draft\'';
+        if (pageSize == null || pageSize <= 0) {
+            pageSize = defaultPageSize;
+        }
+        if (pageNumber == null || pageNumber <= 0) {
+            pageNumber = 1;
+        }
+
+        List<String> quotedStatuses = new List<String>();
+        for (String status : validExemptionStatuses) {
+            quotedStatuses.add('\'' + String.escapeSingleQuotes(status) + '\'');
+        }
+        String concatenatedSatuses = String.join(quotedStatuses, ', ');
+        String whereClause = 'WHERE Id != NULL AND Status__c IN (' + concatenatedSatuses + ')';
 
         if (String.isNotBlank(propertyAddress)) {
-            whereClause += ' AND PropertyAddress__c = :propertyAddress';
+            whereClause += ' AND PropertyAddress__c LIKE \'%' + sanitizeForLike(propertyAddress) + '%\'';
         }
         
         if (String.isNotBlank(townOrCity)) {
-            whereClause += ' AND PropertyCity__c = :townOrCity';
+            whereClause += ' AND PropertyCity__c LIKE \'%' + sanitizeForLike(townOrCity) + '%\'';
         }
         
         if (String.isNotBlank(landlordsName)) {
@@ -253,11 +269,11 @@ public without sharing class PRSE_PublicSearchController {
         String whereClause = 'WHERE Id != NULL AND (Exemption__c = NULL OR Exemption__r.Status__c != \'Draft\')';
 
         if (String.isNotBlank(propertyAddress)) {
-            whereClause += ' AND PropertyAddress__c = :propertyAddress';
+            whereClause += ' AND PropertyAddress__c LIKE \'%' + sanitizeForLike(propertyAddress) + '%\'';
         }
         
         if (String.isNotBlank(townOrCity)) {
-            whereClause += ' AND PropertyCity__c = :townOrCity';
+            whereClause += ' AND PropertyCity__c LIKE \'%' + sanitizeForLike(townOrCity) + '%\'';
         }
         
         if (String.isNotBlank(landlordsName)) {
@@ -353,20 +369,6 @@ public without sharing class PRSE_PublicSearchController {
             .replace('\\', '\\\\')
             .replace('%', '\\%')
             .replace('_', '\\_');
-    }
-
-    /**
-     * @description       Normalizes a raw postcode by trimming, uppercasing, and ensuring a space before the last 3 characters.
-     * @param raw         The raw postcode string.
-     * @return            Normalized postcode string.
-     */
-    private static String normalisePostcode(String raw) {
-        String s = (raw == null) ? '' : raw.trim().toUpperCase();
-        s = s.replaceAll('\\s+', '');
-        if (s.length() > 3) {
-            s = s.substring(0, s.length() - 3) + ' ' + s.substring(s.length() - 3);
-        }
-        return s;
     }
 
 

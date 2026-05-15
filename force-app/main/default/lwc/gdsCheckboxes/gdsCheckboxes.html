@@ -24,22 +24,23 @@
                     <span class="govuk-error-message" if:true={hasErrors}>
                         <span class="govuk-visually-hidden">Error:</span>&nbsp;{errorMessage}
                     </span>
-                    <template for:each={checkboxArray} for:item="opt">
+                    <template for:each={checkboxArray} for:item="opt" for:index="index">
                         <div class="govuk-checkboxes__item" key={opt.checkboxLabel} style="margin-bottom: 30px;">
-                            <input class="govuk-checkboxes__input" 
-                                data-id={opt.checkboxLabel} 
-                                name={opt.checkboxLabel} 
-                                value={opt.checkboxLabel} 
-                                type="checkbox" 
-                                checked={opt.checkboxValue} 
+                            <input
+                                class="govuk-checkboxes__input"
+                                data-index={index}
+                                data-id={opt.checkboxLabel}
+                                name={opt.checkboxLabel}
+                                value={opt.checkboxLabel}
+                                type="checkbox"
+                                checked={opt.checkboxValue}
                                 onclick={handleClick}
                                 aria-label={opt.checkboxLabel}>
-                            <label class="govuk-label govuk-checkboxes__label" 
-                                    for={opt.checkboxLabel}>
+                            <label class="govuk-label govuk-checkboxes__label" for={opt.checkboxLabel}>
                                 {opt.checkboxLabel}
                             </label>
-                            <div class="govuk-hint govuk-checkboxes__hint"
-                                if:true={opt.checkboxHint}>{opt.checkboxHint}
+                            <div class="govuk-hint govuk-checkboxes__hint" if:true={opt.checkboxHint}>
+                                {opt.checkboxHint}
                             </div>
                         </div>
                     </template>

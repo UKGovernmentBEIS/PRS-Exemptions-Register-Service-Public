@@ -716,7 +716,7 @@ private class PRSE_LADashboardControllerTest {
             Account__c = testAccount.Id,
             Published__c = true,
             AdditionalInformation__c = 'Draft exemption',
-            LandlordBusinessName__c = 'Test Business Name',
+            LandlordBusinessName__c = 'Frank\'s Business Name',
             LandlordFirstName__c = 'Test First Name',
             LandlordLastName__c = 'Test Last Name',
             PropertyAddress__c = 'Address 123',
@@ -731,7 +731,7 @@ private class PRSE_LADashboardControllerTest {
             Account__c = testAccount.Id,
             Published__c = true,
             AdditionalInformation__c = 'Received exemption 1',
-            LandlordBusinessName__c = 'Test Business Name',
+            LandlordBusinessName__c = 'Frank\'s Business Name',
             LandlordFirstName__c = 'Test First Name',
             LandlordLastName__c = 'Test Last Name',
             PropertyAddress__c = 'Address 123',
@@ -746,7 +746,7 @@ private class PRSE_LADashboardControllerTest {
             Account__c = testAccount.Id,
             Published__c = true,
             AdditionalInformation__c = 'Received exemption 2',
-            LandlordBusinessName__c = 'Test Business Name',
+            LandlordBusinessName__c = 'Frank\'s Business Name',
             LandlordFirstName__c = 'Test First Name',
             LandlordLastName__c = 'Test Last Name',
             PropertyAddress__c = 'Address 123',
@@ -761,7 +761,7 @@ private class PRSE_LADashboardControllerTest {
             Account__c = testAccount.Id,
             Published__c = true,
             AdditionalInformation__c = 'Updated exemption',
-            LandlordBusinessName__c = 'Test Business Name',
+            LandlordBusinessName__c = 'Frank\'s Business Name',
             LandlordFirstName__c = 'Test First Name',
             LandlordLastName__c = 'Test Last Name',
             PropertyAddress__c = 'Address 123',
@@ -807,15 +807,15 @@ private class PRSE_LADashboardControllerTest {
             '5330'
         };
         String propertyType = 'Residential';
-        String filters = '{"statuses": ["Received", "Ended"], "exemptionTypeCodes": ["T001", "T002"], "searchTerm": "   Test   "}';
+        String filters = '{"statuses": ["Received", "Ended"], "exemptionTypeCodes": ["T001", "T002"], "searchTerm": "   Frank\'s   "}';
 
         Map<String, Object> bindMap = new Map<String, Object> {
             'localAuthorityCodes' => localAuthorityCodes,
             'propertyType' => propertyType,
             'statuses' => new List<String>{ 'Received', 'Ended' },
             'exemptionTypeCodes' => new List<String>{ 'T001', 'T002' },
-            'searchTerm' => '%   Test   %',
-            'trimmedSearchTerm' => '%Test%'
+            'searchTerm' => '%   Frank\'s   %',
+            'trimmedSearchTerm' => '%Frank\'s%'
         };
         
         //Act
@@ -1202,7 +1202,7 @@ private class PRSE_LADashboardControllerTest {
             mockDatabaseWrapper.queryWithBinds(
                 'SELECT Id, Ref_Number__c, LandlordFirstName__c, LandlordLastName__c, LandlordBusinessName__c, ' +
                 'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, ' +
-                'PropertyType__c, Status__c, Registered_Date__c, ' +
+                'PropertyType__c, Status__c, Registered_Date__c, Full_Property_Address__c, ' +
                 '(SELECT Id, Exemption__c, Exemption_Type__r.Name FROM ExemptionTypeLinks__r) ' +
                 'FROM Exemption__c WHERE PropertyType__c = :propertyType AND Local_Custodian_Code__c IN :localAuthorityCodes AND Status__c != \'Draft\' ' +
                 'AND Id IN (SELECT Exemption__c FROM Exemption_Type_Link__c) ' +
@@ -1273,7 +1273,7 @@ private class PRSE_LADashboardControllerTest {
             mockDatabaseWrapper.queryWithBinds(
                 'SELECT Id, Ref_Number__c, LandlordFirstName__c, LandlordLastName__c, LandlordBusinessName__c, ' +
                 'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, ' +
-                'PropertyType__c, Status__c, Registered_Date__c, ' +
+                'PropertyType__c, Status__c, Registered_Date__c, Full_Property_Address__c, ' +
                 '(SELECT Id, Exemption__c, Exemption_Type__r.Name FROM ExemptionTypeLinks__r) ' +
                 'FROM Exemption__c WHERE PropertyType__c = :propertyType AND Local_Custodian_Code__c IN :localAuthorityCodes AND Status__c != \'Draft\' ' +
                 'AND Id IN (SELECT Exemption__c FROM Exemption_Type_Link__c) ' +
@@ -1344,7 +1344,7 @@ private class PRSE_LADashboardControllerTest {
             mockDatabaseWrapper.queryWithBinds(
                 'SELECT Id, Ref_Number__c, LandlordFirstName__c, LandlordLastName__c, LandlordBusinessName__c, ' +
                 'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, ' +
-                'PropertyType__c, Status__c, Registered_Date__c, ' +
+                'PropertyType__c, Status__c, Registered_Date__c, Full_Property_Address__c, ' +
                 '(SELECT Id, Exemption__c, Exemption_Type__r.Name FROM ExemptionTypeLinks__r) ' +
                 'FROM Exemption__c WHERE PropertyType__c = :propertyType AND Local_Custodian_Code__c IN :localAuthorityCodes AND Status__c != \'Draft\' ' +
                 'AND Id IN (SELECT Exemption__c FROM Exemption_Type_Link__c) ' +
@@ -1395,15 +1395,15 @@ private class PRSE_LADashboardControllerTest {
             '5330'
         };
         String propertyType = 'Residential';
-        String filters = '{"statuses": ["Received", "Ended"], "exemptionTypeCodes": ["5990"], "searchTerm": "   James   "}';
+        String filters = '{"statuses": ["Received", "Ended"], "exemptionTypeCodes": ["5990"], "searchTerm": "   James James"}';
 
         Map<String, Object> countBindMap = new Map<String, Object> {
             'localAuthorityCodes' => localAuthorityCodes,
             'propertyType' => propertyType,
             'statuses' => new List<String>{ 'Received', 'Ended' },
             'exemptionTypeCodes' => new List<String>{ '5990' },
-            'searchTerm' => '%   James   %',
-            'trimmedSearchTerm' => '%James%'
+            'searchTerm' => '%James James%',
+            'trimmedSearchTerm' => '%JamesJames%'
         };
 
         Map<String, Object> parentExemptionBindMap = new Map<String, Object> {
@@ -1413,8 +1413,8 @@ private class PRSE_LADashboardControllerTest {
             'offsetValue' => 0,
             'statuses' => new List<String>{ 'Received', 'Ended' },
             'exemptionTypeCodes' => new List<String>{ '5990' },
-            'searchTerm' => '%   James   %',
-            'trimmedSearchTerm' => '%James%'
+            'searchTerm' => '%James James%',
+            'trimmedSearchTerm' => '%JamesJames%'
         };
         Map<String, Object> childExemptionBindMap = new Map<String, Object> {
             'parentIds' => mockExemptions.keySet()
@@ -1441,14 +1441,15 @@ private class PRSE_LADashboardControllerTest {
                             'Exemption__r.PropertyCity__c LIKE :searchTerm OR Exemption__r.PropertyCity__c LIKE :trimmedSearchTerm OR ' +
                             'Exemption__r.PropertyCounty__c LIKE :searchTerm OR Exemption__r.PropertyCounty__c LIKE :trimmedSearchTerm OR ' +
                             'Exemption__r.PropertyCountry__c LIKE :searchTerm OR Exemption__r.PropertyCountry__c LIKE :trimmedSearchTerm OR ' +
-                            'Exemption__r.PropertyPostcode__c LIKE :searchTerm OR Exemption__r.PropertyPostcode__c LIKE :trimmedSearchTerm))',
+                            'Exemption__r.PropertyPostcode__c LIKE :searchTerm OR Exemption__r.PropertyPostcode__c LIKE :trimmedSearchTerm OR ' +
+                            'Exemption__r.Full_Property_Address__c LIKE :searchTerm OR Exemption__r.Full_Property_Address__c LIKE :trimmedSearchTerm))',
             countBindMap
         )).thenReturn(10);
         mockProvider.when(
             mockDatabaseWrapper.queryWithBinds(
             'SELECT ' +
             'Id, Ref_Number__c, LandlordFirstName__c, LandlordLastName__c, LandlordBusinessName__c, PropertyAddress__c, PropertyCity__c, ' +
-            'PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, PropertyType__c, Status__c, Registered_Date__c, ' +
+            'PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, PropertyType__c, Status__c, Registered_Date__c, Full_Property_Address__c, ' +
             '(SELECT Id, Exemption__c, Exemption_Type__r.Name FROM ExemptionTypeLinks__r) ' +
             'FROM Exemption__c ' +
             'WHERE PropertyType__c = :propertyType AND Local_Custodian_Code__c IN :localAuthorityCodes AND Status__c IN :statuses  ' +
@@ -1460,6 +1461,7 @@ private class PRSE_LADashboardControllerTest {
             'PropertyCounty__c LIKE :searchTerm OR PropertyCounty__c LIKE :trimmedSearchTerm OR ' +
             'PropertyCountry__c LIKE :searchTerm OR PropertyCountry__c LIKE :trimmedSearchTerm OR ' +
             'PropertyPostcode__c LIKE :searchTerm OR PropertyPostcode__c LIKE :trimmedSearchTerm OR ' +
+            'Full_Property_Address__c LIKE :searchTerm OR Full_Property_Address__c LIKE :trimmedSearchTerm OR ' +
             'Name LIKE :searchTerm OR Name LIKE :trimmedSearchTerm)AND Id IN ' +
             '(SELECT Exemption__c FROM Exemption_Type_Link__c WHERE Exemption_Type_Code__c IN :exemptionTypeCodes) ' +
             'ORDER BY Status__c DESC, Registered_Date__c DESC LIMIT :pageSize OFFSET :offsetValue', 
@@ -1539,7 +1541,7 @@ private class PRSE_LADashboardControllerTest {
             mockDatabaseWrapper.queryWithBinds(
                 'SELECT Id, Ref_Number__c, LandlordFirstName__c, LandlordLastName__c, LandlordBusinessName__c, ' +
                 'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, ' +
-                'PropertyType__c, Status__c, Registered_Date__c, ' +
+                'PropertyType__c, Status__c, Registered_Date__c, Full_Property_Address__c, ' +
                 '(SELECT Id, Exemption__c, Exemption_Type__r.Name FROM ExemptionTypeLinks__r) ' +
                 'FROM Exemption__c WHERE PropertyType__c = :propertyType AND Local_Custodian_Code__c IN :localAuthorityCodes AND Status__c != \'Draft\' ' +
                 'AND Id IN (SELECT Exemption__c FROM Exemption_Type_Link__c) ' +
@@ -1610,7 +1612,7 @@ private class PRSE_LADashboardControllerTest {
             mockDatabaseWrapper.queryWithBinds(
                 'SELECT Id, Ref_Number__c, LandlordFirstName__c, LandlordLastName__c, LandlordBusinessName__c, ' +
                 'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyCountry__c, PropertyPostcode__c, ' +
-                'PropertyType__c, Status__c, Registered_Date__c, ' +
+                'PropertyType__c, Status__c, Registered_Date__c, Full_Property_Address__c, ' +
                 '(SELECT Id, Exemption__c, Exemption_Type__r.Name FROM ExemptionTypeLinks__r) ' +
                 'FROM Exemption__c WHERE PropertyType__c = :propertyType AND Local_Custodian_Code__c IN :localAuthorityCodes AND Status__c != \'Draft\' ' +
                 'AND Id IN (SELECT Exemption__c FROM Exemption_Type_Link__c) ' +
@@ -2369,6 +2371,7 @@ private class PRSE_LADashboardControllerTest {
                 'PropertyCounty__c' => 'County  ' + i,
                 'PropertyCountry__c' => 'Country  ' + i,
                 'PropertyPostcode__c' => 'Postcode  ' + i,
+                'Full_Property_Address__c' => 'Address  ' + i + ', City  ' + i + ', County  ' + i + ', Country  ' + i + ', Postcode  ' + i,
                 'Status__c' => 'Received',
                 'Registered_Date__c' => Datetime.now().addDays(i)
             };

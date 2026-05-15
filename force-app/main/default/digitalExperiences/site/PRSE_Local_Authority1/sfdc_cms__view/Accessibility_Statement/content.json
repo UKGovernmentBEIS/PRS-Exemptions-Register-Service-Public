@@ -1,0 +1,55 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Accessibility Statement",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "id" : "b82e8be8-1a64-414b-a408-532ed5e27a49",
+        "name" : "header",
+        "title" : "header",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "markupText" : "<h1 class=\"govuk-heading-l\">Accessibility statement for Private Rental Sector Exemptions</h1> <p class=\"govuk-body\">This accessibility statement applies to the Private Rental Sector Exemptions website <a class=\"govuk-link\" href=\"https://www.gov.uk/register-prs-energy-standard-exemption\">(Live URL)</a>.</p> <p class=\"govuk-body\">This website is run by Department for Energy Security and Net Zero (DESNZ). We want as many people as possible to be able to use this website. For example, that means you should be able to:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>change colours, contrast levels and fonts</li>     <li>zoom in up to 300% without the text spilling off the screen</li>     <li>navigate most of the website using just a keyboard</li>     <li>navigate most of the website using speech recognition software</li>     <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver) </li> </ul> <p class=\"govuk-body\">We've also made the website text as simple as possible to understand.</p> <p class=\"govuk-body\"><a class=\"govuk-link\" href=\"https://mcmw.abilitynet.org.uk/\">AbilityNet</a> has advice on making your device easier to use if you have a disability.</p> <h2 class=\"govuk-heading-m\">How accessible is this website?</h2> <p class=\"govuk-body\">We know some parts of this website are not fully accessible:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>it may not be possible to upload files using Dragon Naturally Speaking (a voice recognition software)</li> </ul> <h2 class=\"govuk-heading-m\">Feedback and contact information</h2> <p class=\"govuk-body\">If you find any problems not listed on this page or think we're not meeting accessibility requirements, contact:</p> <p class=\"govuk-body\">phone: <a class=\"govuk-link\" href=\"tel:08000987950\">0800 098 7950</a></p> <p class=\"govuk-body\">email <a class=\"govuk-link\" href=\"mailto:prsregistersupport@energysecurity.gov.uk\">prsregistersupport@energysecurity.gov.uk</a></p> <p class=\"govuk-body\">If you need information on this website in a different format like accessible PDF, large print, easy read, audio recording or braille:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>email <a class=\"govuk-link\" href=\"mailto:prsregistersupport@energysecurity.gov.uk\">prsregistersupport@energysecurity.gov.uk</a></li>     <li>call <a class=\"govuk-link\" href=\"tel:08000987950\">0800 098 7950</a></li> </ul> <p class=\"govuk-body\">We'll consider your request and get back to you in 10 days.</p> <p class=\"govuk-body\">If you cannot view any page on the service, call <a class=\"govuk-link\" href=\"tel:08000987950\">0800 098 7950</a> or email us <a class=\"govuk-link\" href=\"mailto:prsregistersupport@energysecurity.gov.uk\">prsregistersupport@energysecurity.gov.uk</a></p> <h2 class=\"govuk-heading-m\">Enforcement procedure</h2> <p class=\"govuk-body\">The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the 'accessibility regulations'). If you're not happy with how we respond to your complaint, <a class=\"govuk-link\" href=\"https://www.equalityadvisoryservice.com/\">contact the Equality Advisory and Support Service (EASS).</a></p> <h2 class=\"govuk-heading-l\">Technical information about this website's accessibility</h2> <p class=\"govuk-body\">Department for Energy Security and Net Zero (DESNZ) is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.</p> <h2 class=\"govuk-heading-m\">Compliance status</h2> <p class=\"govuk-body\">This website is partially compliant with the <a class=\"govuk-link\" href=\"https://www.w3.org/TR/WCAG22/\">Web Content Accessibility Guidelines version 2.2</a> AA standard, due to the non-compliances listed below.</p> <h2 class=\"govuk-heading-l\">Non-accessible content</h2> <p class=\"govuk-body\">The content listed below is non-accessible for the following reasons.</p> <h2 class=\"govuk-heading-m\">Non-compliance with the accessibility regulations</h2> <p class=\"govuk-body\">It is not possible to interact with the ‘Upload File’ button to add an Energy Performance Certificate (EPC) using Dragon Naturally Speaking and known voice commands. This fails WCAG 2.2 success criterion 4.1.2 name, role, value.</p> <p class=\"govuk-body\">If you are unable to use voice commands to select the ‘Upload File’ button and add an Energy Performance Certificate (EPC), we recommend using the Mouse Grid feature. Mouse Grid allows you to interact with on-screen buttons and controls by selecting areas of the screen, providing an accessible alternative to standard mouse or voice navigation.</p> <h2 class=\"govuk-heading-l\">Preparation of this accessibility statement</h2> <p class=\"govuk-body\">This statement was prepared on 16/01/2026. It was last reviewed on 29/04/2026.</p> <p class=\"govuk-body\">This website was last tested on 09/03/2026. The test was carried out by Zoonou.</p> <p class=\"govuk-body\">Zoonou used <a class=\"govuk-link\" href=\"https://www.w3.org/TR/WCAG-EM/\">WCAG-EM</a> to define the pages tested and test approach.</p>"
+          },
+          "definition" : "uxgovuk:govMarkupText",
+          "id" : "b6678b45-aacd-48ac-9121-fe1265e069ec",
+          "type" : "component"
+        } ],
+        "id" : "ef5704c3-c256-4334-8f3f-ee285bfb58f0",
+        "name" : "content",
+        "title" : "content",
+        "type" : "region"
+      }, {
+        "id" : "37bef2eb-9ca6-4878-aeeb-cb99f8ff4e2f",
+        "name" : "footer",
+        "title" : "footer",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "pageTitle" : "Accessibility Statement",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "84f9fa5b-e29b-40c6-8bf1-3163adc4e7d1",
+          "type" : "component"
+        } ],
+        "id" : "d36004e2-7039-412f-a2e4-3cc30bf582a8",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsOneColLayout",
+      "id" : "0f0a0e94-bf81-497e-bc51-d9a77ac15f0d",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-accessibility-statement"
+  },
+  "urlName" : "accessibility-statement"
+}

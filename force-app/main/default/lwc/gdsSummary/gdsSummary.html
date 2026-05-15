@@ -17,7 +17,7 @@
                     </div>
 
 
-                    <hr class="govuk-section-break govuk-section-break--visible" if:false={removeTopSeparator}>
+                    <hr class="govuk-section-break govuk-section-break--visible" aria-hidden="true" if:false={removeTopSeparator}>
                     <!-- start of a section -->
                     <dl key={sectionName}  class="govuk-summary-list">
                         <template for:each={sectionFields} for:item="sectionField">

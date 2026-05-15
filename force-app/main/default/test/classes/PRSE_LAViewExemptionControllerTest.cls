@@ -36,7 +36,11 @@ private class PRSE_LAViewExemptionControllerTest {
             LastName = 'Landlord',
             RecordTypeId = personRt.Id,
             Landlord_Type__c = 'Agent',
-            BusinessName__c = 'Agency Ltd'
+            BusinessName__c = 'Agency Ltd',
+            PersonMailingStreet = 'Street',
+            PersonMailingCity = 'City',
+            PersonMailingState = 'State',
+            PersonMailingPostalCode = 'PostCode'
         );
         insert personAccAgent;
 
@@ -375,28 +379,26 @@ private class PRSE_LAViewExemptionControllerTest {
 
 
     /**
-     * @description       Tests getExemptionAgentDetails() with valid agent
+     * @description       Tests getExemptionAgentDetails() with valid agent now returns AgentWrapper.
      */
     @IsTest
-    static void getExemptionAgentDetails_withAgent_returnsAgentAccount() {
+    static void getExemptionAgentDetails_withAgent_returnsAgentWrapper() {
         User laUser = getLaUser();
         Exemption__c ex = [SELECT Id FROM Exemption__c WHERE LandlordFirstName__c = 'John1945Agent' LIMIT 1];
 
         System.runAs(laUser) {
-            Account agent =
-            PRSE_LAViewExemptionController.getExemptionAgentDetails(ex.Id);        
+            PRSE_LAViewExemptionController.AgentWrapper agent =
+                PRSE_LAViewExemptionController.getExemptionAgentDetails(ex.Id);
 
-            System.assertNotEquals(
-                null,
-                agent,
-                'Expected a non-null agent Account'
-            );
+            System.assertNotEquals(null, agent, 'Expected a non-null AgentWrapper');
+            System.assertEquals('Agent', agent.LandlordType, 'Expected LandlordType to be Agent');
+            Assert.areEqual('Street', agent.Address.contains('Street') ? 'Street' : null);
         }
     }
 
 
     /**
-     * @description       Tests getExemptionAgentDetails() with agent but wrong LA
+     * @description       Tests getExemptionAgentDetails() with agent but wrong LA expects exception.
      */
     @IsTest
     static void getExemptionAgentDetails_withAgentWrongLA_returnsException() {
@@ -406,7 +408,8 @@ private class PRSE_LAViewExemptionControllerTest {
 
         System.runAs(laUser) {
             try {
-                Account agent = PRSE_LAViewExemptionController.getExemptionAgentDetails(ex.Id);
+                PRSE_LAViewExemptionController.AgentWrapper agent =
+                    PRSE_LAViewExemptionController.getExemptionAgentDetails(ex.Id);
             } catch (AuraHandledException e) {
                 exceptionThrown = true;
             }
@@ -416,19 +419,18 @@ private class PRSE_LAViewExemptionControllerTest {
 
 
     /**
-     * @description       Tests getExemptionAgentDetails() including null agent__c branch.
+     * @description       Tests getExemptionAgentDetails() when landlord is not an agent expects null return.
      */
     @IsTest
     static void getExemptionAgentDetails_withoutAgent_returnsNull() {
         User laUser = getLaUser();
-        Exemption__c ex = [SELECT Id, agent__c FROM Exemption__c WHERE LandlordFirstName__c = 'John6NoAgent'LIMIT 1];
+        Exemption__c ex = [SELECT Id FROM Exemption__c WHERE LandlordFirstName__c = 'John6NoAgent' LIMIT 1];
 
         System.runAs(laUser) {
-            System.assertEquals(
-                null,
-                PRSE_LAViewExemptionController.getExemptionAgentDetails(ex.Id),
-                'Expected null when landlord type is not agent'
-            );
+            PRSE_LAViewExemptionController.AgentWrapper agent =
+                PRSE_LAViewExemptionController.getExemptionAgentDetails(ex.Id);
+
+            System.assertEquals(null, agent, 'Expected null when landlord type is not Agent');
         }
     }
 
@@ -451,7 +453,7 @@ private class PRSE_LAViewExemptionControllerTest {
     }
 
 
-        /**
+    /**
      * @description       Tests getExemptionDetails() method for invalid LA
      */
     @IsTest
@@ -529,7 +531,7 @@ private class PRSE_LAViewExemptionControllerTest {
         Boolean exceptionThrown = false;
 
         System.runAs(laUser) {
-        try{
+            try {
                 List<Map<String, Object>> groupedDocs = PRSE_LAViewExemptionController.getExemptionEvidenceDocumentsGrouped(ex.Id);
             } catch (AuraHandledException e) {
                 exceptionThrown = true;
@@ -759,8 +761,8 @@ private class PRSE_LAViewExemptionControllerTest {
             Test.stopTest();
     
         System.assert(
-            result.sourceType == 'file-foundapi',
-            'Expected sourceType to be file or file-foundapi, got: ' + result.sourceType
+            result.sourceType == 'file',
+            'Expected sourceType to be file, got: ' + result.sourceType
         );
         System.assert(result.url.contains('/sfc/servlet.shepherd/document/download/'));
         System.assertEquals('EPC Certificate.pdf', result.fileName);
@@ -820,8 +822,8 @@ private class PRSE_LAViewExemptionControllerTest {
             Test.stopTest();
     
             System.assert(
-            	result.sourceType == 'none' || result.sourceType == 'none-foundapi',
-                'Expected sourceType to be file or file-foundapi, got: ' + result.sourceType
+            	result.sourceType == 'none',
+                'Expected sourceType to be none, got: ' + result.sourceType
         	);
             System.assertEquals(null, result.url, 'Expected url to be null');
             System.assertEquals(null, result.fileName, 'Expected fileName to be null');
@@ -830,7 +832,7 @@ private class PRSE_LAViewExemptionControllerTest {
 
 
     /**
-     * @description       Tests controller methods with null exemption Ids to cover exception branches.
+     * @description Tests controller methods with null exemption Ids to cover exception branches.
      */
     @IsTest
     static void controllerMethods_withNullExemptionId_throwAuraHandledExceptions() {
@@ -882,198 +884,175 @@ private class PRSE_LAViewExemptionControllerTest {
         }
         System.assert(exceptionThrown, 'Expected AuraHandledException to be thrown for getExemptionEvidenceDocumentsGrouped with null Id');
     }
-    
-    
-    
-    
-    
-    
+
     /**
- * @description Tests that when the EPC API returns an error response,
- *              the controller sets errorResponse = true, url = null, and sourceType = 'none'.
- *              Uses John3 (no EPC_Certificate__c, no ContentDocumentLink) to ensure
- *              no fallback data interferes with the assertion.
- */
-@IsTest
-static void getExemptionEpcOrFile_withApiError_setsErrorResponseAndReturnsNone() {
-    User laUser = getLaUser();
-    Exemption__c ex = [SELECT Id FROM Exemption__c WHERE LandlordFirstName__c = 'John3' LIMIT 1];
+     * @description Tests that when the EPC API returns an error response,
+     *              the controller sets errorResponse = true, url = null, and sourceType = 'none'.
+     *              Uses John3 (no EPC_Certificate__c, no ContentDocumentLink) to ensure
+     *              no fallback data interferes with the assertion.
+     */
+    @IsTest
+    static void getExemptionEpcOrFile_withApiError_setsErrorResponseAndReturnsNone() {
+        User laUser = getLaUser();
+        Exemption__c ex = [SELECT Id FROM Exemption__c WHERE LandlordFirstName__c = 'John3' LIMIT 1];
 
-    Test.setMock(HttpCalloutMock.class, new EpcOldApiErrorMock());
+        Test.setMock(HttpCalloutMock.class, new EpcOldApiErrorMock());
 
-    System.runAs(laUser) {
-        Test.startTest();
-        PRSE_LAViewExemptionController.EpcLinkWrapper result =
-            PRSE_LAViewExemptionController.getExemptionEpcOrFile(ex.Id, '123456789012', 'residential');
-        Test.stopTest();
+        System.runAs(laUser) {
+            Test.startTest();
+            PRSE_LAViewExemptionController.EpcLinkWrapper result =
+                PRSE_LAViewExemptionController.getExemptionEpcOrFile(ex.Id, '123456789012', 'residential');
+            Test.stopTest();
 
-        System.assertEquals(
-            'none-foundapi',
-            result.sourceType,
-            'Expected sourceType none when API returns an error response'
-        );
-        System.assertEquals(
-            null,
-            result.url,
-            'Expected url to be null when API returns an error response'
-        );
-    }
-}
-    
-    
-    
-    
-    
-    
-/**
- * @description Tests getExemptionEpcOrFile returns 'api' sourceType when the new EPC API
- *              returns a valid, non-expired certificate number.
- *              Uses forceUseNewEndpointForTest to route through fetchEPCData_NEW,
- *              and mocks the HTTP callout with a valid non-expired registrationDate.
- */
-@IsTest
-static void getExemptionEpcOrFile_withNewApiCertificate_returnsApiSourceType() {
-    User laUser = getLaUser();
-
-    // John3 has no EPC_Certificate__c and no ContentDocumentLink attached,
-    // so only the API response can reach the 'api' branch.
-    Exemption__c ex = [
-        SELECT Id
-        FROM Exemption__c
-        WHERE LandlordFirstName__c = 'John3'
-        LIMIT 1
-    ];
-
-    // Force the new endpoint and mock its HTTP callout
-    PRSE_RetrieveEPCInfoAction.forceUseNewEndpointForTest = true;
-    Test.setMock(HttpCalloutMock.class, new EpcNewApiValidCertificateMock());
-
-    System.runAs(laUser) {
-        Test.startTest();
-        PRSE_LAViewExemptionController.EpcLinkWrapper result =
-            PRSE_LAViewExemptionController.getExemptionEpcOrFile(
-                ex.Id,
-                '123456789012',
-                'residential'
+            System.assertEquals(
+                'none',
+                result.sourceType,
+                'Expected sourceType none when API returns an error response'
             );
-        Test.stopTest();
+            System.assertEquals(
+                null,
+                result.url,
+                'Expected url to be null when API returns an error response'
+            );
+        }
+    }
+    /**
+     * @description Tests getExemptionEpcOrFile returns 'api' sourceType when the new EPC API
+     *              returns a valid, non-expired certificate number.
+     *              Uses forceUseNewEndpointForTest to route through fetchEPCData_NEW,
+     *              and mocks the HTTP callout with a valid non-expired registrationDate.
+     */
+    @IsTest
+    static void getExemptionEpcOrFile_withNewApiCertificate_returnsApiSourceType() {
+        User laUser = getLaUser();
 
-        System.assertEquals(
-            'api',
-            result.sourceType,
-            'Expected sourceType to be api when new EPC API returns a valid non-expired certificate'
-        );
-        System.assertNotEquals(
-            null,
-            result.url,
-            'Expected a non-null URL when API certificate is returned'
-        );
-        System.assert(
-            result.url.contains('find-energy-certificate.service.gov.uk/energy-certificate/'),
-            'Expected URL to point to the find-energy-certificate service'
-        );
-        System.assert(
-            result.url.contains('1111-2222-3333-4444-5555'),
-            'Expected URL to contain the certificate number returned by the API'
-        );
-        System.assertEquals(
-            null,
-            result.fileName,
-            'Expected fileName to be null for api sourceType'
-        );
-        System.assertEquals(
-            null,
-            result.contentDocumentId,
-            'Expected contentDocumentId to be null for api sourceType'
-        );
+        // John3 has no EPC_Certificate__c and no ContentDocumentLink attached,
+        // so only the API response can reach the 'api' branch.
+        Exemption__c ex = [
+            SELECT Id
+            FROM Exemption__c
+            WHERE LandlordFirstName__c = 'John3'
+            LIMIT 1
+        ];
+
+        // Force the new endpoint and mock its HTTP callout
+        PRSE_RetrieveEPCInfoAction.forceUseNewEndpointForTest = true;
+        Test.setMock(HttpCalloutMock.class, new EpcNewApiValidCertificateMock());
+
+        System.runAs(laUser) {
+            Test.startTest();
+            PRSE_LAViewExemptionController.EpcLinkWrapper result =
+                PRSE_LAViewExemptionController.getExemptionEpcOrFile(
+                    ex.Id,
+                    '123456789012',
+                    'residential'
+                );
+            Test.stopTest();
+
+            System.assertEquals(
+                'api',
+                result.sourceType,
+                'Expected sourceType to be api when new EPC API returns a valid non-expired certificate'
+            );
+            System.assertNotEquals(
+                null,
+                result.url,
+                'Expected a non-null URL when API certificate is returned'
+            );
+            System.assert(
+                result.url.contains('find-energy-certificate.service.gov.uk/energy-certificate/'),
+                'Expected URL to point to the find-energy-certificate service'
+            );
+            System.assert(
+                result.url.contains('1111-2222-3333-4444-5555'),
+                'Expected URL to contain the certificate number returned by the API'
+            );
+            System.assertEquals(
+                null,
+                result.fileName,
+                'Expected fileName to be null for api sourceType'
+            );
+            System.assertEquals(
+                null,
+                result.contentDocumentId,
+                'Expected contentDocumentId to be null for api sourceType'
+            );
+        }
+
+        // Reset flag so other tests are unaffected
+        PRSE_RetrieveEPCInfoAction.forceUseNewEndpointForTest = false;
     }
 
-    // Reset flag so other tests are unaffected
-    PRSE_RetrieveEPCInfoAction.forceUseNewEndpointForTest = false;
-}
+    /**
+     * @description Mock returning a valid, non-expired EPC certificate
+     *              matching the new endpoint JSON structure parsed by parseEPCResponse_NEW.
+     *              'data' must be a direct array, and registrationDate must be within 10 years.
+     */
+    private class EpcNewApiValidCertificateMock implements HttpCalloutMock {
+        public HTTPResponse respond(HTTPRequest req) {
+            // registrationDate 1 year ago — well within the 10-year expiry window
+            String registrationDate = Date.today().addYears(-1).year() + '-' +
+                String.valueOf(Date.today().addYears(-1).month()).leftPad(2, '0') + '-' +
+                String.valueOf(Date.today().addYears(-1).day()).leftPad(2, '0');
 
-/**
- * @description Mock returning a valid, non-expired EPC certificate
- *              matching the new endpoint JSON structure parsed by parseEPCResponse_NEW.
- *              'data' must be a direct array, and registrationDate must be within 10 years.
- */
-private class EpcNewApiValidCertificateMock implements HttpCalloutMock {
-    public HTTPResponse respond(HTTPRequest req) {
-        // registrationDate 1 year ago — well within the 10-year expiry window
-        String registrationDate = Date.today().addYears(-1).year() + '-' +
-            String.valueOf(Date.today().addYears(-1).month()).leftPad(2, '0') + '-' +
-            String.valueOf(Date.today().addYears(-1).day()).leftPad(2, '0');
+            String body = '{"data":[{'
+                + '"certificateNumber":"1111-2222-3333-4444-5555",'
+                + '"addressLine1":"Flat 2",'
+                + '"addressLine2":"Some Street",'
+                + '"addressLine3":null,'
+                + '"addressLine4":null,'
+                + '"postcode":"M20 4AP",'
+                + '"postTown":"MANCHESTER",'
+                + '"council":"Manchester",'
+                + '"constituency":"Manchester Rusholme",'
+                + '"currentEnergyEfficiencyBand":"D",'
+                + '"registrationDate":"' + registrationDate + '",'
+                + '"uprn":10094703381'
+                + '}],'
+                + '"pagination":{'
+                + '"totalRecords":1,'
+                + '"currentPage":1,'
+                + '"totalPages":1,'
+                + '"nextPage":null,'
+                + '"prevPage":null,'
+                + '"pageSize":5000'
+                + '}}';
 
-        String body = '{"data":[{'
-            + '"certificateNumber":"1111-2222-3333-4444-5555",'
-            + '"addressLine1":"Flat 2",'
-            + '"addressLine2":"Some Street",'
-            + '"addressLine3":null,'
-            + '"addressLine4":null,'
-            + '"postcode":"M20 4AP",'
-            + '"postTown":"MANCHESTER",'
-            + '"council":"Manchester",'
-            + '"constituency":"Manchester Rusholme",'
-            + '"currentEnergyEfficiencyBand":"D",'
-            + '"registrationDate":"' + registrationDate + '",'
-            + '"uprn":10094703381'
-            + '}],'
-            + '"pagination":{'
-            + '"totalRecords":1,'
-            + '"currentPage":1,'
-            + '"totalPages":1,'
-            + '"nextPage":null,'
-            + '"prevPage":null,'
-            + '"pageSize":5000'
-            + '}}';
-
-        HttpResponse res = new HttpResponse();
-        res.setHeader('Content-Type', 'application/json');
-        res.setStatusCode(200);
-        res.setBody(body);
-        return res;
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+            res.setStatusCode(200);
+            res.setBody(body);
+            return res;
+        }
     }
-    
-        
-    
-    
-}
-    
-    
-    
-    
-    
-    
-    
-    
-        /**
- * @description Mock returning a 200 with empty rows so the OLD EPC endpoint
- *              produces a response with null certificateNumber, allowing the
- *              controller to fall through to EPC_Certificate__c / file / none branches.
- */
-private class EpcOldApiNoResultsMock implements HttpCalloutMock {
-    public HTTPResponse respond(HTTPRequest req) {
-        HttpResponse res = new HttpResponse();
-        res.setHeader('Content-Type', 'application/json');
-        res.setStatusCode(200);
-        res.setBody('{"rows":[],"totalResults":0}');
-        return res;
+    /**
+     * @description Mock returning a 200 with empty rows so the OLD EPC endpoint
+     *              produces a response with null certificateNumber, allowing the
+     *              controller to fall through to EPC_Certificate__c / file / none branches.
+     */
+    private class EpcOldApiNoResultsMock implements HttpCalloutMock {
+        public HTTPResponse respond(HTTPRequest req) {
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+            res.setStatusCode(200);
+            res.setBody('{"rows":[],"totalResults":0}');
+            return res;
+        }
     }
-}
     
     /**
- * @description Mock returning a non-200 status to trigger the 'Error' address
- *              branch in fetchEPCData_OLD, causing the controller to set errorResponse = true
- *              and sourceType = 'none'.
- */
-private class EpcOldApiErrorMock implements HttpCalloutMock {
-    public HTTPResponse respond(HTTPRequest req) {
-        HttpResponse res = new HttpResponse();
-        res.setHeader('Content-Type', 'application/json');
-        res.setStatusCode(500);
-        res.setBody('{"error":"Internal Server Error"}');
-        return res;
+     * @description Mock returning a non-200 status to trigger the 'Error' address
+     *              branch in fetchEPCData_OLD, causing the controller to set errorResponse = true
+     *              and sourceType = 'none'.
+     */
+    private class EpcOldApiErrorMock implements HttpCalloutMock {
+        public HTTPResponse respond(HTTPRequest req) {
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+            res.setStatusCode(500);
+            res.setBody('{"error":"Internal Server Error"}');
+            return res;
+        }
     }
-}
 
 }

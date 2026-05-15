@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
+        <name>Fetch_Local_Authority_Accounts_Action</name>
+        <label>Fetch Local Authority Accounts Action</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>PRSE_RetrieveLocalAuthorityAccountAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>SendEmailIfLocalAuthorityAccountExists</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>localCustodianCodes</name>
+            <value>
+                <elementReference>Get_Exemption.Local_Custodian_Code__c</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>PRSE_RetrieveLocalAuthorityAccountAction</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>Send_Confirmation_Email</name>
         <label>Send Confirmation Email</label>
         <locationX>0</locationX>
@@ -14,7 +35,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>$User.Email</elementReference>
+                <elementReference>Get_Exemption.Account__r.PersonEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -152,7 +173,7 @@
             <assignToReference>LAMailbox</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Exemption.Local_Authority__r.DomesticNotificationsMailbox__c</elementReference>
+                <elementReference>Fetch_Local_Authority_Accounts_Action.DomesticNotificationsMailbox__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -184,7 +205,7 @@
             <assignToReference>LAMailbox</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Exemption.Local_Authority__r.NonDomesticNotificationsMailbox__c</elementReference>
+                <elementReference>Fetch_Local_Authority_Accounts_Action.NonDomesticNotificationsMailbox__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -307,7 +328,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Did_user_select_other</targetReference>
+            <targetReference>End_Exemption</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -472,31 +493,6 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Did_user_select_other</name>
-        <label>Did user select other?</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>End_Exemption</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Why_you_are_ending_exemption_select.value</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Other</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>End_Exemption_with_Comments</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Is_a_Local_Authority_Associated</name>
         <label>Is a Local Authority Associated</label>
         <locationX>0</locationX>
@@ -516,7 +512,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_User_Account</targetReference>
+                <targetReference>Fetch_Local_Authority_Accounts_Action</targetReference>
             </connector>
             <label>Local Authority Associated</label>
         </rules>
@@ -556,6 +552,59 @@
                 <targetReference>Return_to_Dashboard</targetReference>
             </connector>
             <label>Return to Dashboard</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>SendEmailIfLocalAuthorityAccountExists</name>
+        <label>Send Email If Local Authority Account Exists</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Exemption_End_Confirmation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>SendEmail</name>
+            <conditionLogic>1 AND ((2 AND 3) OR (4 AND 5))</conditionLogic>
+            <conditions>
+                <leftValueReference>Fetch_Local_Authority_Accounts_Action.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Exemption.PropertyType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Residential</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Fetch_Local_Authority_Accounts_Action.DomesticNotificationsMailbox__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Exemption.PropertyType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Commercial</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Fetch_Local_Authority_Accounts_Action.NonDomesticNotificationsMailbox__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_User_Account</targetReference>
+            </connector>
+            <label>Send Email</label>
         </rules>
     </decisions>
     <decisions>
@@ -650,7 +699,7 @@
     <formulas>
         <name>fla_AdditionalOrPreSetreason</name>
         <dataType>String</dataType>
-        <expression>IF(ISBLANK({!Further_Explain_Why_Ending_Exemption_TextArea.value}),{!Why_you_are_ending_exemption_select.value},{!Further_Explain_Why_Ending_Exemption_TextArea.value})</expression>
+        <expression>IF(ISBLANK({!Further_Explain_Why_Ending_Exemption_TextArea.value}),{!Why_you_are_ending_exemption_select.value},SUBSTITUTE({!Further_Explain_Why_Ending_Exemption_TextArea.value}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) )</expression>
     </formulas>
     <formulas>
         <name>fla_dateFormat</name>
@@ -684,7 +733,7 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
     <formulas>
         <name>fla_JSONSetter</name>
         <dataType>String</dataType>
-        <expression>&quot;{\&quot;full name\&quot;: \&quot;&quot; + {!Get_Exemption.LandlordFirstName__c} + &quot; &quot; + {!Get_Exemption.LandlordLastName__c} + &quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} +  &quot;\&quot;, \&quot;reference number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + &quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot;, &quot; + {!Get_Exemption.PropertyPostcode__c} + &quot;\&quot;}&quot;</expression>
+        <expression>&quot;{\&quot;full name\&quot;: \&quot;&quot; + SUBSTITUTE({!Get_Exemption.Account__r.FirstName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) + &quot; &quot; + SUBSTITUTE({!Get_Exemption.Account__r.LastName}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;) + &quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} +  &quot;\&quot;, \&quot;reference number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + &quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot;, &quot; + {!Get_Exemption.PropertyPostcode__c} + &quot;\&quot;}&quot;</expression>
     </formulas>
     <formulas>
         <name>RemoveTrailingSeparatorLabels</name>
@@ -807,7 +856,7 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>PassedExemptionNumber</elementReference>
+                <elementReference>PassedExemption</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -901,35 +950,11 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
             </value>
         </filters>
         <inputAssignments>
-            <field>End_Date__c</field>
+            <field>Additional_End_Reason__c</field>
             <value>
-                <elementReference>$Flow.CurrentDate</elementReference>
+                <elementReference>Further_Explain_Why_Ending_Exemption_TextArea.value</elementReference>
             </value>
         </inputAssignments>
-        <inputAssignments>
-            <field>End_Reason__c</field>
-            <value>
-                <elementReference>Why_you_are_ending_exemption_select.value</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Exemption_Type_Link__c</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>End_Exemption_with_Comments</name>
-        <label>End Exemption with Comments</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <connector>
-            <targetReference>Set_Personalisation_JSON</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Selected_Exemption_Type.Id</elementReference>
-            </value>
-        </filters>
         <inputAssignments>
             <field>End_Date__c</field>
             <value>
@@ -1106,7 +1131,7 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
                 <name>markupText</name>
                 <value>
                     <stringValue>&lt;p class=&apos;govuk-body&apos;&gt;Exemption reference number: {!SelectedChildExemptionRef}&lt;/p&gt;
-&lt;p class=&apos;govuk-body&apos;&gt;You should recieve a confirmation email within 72 hours.&lt;/p&gt;
+&lt;p class=&apos;govuk-body&apos;&gt;You should receive a confirmation email within 72 hours.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;Your exemption will now show in the ended section of your dashboard&lt;/p&gt;
 &lt;h2 class=&apos;govuk-heading-m&apos;&gt;Letting your property&lt;/h2&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;If you want to continue letting this property you will need to either:&lt;/p&gt;
@@ -1318,7 +1343,7 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/dashboard</stringValue>
+                    <stringValue>dashboard</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1364,9 +1389,15 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
             <extensionName>uxgovuk:govBackLink</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
+                <name>destinationPageName</name>
+                <value>
+                    <stringValue>RegisteredExemptions__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
                 <name>backAction</name>
                 <value>
-                    <booleanValue>true</booleanValue>
+                    <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1504,6 +1535,30 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <fields>
+            <name>Why_you_are_ending_exemption_back_url</name>
+            <extensionName>uxgovuk:govBackLink</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>destinationPageName</name>
+                <value>
+                    <stringValue>RegisteredExemptions__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ChildExemptionCount</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <numberValue>1.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>Why_you_are_ending_exemption_back</name>
             <extensionName>uxgovuk:govBackLink</extensionName>
             <fieldType>ComponentInstance</fieldType>
@@ -1516,6 +1571,16 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ChildExemptionCount</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>1.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Why_you_are_ending_exemption_errors</name>
@@ -1668,7 +1733,7 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>PassedExemptionNumber</name>
+        <name>PassedExemption</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -1726,5 +1791,12 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_RecordID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
 </Flow>

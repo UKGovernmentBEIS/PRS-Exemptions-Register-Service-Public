@@ -22,8 +22,7 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "dxpStyle" : { },
-                "redirectUrl" : "/PRSELocalAuthority"
+                "redirectUrl" : ""
               },
               "definition" : "c:prseRedirect",
               "id" : "6e202c0f-52f5-48c2-8b92-1747d74a3f68",

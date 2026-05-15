@@ -16,6 +16,8 @@ import searchPropertyExemptionsOtherWaysPaginated from '@salesforce/apex/PRSE_Pu
 import searchPropertyPenaltiesPaginated from '@salesforce/apex/PRSE_PublicSearchController.searchPropertyPenaltiesPaginated';
 import searchPropertyPenaltiesOtherWaysPaginated from '@salesforce/apex/PRSE_PublicSearchController.searchPropertyPenaltiesOtherWaysPaginated';
 
+import basePath from '@salesforce/community/basePath';
+
 export default class PrsePublicRegSearch extends LightningElement {
 
     // Design params
@@ -248,10 +250,19 @@ export default class PrsePublicRegSearch extends LightningElement {
         return pages;
     }
 
+    handleSearchClick() {
+        this.pageNumber = 1;
+        this.totalPages = 0;
+        this.results = [];
+        this.showPropertyExemptions = false;
+        this.showPropertyPenalties = false;
+        this.handleSearch();
+    }
+
     handlePrevious() {
         if (this.hasPreviousPage) {
             this.pageNumber -= 1;
-            this.handleSearchClick(); // refresh search
+            this.handleSearch();
             window.scrollTo(0, 0);
         }
     }
@@ -259,7 +270,7 @@ export default class PrsePublicRegSearch extends LightningElement {
     handleNext() {
         if (this.hasNextPage) {
             this.pageNumber += 1;
-            this.handleSearchClick(); // refresh search
+            this.handleSearch();
             window.scrollTo(0, 0);
         }
     }
@@ -268,10 +279,11 @@ export default class PrsePublicRegSearch extends LightningElement {
         const selectedPage = parseInt(event.target.dataset.page, 10);
         if (selectedPage !== this.pageNumber) {
             this.pageNumber = selectedPage;
-            this.handleSearchClick(); // refresh search
+            this.handleSearch();
             window.scrollTo(0, 0);
         }
     }
+
 
 
     get hasNoResults() {
@@ -293,6 +305,7 @@ export default class PrsePublicRegSearch extends LightningElement {
     @wire(MessageContext) messageContext;
 
     connectedCallback() {
+        document.title = 'Search the PRS exemptions and penalties register';
         this.subscribeToMessageChannel();
     }
 
@@ -467,7 +480,12 @@ export default class PrsePublicRegSearch extends LightningElement {
 
             case 'selectSearchType':
                 this.selectedRadioValue = decodedValue;
-                
+
+                // Update page title to reflect selected search type
+                document.title = decodedValue === 'Exemptions'
+                    ? 'Search for exemptions – PRS register'
+                    : 'Search for penalties – PRS register';
+
                 // Clear old results and table flags
                 this.results = [];
                 this.showPropertyExemptions = false;
@@ -478,22 +496,6 @@ export default class PrsePublicRegSearch extends LightningElement {
                 this.totalDatabaseParentRecords = 0;
                 this.pageNumber = 1;
                 this.totalPages = 0;
-
-                // Reset postcode field and tracked property
-             //   this.searchPostcode = '';
-             //   this.userSuppliedPostcode = '';
-                this.searchPropertyAddress = '';
-                this.searchTownOrCity = '';
-                this.searchLandlordName = '';
-                this.propertyType = 'All Properties';
-                this.searchExemptionType = 'All types';
-                
-                // Also clear the input component visually
-           /*     const postcodeComponent = this.template.querySelector('[data-id="searchByPostcode"]');
-                if (postcodeComponent) {
-                    postcodeComponent.value = ''; // reset input
-                    postcodeComponent.clearError(); // optional, clear any validation errors
-                }   */ 
                 break;
 
             case 'searchPropertyAddress':
@@ -567,7 +569,7 @@ export default class PrsePublicRegSearch extends LightningElement {
         }
     }
 
-    async handleSearchClick() {
+    async handleSearch() {
         this.searchApplied = true;
         const componentsAreValid = this.validateComponents();
 
@@ -604,12 +606,13 @@ export default class PrsePublicRegSearch extends LightningElement {
                     this.resultsPostcode = pc;
                     this.showPropertyExemptions = true;
                     this.resultsSummaryMessage = this.resultSummaryMessage;
+                    document.title = 'View exemptions – search results';
                     this.announceSearchStatus();
                 } catch (e) {
                     this.results = [];
                     this.error = e?.body?.message || e?.message || 'An unexpected error occurred';
                     console.error('Search error', e);
-                    this.handleError(e, 'handleSearchClick');
+                    this.handleError(e, 'handleSearch');
                 } finally {
                     this.loading = false;
                 }
@@ -638,7 +641,8 @@ export default class PrsePublicRegSearch extends LightningElement {
                     );
                     this.showPropertyExemptions = true;
                     this.resultsSummaryMessage = this.resultSummaryMessage;
-                    this.announceSearchStatus(); 
+                    document.title = 'View exemptions – search results';
+                    this.announceSearchStatus();
                 } catch (e) {
                     this.results = [];
                     this.error = e?.body?.message || e?.message || 'An unexpected error occurred';
@@ -668,12 +672,13 @@ export default class PrsePublicRegSearch extends LightningElement {
                     this.resultsPostcode = pc;
                     this.showPropertyPenalties = true;
                     this.resultsSummaryMessage = this.resultSummaryMessage;
-                    this.announceSearchStatus(); 
+                    document.title = 'View penalties – search results';
+                    this.announceSearchStatus();
                 } catch (e) {
                     this.results = [];
                     this.error = e?.body?.message || e?.message || 'An unexpected error occurred';
                     console.error('Search error', e);
-                    this.handleError(e, 'handleSearchClick');
+                    this.handleError(e, 'handleSearch');
                 } finally {
                     this.loading = false;
                 }
@@ -703,12 +708,13 @@ export default class PrsePublicRegSearch extends LightningElement {
                     );
                     this.showPropertyPenalties = true;
                     this.resultsSummaryMessage = this.resultSummaryMessage;
-                    this.announceSearchStatus(); 
+                    document.title = 'View penalties – search results';
+                    this.announceSearchStatus();
                 } catch (e) {
                     this.results = [];
                     this.error = e?.body?.message || e?.message || 'An unexpected error occurred';
                     console.error('Search error', e);
-                    this.handleError(e, 'handleSearchClick');
+                    this.handleError(e, 'handleSearch');
                 } finally {
                     this.loading = false;
                 }
@@ -727,12 +733,12 @@ export default class PrsePublicRegSearch extends LightningElement {
             return;
         }
 
-        // Build the relative URL — adjust the base path to match your community page name
+                // Build the relative URL — adjust the base path to match your community page name
         let relativeUrl;
         if(this.isExemptionSearch){
-            relativeUrl = `/PRSEPublicRegister/exemption-details?recordId=${recordId}&displayResultsAtPropertyLevel=${this.displayResultsAtPropertyLevel}`;
+            relativeUrl = `${basePath}/exemption-details?recordId=${recordId}&displayResultsAtPropertyLevel=${this.displayResultsAtPropertyLevel}`;
         } else if(this.isPenaltySearch){
-            relativeUrl = `/PRSEPublicRegister/penalty-details?recordId=${recordId}&displayResultsAtPropertyLevel=${this.displayResultsAtPropertyLevel}`;
+            relativeUrl = `${basePath}/penalty-details?recordId=${recordId}&displayResultsAtPropertyLevel=${this.displayResultsAtPropertyLevel}`;
         }
 
         // Navigate within the site
@@ -755,36 +761,32 @@ export default class PrsePublicRegSearch extends LightningElement {
             postcodeComponent.clearError();
         }
 
-
         if(this.searchByPostcode) {
             // Switching **from postcode -> Other ways**
-            // Reset postcode field
             this.searchPostcode = '';
             this.userSuppliedPostcode = '';
+
+            // Also clear the input component visually
+            const postcodeComponent = this.template.querySelector('[field-id="searchByPostcode"]');
+            if (postcodeComponent) postcodeComponent.value = '';
         } else {
             // Switching **from Other ways -> postcode**
-            // Reset "Other ways" fields
             this.searchPropertyAddress = '';
             this.searchTownOrCity = '';
             this.searchLandlordName = '';
             this.propertyType = 'All Properties';
             this.searchExemptionType = 'All types';
 
-            // Also clear the select components visually
-            const propertyTypeComponent = this.template.querySelector('[data-id="searchPropertyType"]');
-            if (propertyTypeComponent) propertyTypeComponent.value = 'All Properties';
-            const exemptionTypeComponent = this.template.querySelector('[data-id="searchExemptionType"]');
-            if (exemptionTypeComponent) exemptionTypeComponent.value = 'All types';
-
-            const penaltyTypeComponent = this.template.querySelector('[data-id="searchPenaltyType"]');
-            if (penaltyTypeComponent) penaltyTypeComponent.value = 'All types';
-
-            const addressComponent = this.template.querySelector('[data-field-id="searchPropertyAddress"]');
+            const addressComponent = this.template.querySelector('[field-id="searchPropertyAddress"]');
             if(addressComponent) addressComponent.value = '';
-            const townComponent = this.template.querySelector('[data-field-id="searchTownOrCity"]');
+            const townComponent = this.template.querySelector('[field-id="searchTownOrCity"]');
             if(townComponent) townComponent.value = '';
-            const landlordComponent = this.template.querySelector('[data-field-id="searchLandlordName"]');
+            const landlordComponent = this.template.querySelector('[field-id="searchLandlordName"]');
             if(landlordComponent) landlordComponent.value = '';
+            const propertyTypeComponent = this.template.querySelector('[field-id="searchPropertyType"]');
+            if (propertyTypeComponent) propertyTypeComponent.value = 'All Properties';
+            const exemptionTypeComponent = this.template.querySelector('[field-id="searchExemptionType"]');
+            if (exemptionTypeComponent) exemptionTypeComponent.value = 'All types';            
         }
 
         this.searchByPostcode = this.searchByPostcode ? false : true;

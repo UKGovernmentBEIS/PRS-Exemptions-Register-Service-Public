@@ -8,7 +8,21 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightningCommunity__Default">
-            <property name="redirectUrl" type="String" label="Url to redirect to" required="true" default="" description="Url of the page you would like to be navigated to on component load."/>
+            <property 
+                name="redirectUrl" 
+                type="String" 
+                label="Url to redirect to" 
+                required="false" 
+                default="" 
+                description="Url of the page you would like to be navigated to on component load."
+            />
+            <property
+                name="externalLink"
+                type="Boolean"
+                required="false"
+                label="Link navigation outside of Salesforce"
+                description="Set to true if navigating outside of Salesforce"
+            />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

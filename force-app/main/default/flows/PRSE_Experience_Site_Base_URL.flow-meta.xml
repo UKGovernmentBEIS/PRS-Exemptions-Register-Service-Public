@@ -7,30 +7,171 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
-            <assignToReference>siteBaseURL</assignToReference>
+            <assignToReference>var_siteProductionUrl</assignToReference>
             <operator>Assign</operator>
             <value>
                 <stringValue>https://</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>siteBaseURL</assignToReference>
+            <assignToReference>var_siteProductionUrl</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>siteDomainName</elementReference>
+                <elementReference>LoopThroughDomains.Domain</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LoopThroughDomains</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>AssignDefaultUrl</name>
+        <label>Assign Default Url</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>siteBaseURL</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_siteDefaultUrl</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>AssignProductionUrl</name>
+        <label>Assign Production Url</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>siteBaseURL</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_siteProductionUrl</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>AssignSiteDefaultURL</name>
+        <label>Assign Site Default URL</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_siteDefaultUrl</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>https://</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>siteBaseURL</assignToReference>
+            <assignToReference>var_siteDefaultUrl</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>LoopThroughDomains.Domain</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_siteDefaultUrl</assignToReference>
             <operator>Add</operator>
             <value>
                 <stringValue>/PRSExemptionsRegister/</stringValue>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>CheckIfItMatchesInput</targetReference>
+        </connector>
     </assignments>
+    <decisions>
+        <name>CheckIfItMatchesInput</name>
+        <label>Check If It Matches Input</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>LoopThroughDomains</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No match</defaultConnectorLabel>
+        <rules>
+            <name>Input_Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LoopThroughDomains.Domain</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>var_siteContains</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Site_Base_URL</targetReference>
+            </connector>
+            <label>Input Match</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>GetDefaultUrl</name>
+        <label>Get Default Url</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>CheckIfItMatchesInput</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Get_Default_Url</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LoopThroughDomains.Domain</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>site.com</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignSiteDefaultURL</targetReference>
+            </connector>
+            <label>Get Default Url</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>SetCorrectReturnURL</name>
+        <label>Set Correct Return URL</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>AssignDefaultUrl</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Return Default Site.com URL</defaultConnectorLabel>
+        <rules>
+            <name>ReturnProductionURL</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_siteProductionUrl</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignProductionUrl</targetReference>
+            </connector>
+            <label>Return Production URL</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <interviewLabel>PRSE Experience Site Base URL {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PRSE Experience Site Base URL</label>
+    <loops>
+        <name>LoopThroughDomains</name>
+        <label>Loop Through Domains</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Experience_Site_Base_URL</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>GetDefaultUrl</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>SetCorrectReturnURL</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -57,21 +198,11 @@
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Site_Base_URL</targetReference>
+            <targetReference>LoopThroughDomains</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Domain</field>
-            <operator>Contains</operator>
-            <value>
-                <stringValue>site.com</stringValue>
-            </value>
-        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Domain</object>
-        <outputAssignments>
-            <assignToReference>siteDomainName</assignToReference>
-            <field>Domain</field>
-        </outputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
@@ -91,6 +222,27 @@
     </variables>
     <variables>
         <name>siteDomainName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_siteContains</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_siteDefaultUrl</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_siteProductionUrl</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

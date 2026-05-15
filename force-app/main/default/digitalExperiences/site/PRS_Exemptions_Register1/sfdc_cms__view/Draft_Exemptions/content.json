@@ -22,9 +22,9 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "backLink" : "/PRSExemptionsRegister/dashboard",
+                "backLink" : "dashboard",
                 "dxpStyle" : { },
-                "logoutLink" : "/PRSExemptionsRegister/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSExemptionsRegister"
+                "logoutLink" : ""
               },
               "definition" : "c:prseHeaderLinks",
               "id" : "e8a41d3c-4665-49bd-a834-29787ef2e28d",

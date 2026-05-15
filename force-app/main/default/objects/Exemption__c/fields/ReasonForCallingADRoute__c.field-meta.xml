@@ -15,9 +15,9 @@
                 <label>No access to the internet</label>
             </value>
             <value>
-                <fullName>Problems using the service</fullName>
+                <fullName>Technical error with the service</fullName>
                 <default>false</default>
-                <label>Problems using the service</label>
+                <label>Technical error with the service</label>
             </value>
             <value>
                 <fullName>Unable to upload document</fullName>

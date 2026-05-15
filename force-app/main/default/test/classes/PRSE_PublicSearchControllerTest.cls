@@ -65,7 +65,68 @@ private class PRSE_PublicSearchControllerTest {
             Registered_Date__c=Date.today(),
             PropertyAddress__c='125 Main St'
         );
-        insert new List<Exemption__c>{ex1, ex2, ex3};
+        Exemption__c draftExemption = new Exemption__c(
+            Account__c = landlord1.Id,
+            Status__c = 'Draft',
+            PropertyPostcode__c = 'AB1 2CD',
+            LandlordBusinessName__c = 'Landlord One',
+            Registered_Date__c = Date.today(),
+            PropertyAddress__c = '125 Main St'
+        );
+        Exemption__c endedExemption = new Exemption__c(
+            Account__c = landlord2.Id,
+            Status__c = 'Ended',
+            PropertyPostcode__c = 'AB1 2CD',
+            LandlordBusinessName__c = 'Landlord Two',
+            Registered_Date__c = Date.today(),
+            PropertyAddress__c = '125 Main St'
+        );
+        Exemption__c expiredExemption = new Exemption__c(
+            Account__c = landlord3.Id,
+            Status__c = 'Expired',
+            PropertyPostcode__c = 'AB1 2CD',
+            LandlordBusinessName__c = 'Landlord Three',
+            Registered_Date__c = Date.today(),
+            PropertyAddress__c = '125 Main St'
+        );
+        Exemption__c needsUpdateExemption = new Exemption__c(
+            Account__c = landlord1.Id,
+            Status__c = 'Needs update',
+            PropertyPostcode__c = 'AB1 2CD',
+            LandlordBusinessName__c = 'Landlord One',
+            Registered_Date__c = Date.today(),
+            PropertyAddress__c = '125 Main St'
+        );
+        Exemption__c penaltySentExemption = new Exemption__c(
+            Account__c = landlord2.Id,
+            Status__c = 'Penalty Sent',
+            PropertyPostcode__c = 'AB1 2CD',
+            LandlordBusinessName__c = 'Landlord Two',
+            Registered_Date__c = Date.today(),
+            PropertyAddress__c = '125 Main St'
+        );
+        Exemption__c receivedExemption = new Exemption__c(
+            Account__c = landlord3.Id,
+            Status__c = 'Received',
+            PropertyPostcode__c = 'AB1 2CD',
+            LandlordBusinessName__c = 'Landlord Three',
+            Registered_Date__c = Date.today(),
+            PropertyAddress__c = '125 Main St'
+        );
+        Exemption__c updatedExemption = new Exemption__c(
+            Account__c = landlord1.Id,
+            Status__c = 'Updated',
+            PropertyPostcode__c = 'AB1 2CD',
+            LandlordBusinessName__c = 'Landlord One',
+            Registered_Date__c = Date.today(),
+            PropertyAddress__c = '125 Main St'
+        );
+
+        insert new List<Exemption__c>{
+            ex1, ex2, ex3,
+            draftExemption, endedExemption, expiredExemption,
+            needsUpdateExemption, penaltySentExemption, receivedExemption, updatedExemption
+        };
 
         // Create Exemption_Type_Links (only set writeable fields)
         Exemption_Type_Link__c link1 = new Exemption_Type_Link__c(
@@ -80,7 +141,39 @@ private class PRSE_PublicSearchControllerTest {
             Exemption__c = ex3.Id,
             Exemption_Type__c = exType3.Id
         );
-        insert new List<Exemption_Type_Link__c>{link1, link2, link3};
+        Exemption_Type_Link__c draftExemptionChild = new Exemption_Type_Link__c(
+            Exemption__c = draftExemption.Id,
+            Exemption_Type__c = exType1.Id
+        );
+        Exemption_Type_Link__c endedExemptionChild = new Exemption_Type_Link__c(
+            Exemption__c = endedExemption.Id,
+            Exemption_Type__c = exType2.Id
+        );
+        Exemption_Type_Link__c expiredExemptionChild = new Exemption_Type_Link__c(
+            Exemption__c = expiredExemption.Id,
+            Exemption_Type__c = exType3.Id
+        );
+        Exemption_Type_Link__c needsUpdateExemptionChild = new Exemption_Type_Link__c(
+            Exemption__c = needsUpdateExemption.Id,
+            Exemption_Type__c = exType1.Id
+        );
+        Exemption_Type_Link__c penaltySentExemptionChild = new Exemption_Type_Link__c(
+            Exemption__c = penaltySentExemption.Id,
+            Exemption_Type__c = exType2.Id
+        );
+        Exemption_Type_Link__c receivedExemptionChild = new Exemption_Type_Link__c(
+            Exemption__c = receivedExemption.Id,
+            Exemption_Type__c = exType3.Id
+        );
+        Exemption_Type_Link__c updatedExemptionChild = new Exemption_Type_Link__c(
+            Exemption__c = updatedExemption.Id,
+            Exemption_Type__c = exType1.Id
+        );
+        insert new List<Exemption_Type_Link__c>{ 
+            link1, link2, link3,
+            draftExemptionChild, endedExemptionChild, expiredExemptionChild,
+            needsUpdateExemptionChild, penaltySentExemptionChild, receivedExemptionChild, updatedExemptionChild
+        };
 
         // Create Penalty Types
         Penalty_Type__c pt1 = new Penalty_Type__c(Code__c='P001', Name='Penalty Type 1');
@@ -88,25 +181,27 @@ private class PRSE_PublicSearchControllerTest {
         Penalty_Type__c pt3 = new Penalty_Type__c(Code__c='P003', Name='Penalty Type 3');
         insert new List<Penalty_Type__c>{pt1, pt2, pt3};
 
-        // Create Penalties
         Penalty__c p1 = new Penalty__c(
             Exemption__c = ex1.Id,
             Penalty_Type__c = pt1.Id,
-            Published__c = true,           
-            PropertyAddress__c = '123 Main St'
+            Published__c = true,
+            PropertyAddress__c = '123 Main St',
+            LandlordBusinessName__c = 'Landlord One'  // add this
         );
         Penalty__c p2 = new Penalty__c(
             Exemption__c = ex2.Id,
             Penalty_Type__c = pt2.Id,
             Published__c = true,
-            PropertyAddress__c = '124 Main St'
+            PropertyAddress__c = '124 Main St',
+            LandlordBusinessName__c = 'Landlord Two'  // add this
         );
         Penalty__c p3 = new Penalty__c(
             Exemption__c = ex3.Id,
             Penalty_Type__c = pt3.Id,
             Published__c = false,
-            PropertyAddress__c = '125 Main St'
-        );        
+            PropertyAddress__c = '125 Main St',
+            LandlordBusinessName__c = 'Landlord Three'  // add this for consistency
+        );     
         insert new List<Penalty__c>{p1, p2, p3};
     }
 
@@ -116,7 +211,7 @@ private class PRSE_PublicSearchControllerTest {
         PRSE_PublicSearchController.PaginatedExemptionResult result =
             PRSE_PublicSearchController.searchPropertyExemptionsPaginated('AB12CD', 1, 1);
         System.assertEquals(1, result.records.size());
-        System.assertEquals(3, result.totalRecords);
+        System.assertEquals(7, result.totalRecords);
         System.assertEquals(1, result.pageNumber);
         System.assertEquals(1, result.pageSize);
     }
@@ -456,6 +551,180 @@ private class PRSE_PublicSearchControllerTest {
     
         // Also assert that the record field is assigned
         System.assertEquals(acct.Id, ((Account)wrapper.record).Id, 'Record field should hold original SObject');
+    }
+
+    
+    @IsTest
+    static void searchPropertyExemptionsOtherWaysPaginated_withPartialLandlordName_returnsMatchingResults() {
+        PRSE_PublicSearchController.PaginatedExemptionResult result =
+            PRSE_PublicSearchController.searchPropertyExemptionsOtherWaysPaginated(
+                null,
+                null,
+                'Landlord O', // partial match for 'Landlord One'
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(3, result.records.size(), 'Expected one record matching partial landlord name');
+        System.assertEquals(3, result.totalRecords, 'Expected totalRecords to reflect partial match');
+        System.assertEquals('Landlord One', result.records[0].LandlordBusinessName__c, 'Expected Landlord One to be returned');
+    }
+
+    @IsTest
+    static void searchPropertyExemptionsOtherWaysPaginated_withPartialLandlordNameMatchingMultiple_returnsAllMatchingResults() {
+        PRSE_PublicSearchController.PaginatedExemptionResult result =
+            PRSE_PublicSearchController.searchPropertyExemptionsOtherWaysPaginated(
+                null,
+                null,
+                'Landlord', // partial match for both 'Landlord One' and 'Landlord Two'
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(7, result.records.size(), 'Expected both records to match partial landlord name');
+        System.assertEquals(7, result.totalRecords, 'Expected totalRecords to reflect all partial matches');
+    }
+
+    @IsTest
+    static void searchPropertyExemptionsOtherWaysPaginated_withPartialPropertyAddress_returnsMatchingResults() {
+        PRSE_PublicSearchController.PaginatedExemptionResult result =
+            PRSE_PublicSearchController.searchPropertyExemptionsOtherWaysPaginated(
+                'Main', // partial match for '123 Main St' and '124 Main St'
+                null,
+                null,
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(7, result.records.size(), 'Expected both records to match partial property address');
+        System.assertEquals(7, result.totalRecords, 'Expected totalRecords to reflect partial address match');
+    }
+
+    @IsTest
+    static void searchPropertyExemptionsOtherWaysPaginated_withPartialPropertyAddressMatchingSingle_returnsMatchingResult() {
+        PRSE_PublicSearchController.PaginatedExemptionResult result =
+            PRSE_PublicSearchController.searchPropertyExemptionsOtherWaysPaginated(
+                '123', // partial match for '123 Main St' only
+                null,
+                null,
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(1, result.records.size(), 'Expected one record to match partial property address');
+        System.assertEquals(1, result.totalRecords, 'Expected totalRecords to reflect single partial address match');
+    }
+
+    @IsTest
+    static void searchPropertyExemptionsOtherWaysPaginated_withPartialTownOrCity_returnsMatchingResults() {
+        // Both exemptions share the same city - set it explicitly in additional test data
+        // Using landlord name as proxy since test setup doesn't set PropertyCity__c
+        // Update ex1 to have a city we can partially match
+        List<Exemption__c> exemptions = [SELECT Id FROM Exemption__c WHERE LandlordBusinessName__c = 'Landlord One'];
+        exemptions[0].PropertyCity__c = 'Manchester';
+        update exemptions[0];
+
+        PRSE_PublicSearchController.PaginatedExemptionResult result =
+            PRSE_PublicSearchController.searchPropertyExemptionsOtherWaysPaginated(
+                null,
+                'Manch', // partial match for 'Manchester'
+                null,
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(1, result.records.size(), 'Expected one record to match partial town or city');
+        System.assertEquals(1, result.totalRecords, 'Expected totalRecords to reflect partial city match');
+    }
+
+    @IsTest
+    static void searchPropertyPenaltiesOtherWaysPaginated_withPartialLandlordName_returnsMatchingResults() {
+        PRSE_PublicSearchController.PaginatedPenaltyResult result =
+            PRSE_PublicSearchController.searchPropertyPenaltiesOtherWaysPaginated(
+                null,
+                null,
+                'Landlord O', // partial match for 'Landlord One'
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(1, result.records.size(), 'Expected one record matching partial landlord name');
+        System.assertEquals(1, result.totalRecords, 'Expected totalRecords to reflect partial match');
+        System.assertEquals('Landlord One', result.records[0].LandlordBusinessName__c, 'Expected Landlord One penalty to be returned');
+    }
+
+    @IsTest
+    static void searchPropertyPenaltiesOtherWaysPaginated_withPartialLandlordNameMatchingMultiple_returnsAllMatchingResults() {
+        PRSE_PublicSearchController.PaginatedPenaltyResult result =
+            PRSE_PublicSearchController.searchPropertyPenaltiesOtherWaysPaginated(
+                null,
+                null,
+                'Landlord', // partial match for both 'Landlord One' and 'Landlord Two'
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(2, result.records.size(), 'Expected both records to match partial landlord name');
+        System.assertEquals(2, result.totalRecords, 'Expected totalRecords to reflect all partial matches');
+    }
+
+    @IsTest
+    static void searchPropertyPenaltiesOtherWaysPaginated_withPartialPropertyAddress_returnsMatchingResults() {
+        PRSE_PublicSearchController.PaginatedPenaltyResult result =
+            PRSE_PublicSearchController.searchPropertyPenaltiesOtherWaysPaginated(
+                'Main', // partial match for '123 Main St' and '124 Main St'
+                null,
+                null,
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(2, result.records.size(), 'Expected both records to match partial property address');
+        System.assertEquals(2, result.totalRecords, 'Expected totalRecords to reflect partial address match');
+    }
+
+    @IsTest
+    static void searchPropertyPenaltiesOtherWaysPaginated_withPartialPropertyAddressMatchingSingle_returnsMatchingResult() {
+        PRSE_PublicSearchController.PaginatedPenaltyResult result =
+            PRSE_PublicSearchController.searchPropertyPenaltiesOtherWaysPaginated(
+                '123', // partial match for '123 Main St' only
+                null,
+                null,
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(1, result.records.size(), 'Expected one record to match partial property address');
+        System.assertEquals(1, result.totalRecords, 'Expected totalRecords to reflect single partial address match');
+    }
+
+    @IsTest
+    static void searchPropertyPenaltiesOtherWaysPaginated_withPartialTownOrCity_returnsMatchingResults() {
+        List<Penalty__c> penalties = [SELECT Id FROM Penalty__c WHERE LandlordBusinessName__c = 'Landlord One'];
+        penalties[0].PropertyCity__c = 'Manchester';
+        update penalties[0];
+
+        PRSE_PublicSearchController.PaginatedPenaltyResult result =
+            PRSE_PublicSearchController.searchPropertyPenaltiesOtherWaysPaginated(
+                null,
+                'Manch', // partial match for 'Manchester'
+                null,
+                null,
+                null,
+                10,
+                1
+            );
+        System.assertEquals(1, result.records.size(), 'Expected one record to match partial town or city');
+        System.assertEquals(1, result.totalRecords, 'Expected totalRecords to reflect partial city match');
     }
     
 }

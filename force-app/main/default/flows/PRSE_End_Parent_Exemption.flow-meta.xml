@@ -2,6 +2,54 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
     <assignments>
+        <name>Increase_Child_Exemption_Count</name>
+        <label>Increase Child Exemption Count</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_TotalChildExemptionCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Is_Exemption_Ended</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Increase_Ended_Child_Exemption_Count</name>
+        <label>Increase Ended Child Exemption Count</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_EndedChildExemptionCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_and_Check_for_Non_Ended_Exemptions</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Increase_Expired_Child_Exemption_Count</name>
+        <label>Increase Expired Child Exemption Count</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>var_ExpiredChildExemptionCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_and_Check_for_Non_Ended_Exemptions</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Update_active_exemption_found</name>
         <label>Update active exemption found</label>
         <locationX>0</locationX>
@@ -23,7 +71,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>End_Parent_Exemption</targetReference>
+            <targetReference>EndOrExpireParentExemption</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
@@ -37,6 +85,53 @@
                 </rightValue>
             </conditions>
             <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>EndOrExpireParentExemption</name>
+        <label>End Or Expire Parent Exemption</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>End_Parent_Exemption</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Expire_Exemption</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>var_ExpiredChildExemptionCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>var_TotalChildExemptionCount</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_ExpiredChildExemptionCount</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Expire_Parent_Exemption</targetReference>
+            </connector>
+            <label>Expire Exemption</label>
+        </rules>
+        <rules>
+            <name>End_Exemption</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_EndedChildExemptionCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>var_TotalChildExemptionCount</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>End_Parent_Exemption</targetReference>
+            </connector>
+            <label>End Exemption</label>
         </rules>
     </decisions>
     <decisions>
@@ -66,9 +161,34 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Loop_and_Check_for_Non_Ended_Exemptions</targetReference>
+                <targetReference>Is_It_Ended_Or_Expired_By_System</targetReference>
             </connector>
             <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_It_Ended_Or_Expired_By_System</name>
+        <label>Is It Ended Or Expired By System</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Increase_Ended_Child_Exemption_Count</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Ended</defaultConnectorLabel>
+        <rules>
+            <name>Expired_By_System</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_and_Check_for_Non_Ended_Exemptions.Additional_End_Reason__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Exemption Expired by System</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Increase_Expired_Child_Exemption_Count</targetReference>
+            </connector>
+            <label>Expired By System</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -82,7 +202,7 @@
         <collectionReference>Get_All_Child_Exemptions</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Is_Exemption_Ended</targetReference>
+            <targetReference>Increase_Child_Exemption_Count</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Are_there_any_Active_Child_Exemptions</targetReference>
@@ -141,6 +261,19 @@
         </inputAssignments>
         <inputReference>$Record.Exemption__r</inputReference>
     </recordUpdates>
+    <recordUpdates>
+        <name>Expire_Parent_Exemption</name>
+        <label>Expire Parent Exemption</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Expired</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Exemption__r</inputReference>
+    </recordUpdates>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -168,6 +301,28 @@
     </start>
     <status>Active</status>
     <variables>
+        <name>var_EndedChildExemptionCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>var_ExpiredChildExemptionCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
         <name>Var_HasActiveChildExemption</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -175,6 +330,17 @@
         <isOutput>false</isOutput>
         <value>
             <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>var_TotalChildExemptionCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
         </value>
     </variables>
 </Flow>

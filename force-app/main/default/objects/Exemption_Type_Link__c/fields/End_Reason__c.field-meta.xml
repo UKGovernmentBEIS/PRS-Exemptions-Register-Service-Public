@@ -15,14 +15,14 @@
                 <label>Property is compliant – EPC E or higher</label>
             </value>
             <value>
-                <fullName>Property has been sold / change of landlord</fullName>
+                <fullName>Property has been sold or change of landlord</fullName>
                 <default>false</default>
-                <label>Property has been sold / change of landlord</label>
+                <label>Property has been sold or change of landlord</label>
             </value>
             <value>
-                <fullName>Property is now short term let / holiday let</fullName>
+                <fullName>Property is now short term let or holiday let</fullName>
                 <default>false</default>
-                <label>Property is now short term let / holiday let</label>
+                <label>Property is now short term let or holiday let</label>
             </value>
             <value>
                 <fullName>Property is now Owner Occupier</fullName>

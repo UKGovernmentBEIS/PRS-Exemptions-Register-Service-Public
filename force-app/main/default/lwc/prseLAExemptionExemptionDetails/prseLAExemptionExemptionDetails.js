@@ -17,6 +17,8 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
     @track statusValue;
     @track originalStatusValue;
     @track epcLink = { url: null, sourceType: 'none', fileName: null };
+    @track statusDescription = '';
+    @track statusSavedMessage = '';
     
     get isCertificateFromAPI() {
         return this.epcLink?.sourceType === 'api';
@@ -27,17 +29,11 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
     }
 
     get isFile() {
-        return this.epcLink?.sourceType === 'file' || this.epcLink?.sourceType === 'file-foundapi';
+        return this.epcLink?.sourceType === 'file';
     }
 
-    get isFileFoundAPI() {
-        return this.epcLink?.sourceType === 'file-foundapi';
-    }
     get isNone() {
         return this.epcLink?.sourceType === 'none';
-    }
-    get isNoneButExists() {
-        return this.epcLink?.sourceType === 'none-foundapi';
     }
 
     get isEndedExemption() {
@@ -57,10 +53,20 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
         return this.statusOptions.length > 0 && this.statusValue !== undefined;
     }
 
+    get showStatusDescription() {
+        return !!this.statusDescription;
+    }
+
     statusInitialized = false;
 
     // Allowed statuses (excluding the current status, which we'll add dynamically)
     ALLOWED_STATUSES = ['Needs update', 'Penalty sent', 'Approved'];
+
+    STATUS_LABELS = {
+        'Needs update': 'Needs update: more information needed from landlord',
+        'Approved': 'Approved',
+        'Penalty sent': 'Penalty sent'
+    };
 
     @wire(getExemptionStatusOptions)
     wiredStatusOptions({ data, error }) {
@@ -71,7 +77,10 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
                 status => this.ALLOWED_STATUSES.includes(status) || status === currentStatus
             ); 
 
-            this.statusOptions = filteredStatuses.map(opt => ({ label: opt, value: opt }));
+            this.statusOptions = filteredStatuses.map(opt => ({
+                label: this.STATUS_LABELS[opt] || opt,
+                value: opt
+            }));
 
             this.initializeStatusValue();
         } else if (error) {
@@ -98,7 +107,7 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
                 return {
                     ...c,
                     formattedEndDate: this.formatDate(c.EndDate),
-                    statusClass: c.Status === 'Ended' ? 'status-ended' : 'status-active',
+                    statusClass: this.getTagClass(c.Status),
                     typeRowClass: c.EndDate ? 'govuk-summary-list__row no-border-bottom' : 'govuk-summary-list__row'
                 };
             });
@@ -120,7 +129,7 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
             this.epcLink = {
             ...wrapper,
             DocumentUrl:
-                (wrapper?.sourceType === 'file' || wrapper?.sourceType === 'file-foundapi') &&
+                wrapper?.sourceType === 'file' &&
                 wrapper?.contentDocumentId
                     ? `${basePath}/sfc/servlet.shepherd/document/download/${wrapper.contentDocumentId}?operationContext=S1`
                     : null
@@ -141,8 +150,11 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
             // Ensure current status is in the selectOptions
             const exists = this.statusOptions.some(opt => opt.value === recordStatus);
             if (!exists) {
-                this.statusOptions.unshift({ label: recordStatus, value: recordStatus });
-            }            
+                this.statusOptions.unshift({
+                    label: this.STATUS_LABELS[recordStatus] || recordStatus,
+                    value: recordStatus
+                });
+            }           
             
             this.selectOptions = this.statusOptions.map(opt => ({
                 ...opt,
@@ -183,10 +195,19 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
     handleStatusChange(event) {
         this.statusValue = event.target.value;
         // Update the selected flags dynamically if needed
+        this.statusSavedMessage = '';
+
         this.selectOptions = this.selectOptions.map(opt => ({
             ...opt,
             selected: opt.value === this.statusValue
         }));
+
+        const descriptions = {
+            'Approved': 'You have checked the exemption, and it is valid.',
+            'Needs update': 'You need further information from the landlord. The landlord will be able to edit their exemption. Contact the landlord separately to tell them what information you need.',
+            'Penalty sent': 'You have issued a financial or publication penalty to the landlord.'
+        };
+        this.statusDescription = descriptions[this.statusValue] || '';
     }
 
     get isSaveDisabled() {
@@ -197,13 +218,27 @@ export default class PrseLAExemptionExemptionDetails extends LightningElement {
         updateExemptionStatus({ exemptionId: this.exemptionId, status: this.statusValue })
             .then(() => {
                 this.originalStatusValue = this.statusValue;
-                // Force fresh data from Apex
+                this.statusDescription = '';
+                this.statusSavedMessage = 'Your changes have been saved';
                 return refreshApex(this.wiredExemptionResult);
             })
             .catch(error => {
                 console.error('Error updating exemption status: ', error);
                 this.handleError(error, 'saveStatusChange-updateExemptionStatus');
             });
+    }
+
+    getTagClass(status) {
+        switch (status) {
+            case 'Active':
+                return 'govuk-tag govuk-tag--green';
+            case 'Ended':
+                return 'govuk-tag govuk-tag--orange';
+            case 'Expired':
+                return 'govuk-tag govuk-tag--grey';
+            default:
+                return 'govuk-tag govuk-tag--grey';
+        }
     }
 
     handleError(error, methodName){

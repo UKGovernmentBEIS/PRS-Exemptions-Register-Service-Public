@@ -124,14 +124,6 @@ private class PRSE_LAViewExemptionHelperTest {
         );
         insert landlordUser;
 
-        // Create Agent Account
-        Account agentAcc = new Account(
-            Name = 'agent Ltd',
-            BusinessName__c = 'agent Ltd',
-            Phone = '0123456789'
-        );
-        insert agentAcc;
-
         // Create Exemption record linked to Landlord User
         Exemption__c ex = new Exemption__c(
             Account__c = landlordPersonAcc.Id,
@@ -142,7 +134,6 @@ private class PRSE_LAViewExemptionHelperTest {
             LandlordPhone__c = '0123456789',
             LandlordEmail__c = 'jd@example.com',
             OwnerId = landlordUser.Id,
-            agent__c = agentAcc.Id,
             Local_Custodian_Code__c = '1950'
         );
         insert ex;

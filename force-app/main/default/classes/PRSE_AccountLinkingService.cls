@@ -74,12 +74,58 @@ public without sharing class PRSE_AccountLinkingService {
                 // Check for partial failures
                 Integer successCount = 0;
                 List<String> errors = new List<String>();
+                Set<Id> successfulExemptionIds = new Set<Id>();
                 for (Integer i = 0; i < saveResults.size(); i++) {
                     if (saveResults[i].isSuccess()) {
                         successCount++;
+                        successfulExemptionIds.add(exemptions[i].Id);
                     } else {
                         for (Database.Error err : saveResults[i].getErrors()) {
-                            errors.add('Record ' + exemptions[i].Id + ': ' + err.getMessage());
+                            errors.add('Exemption ' + exemptions[i].Id + ': ' + err.getMessage());
+                        }
+                    }
+                }
+
+                if (!successfulExemptionIds.isEmpty()) {
+
+                    // Collect exemption IDs plus child Exemption_Type_Link__c IDs
+                    Set<Id> allLinkedEntityIds = new Set<Id>(successfulExemptionIds);
+                    for (Exemption_Type_Link__c tl : [
+                        SELECT Id 
+                        FROM Exemption_Type_Link__c 
+                        WHERE Exemption__c IN :successfulExemptionIds
+                    ]) {
+                        allLinkedEntityIds.add(tl.Id);
+                    }
+
+                    // Get all ContentDocumentIds linked to exemptions and child exemptions
+                    Set<Id> contentDocumentIds = new Set<Id>();
+                    for (ContentDocumentLink cdl : [
+                        SELECT ContentDocumentId 
+                        FROM ContentDocumentLink 
+                        WHERE LinkedEntityId IN :allLinkedEntityIds
+                    ]) {
+                        contentDocumentIds.add(cdl.ContentDocumentId);
+                    }
+
+                    // Create new User-level CDLs for the new owner
+                    if (!contentDocumentIds.isEmpty()) {
+                        List<ContentDocumentLink> newUserLinks = new List<ContentDocumentLink>();
+                        for (Id docId : contentDocumentIds) {
+                            newUserLinks.add(new ContentDocumentLink(
+                                ContentDocumentId = docId,
+                                LinkedEntityId    = input.newOwnerId,
+                                ShareType         = 'V',
+                                Visibility        = 'AllUsers'
+                            ));
+                        }
+                        Database.SaveResult[] linkResults = Database.insert(newUserLinks, false);
+                        for (Integer i = 0; i < linkResults.size(); i++) {
+                            if (!linkResults[i].isSuccess()) {
+                                for (Database.Error err : linkResults[i].getErrors()) {
+                                    errors.add('Insert CDL ' + newUserLinks[i].ContentDocumentId + ': ' + err.getMessage());
+                                }
+                            }
                         }
                     }
                 }
@@ -97,7 +143,6 @@ public without sharing class PRSE_AccountLinkingService {
                     output.status = 'Partial Success';
                     output.message = errorMessage;
                 } else {
-                    // Build success output
                     output.recordsTransferred = exemptions.size();
                     output.status = 'Success';
                     output.message = 'Successfully transferred ' + exemptions.size() + ' exemption records';

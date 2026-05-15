@@ -16,7 +16,15 @@ export default class PrseLAExemptionLandlordDetails extends LightningElement {
     }
 
     get showBusinessName() {
-
-        return this.landlord?.LandlordType === 'Organisation';
+        return (this.landlord && this.landlord.LandlordBusinessName && this.landlord.LandlordBusinessName !== '') ? true : false;
     }
+
+    get digitallyAssistedRoute() {
+        return this.landlord?.DigitallyAssisted === true;
+    }
+
+    get partyType() {
+        return this.landlord?.LandlordType === 'Individual' ? 'landlord' : 'agent';        
+    }
+
 }

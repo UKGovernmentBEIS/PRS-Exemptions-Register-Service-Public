@@ -2979,7 +2979,7 @@ IF(ISBLANK({!FilteredDeliveryPointAddress.SUB_BUILDING_NAME}), &quot;&quot;, {!F
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/error</stringValue>
+                    <stringValue>error</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -3722,7 +3722,7 @@ IF(ISBLANK({!FilteredDeliveryPointAddress.SUB_BUILDING_NAME}), &quot;&quot;, {!F
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/dashboard</stringValue>
+                    <stringValue>dashboard</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

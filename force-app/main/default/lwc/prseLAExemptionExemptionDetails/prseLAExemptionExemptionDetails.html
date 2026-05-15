@@ -13,7 +13,7 @@
 
                     <template if:false={isEndedExemption}>
                         <label class="govuk-label" for="exemptionStatus">
-                            Select the status for this exemption
+                            Change the status for this exemption. This will not automatically notify the landlord. Select a status to see more information about it.
                         </label>
                         <template if:true={statusReady}>
                             <div class="govuk-form-group">
@@ -22,6 +22,14 @@
                                         <option key={option.value} value={option.value} selected={option.selected}>{option.label}</option>
                                     </template>
                                 </select>
+                                <template if:true={showStatusDescription}>
+                                    <div class="govuk-inset-text">{statusDescription}</div>
+                                </template>
+                                <template if:true={statusSavedMessage}>
+                                    <div class="govuk-inset-text govuk-inset-text--green">
+                                        {statusSavedMessage}
+                                    </div>
+                                </template>
                             </div>
 
                             <button class="govuk-button"
@@ -68,12 +76,12 @@
                                     <dt class="govuk-summary-list__key">Exemption type</dt>
                                     <dd class="govuk-summary-list__value">
                                         {child.TypeName}<br />
-                                        <span class={child.statusClass}>{child.Status}</span>
+                                        <strong class={child.statusClass}>{child.Status}</strong>
                                         <template if:true={child.EndDate}>
-                                            <br /><br /><span><strong>Date ended:</strong> {child.formattedEndDate}</span>
-                                            <br /><br /><span><strong>Reason for ending the exemptionn:</strong></span>
-                                            <br /><span>{child.EndReason}</span>
-                                            <br /><span>{child.AdditionalEndReason}</span>
+                                            <br/><br/><span><strong>Date ended:</strong> {child.formattedEndDate}</span>
+                                            <br/><br/><span><strong>Reason for ending the exemption:</strong></span>
+                                            <br/><span>{child.EndReason}</span>
+                                            <br/><span>{child.AdditionalEndReason}</span>
                                         </template>
                                     </dd>
                                 </div>
@@ -105,7 +113,7 @@
                         <template if:true={isCertificate}>
                             <div class="govuk-summary-list__row">
                                 <dd class="govuk-summary-list__value" style="margin:0;">
-                                    <a href={epcLink.url} class="govuk-link" target="_blank" rel="noopener">
+                                    <a href={epcLink.url} class="govuk-link govuk-!-margin-left-3" target="_blank" rel="noopener">
                                         View the energy performance certificate
                                     </a>
                                     <div class="govuk-!-margin-top-2">
@@ -121,29 +129,10 @@
                                 <dd class="govuk-summary-list__value" style="margin:0;">
                                     <div class="file-row">
                                         <span class="file-row__name">{epcLink.fileName}</span>                                        
-                                        <a href={epcLink.DocumentUrl}  target="_blank" rel="noopener">
+                                        <a href={epcLink.DocumentUrl} class="govuk-link govuk-!-margin-left-3"  target="_blank" rel="noopener">
                                             Download
                                         </a>                                      
                                     </div>
-                                    <template if:true={isFileFoundAPI}>
-                                        <div class="govuk-!-margin-top-2">
-                                            This is the EPC that was uploaded on the date the exemption was registered. There is a current valid EPC
-                                        </div>
-                                    </template>
-                                    <template if:false={isFileFoundAPI}>
-                                        <div class="govuk-!-margin-top-2">
-                                            This is the EPC that was uploaded on the date the exemption was registered.
-                                        </div>
-                                    </template>  
-                                </dd>
-                            </div>
-                        </template>
-
-                        
-                        <template if:true={isNoneButExists}>
-                            <div class="govuk-summary-list__row">
-                                <dd class="govuk-summary-list__value">
-                                    There is a current EPC for this property but we don't know the certificate number. You can perform a manual serach.
                                 </dd>
                             </div>
                         </template>

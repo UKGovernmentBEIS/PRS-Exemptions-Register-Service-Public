@@ -6,18 +6,6 @@
     margin-top: 0.25em; 
 }
 
-.status-ended {
-    background-color: #FFE5B4; /* pastel orange */
-    padding: 0.1em 0.3em;
-    border-radius: 3px;
-}
-
-.status-active {
-    background-color: #DFF2BF; /* pastel green */
-    padding: 0.1em 0.3em;
-    border-radius: 3px;
-}
-
 .file-row {
   display: flex;
   justify-content: space-between;
@@ -39,4 +27,9 @@
 
 .govuk-link:hover {
     text-decoration-thickness: max(3px, .1875rem, .12em) !important;
+}
+
+.govuk-inset-text--green {
+    border-left: 10px solid #00703c;
+    padding: 1em;                   
 }

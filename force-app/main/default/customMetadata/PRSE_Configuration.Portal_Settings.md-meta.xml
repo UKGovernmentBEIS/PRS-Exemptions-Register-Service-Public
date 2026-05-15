@@ -12,6 +12,6 @@
     </values>
     <values>
         <field>Use_new_gov_EPC_endpoint__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
 </CustomMetadata>

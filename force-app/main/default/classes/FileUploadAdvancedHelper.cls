@@ -104,6 +104,10 @@ public without sharing class FileUploadAdvancedHelper {
 
     @AuraEnabled
     public static List<FileInfo> getExistingFiles(String recordId) {
+        if(String.isBlank(recordId)) {
+            return new List<FileInfo>();
+        }
+        
         Map<Id, FileInfo> files = new Map<Id, FileInfo>();
         try {
             for(ContentDocumentLink link : [SELECT ContentDocumentId, ContentDocument.Title, ContentDocument.FileExtension FROM ContentDocumentLink WHERE LinkedEntityId = :recordId]) {

@@ -14,13 +14,12 @@
                     </div>
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">Company name</dt>
-                        <dd class="govuk-summary-list__value">{agent.BusinessName__c}</dd>
+                        <dd class="govuk-summary-list__value">{agent.BusinessName}</dd>
                     </div>
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">Correspondence address</dt>
                         <dd class="govuk-summary-list__value">
-                            {agent.PersonMailingAddress.street}, {agent.PersonMailingAddress.city}, 
-                            {agent.PersonMailingAddress.postalCode}, {agent.PersonMailingAddress.state}
+                            {agent.Address}
                         </dd>
                     </div>
                     <div class="govuk-summary-list__row">
@@ -29,9 +28,23 @@
                     </div>
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">Email address</dt>
-                        <dd class="govuk-summary-list__value">{agent.PersonEmail}</dd>
+                        <dd class="govuk-summary-list__value">{agent.Email}</dd>
                     </div>
                 </dl>
+                <template if:true={digitallyAssistedRoute}>                    
+                    <h2 class="govuk-heading-m govuk-!-margin-top-4">Digital support</h2>
+                    <div class="govuk-inset-text">The agent has registered this exemption through the digital support route</div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Reason for using digital support</dt>
+                            <dd class="govuk-summary-list__value">{agent.ReasonForCallingADRoute}</dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Evidence supplied</dt>
+                            <dd class="govuk-summary-list__value">By post</dd>
+                        </div>
+                    </dl>
+                </template>
             </template>
             <template if:false={hasAgent}>
                 <p>No agent details available.</p>

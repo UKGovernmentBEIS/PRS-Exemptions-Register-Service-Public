@@ -2,19 +2,30 @@ import { LightningElement, api } from 'lwc';
 import getLogoutUrl from '@salesforce/apex/LogoutController.getLogoutUrl';
 import clearSalesforceSession from '@salesforce/apex/LogoutController.clearSalesforceSession';
 import systemLog from '@salesforce/apex/digitalmodus.SystemLogLwcWrapper.systemLog';
+import basePath from '@salesforce/community/basePath';
 
 export default class PrseHeaderLinks extends LightningElement {
   @api useWideVariant = false;
   @api disableBackButton;
   @api backLink = "/";
+  @api externalBackLink = false;
 
-  @api logoutLink = "/secur/logout.jsp?retUrl=/PRSExemptionsRegister";
+  @api logoutLink = '';
 
   @api disableProfileSettings;
   @api disableLogoutLink;
 
+  get dynamicBackLink() {
+    return this.externalBackLink === true ? this.backLink : `${basePath}/${this.backLink}`;
+  }
+
   get containerClass() {
     return this.useWideVariant ? 'govuk-width-container govuk-width-container--wide' : 'govuk-width-container';
+  }
+
+  handleBack(event) {
+    event.preventDefault();
+    window.location.assign(this.dynamicBackLink);
   }
 
   handleLogout(event) {

@@ -337,6 +337,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Return_to_Dashboard</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -356,7 +357,49 @@
             <label>User Owns Exemption</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Return_to_dashboard_or_End_Exemption</name>
+        <label>Return to dashboard or End Exemption</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Return_to_Dashboard_Choice</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>View_Registered_Exemption_Navigation_View.action</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>DASHBOARD</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Return_to_Dashboard</targetReference>
+            </connector>
+            <label>Return to Dashboard</label>
+        </rules>
+        <rules>
+            <name>End_Exemption</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>View_Registered_Exemption_Navigation_End.action</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>END</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RedirectToEndExemption</targetReference>
+            </connector>
+            <label>End Exemption</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
+    <formulas>
+        <name>fla_makeEndExemptionURL</name>
+        <dataType>String</dataType>
+        <expression>&quot;end-exemption/?r=&quot; + {!recordId}</expression>
+    </formulas>
     <formulas>
         <name>fla_SummaryAgentDetails</name>
         <dataType>String</dataType>
@@ -538,10 +581,6 @@
         <connector>
             <targetReference>Does_user_own_Exemption</targetReference>
         </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Return_to_Dashboard</targetReference>
-        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -569,6 +608,31 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
+        <name>RedirectToEndExemption</name>
+        <label>RedirectToEndExemption</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>RedirectToEndExemptionPage</name>
+            <extensionName>c:navigateFromFlow</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>redirectUrl</name>
+                <value>
+                    <elementReference>fla_makeEndExemptionURL</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Return_to_Dashboard</name>
         <label>Return to Dashboard</label>
         <locationX>0</locationX>
@@ -583,7 +647,7 @@
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/dashboard</stringValue>
+                    <stringValue>dashboard</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -602,7 +666,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Return_to_Dashboard</targetReference>
+            <targetReference>Return_to_dashboard_or_End_Exemption</targetReference>
         </connector>
         <fields>
             <name>View_Registered_Exemption_History</name>
@@ -631,7 +695,7 @@
             <inputParameters>
                 <name>markupText</name>
                 <value>
-                    <stringValue>&lt;h1 class=&apos;govuk-heading-l&apos;&gt;Registered exemption for {!Get_Registered_Exemption.PropertyAddress__c}, {!Get_Registered_Exemption.PropertyPostcode__c}&lt;/h1&gt;</stringValue>
+                    <stringValue>&lt;h1 class=&apos;govuk-heading-l govuk-!-text-break-word&apos;&gt;Registered exemption for {!Get_Registered_Exemption.PropertyAddress__c}, {!Get_Registered_Exemption.PropertyPostcode__c}&lt;/h1&gt;</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -809,7 +873,7 @@
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <fields>
-            <name>View_Registered_Exemption_Navigation</name>
+            <name>View_Registered_Exemption_Navigation_View</name>
             <extensionName>c:gdsNavigationButtons</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
@@ -840,6 +904,44 @@
                 <name>buttonVariantsString</name>
                 <value>
                     <stringValue>Brand</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>View_Registered_Exemption_Navigation_End</name>
+            <extensionName>c:gdsNavigationButtons</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>buttonActionsString</name>
+                <value>
+                    <stringValue>End</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fullWidth</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonLabelsString</name>
+                <value>
+                    <stringValue>End exemption</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonAlignmentsString</name>
+                <value>
+                    <stringValue>Left</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonVariantsString</name>
+                <value>
+                    <stringValue>Secondary</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

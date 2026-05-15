@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InternalExemptionExpiry__c</fullName>
+    <formula>OR(
+    TODAY() = ADDMONTHS(DATEVALUE(Registered_Date__c), 60),
+    TODAY() = ADDMONTHS(DATEVALUE(Registered_Date__c), 54),
+    TODAY() = ADDMONTHS(DATEVALUE(Registered_Date__c), 6)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Internal Exemption Expiry</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

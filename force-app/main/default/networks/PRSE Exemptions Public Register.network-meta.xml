@@ -37,9 +37,9 @@
     <headlessRegistrationTemplate>unfiled$public/CommunityHeadlessRegistrationTemplate</headlessRegistrationTemplate>
     <networkMemberGroups>
         <permissionSet>DESNZ_PRS_Landlord_Access</permissionSet>
-        <profile>admin</profile>
         <profile>deznz_prs_landlord customer community plus login user</profile>
         <profile>deznz_prs_local authority customer community plus login user</profile>
+        <profile>admin</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
@@ -50,10 +50,10 @@
     </networkPageOverrides>
     <picassoSite>PRSE_Exemptions_Public_Register1</picassoSite>
     <selfRegistration>false</selfRegistration>
-    <sendWelcomeEmail>true</sendWelcomeEmail>
+    <sendWelcomeEmail>false</sendWelcomeEmail>
     <site>PRSE_Exemptions_Public_Register</site>
     <siteArchiveStatus>NotArchived</siteArchiveStatus>
-    <status>UnderConstruction</status>
+    <status>Live</status>
     <tabs>
         <defaultTab>home</defaultTab>
         <standardTab>Chatter</standardTab>

@@ -1,0 +1,66 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+    <div class="govuk-width-container">
+        <div lwc:if={cookiesSet}>
+            <c-gov-uk-notification-banner banner-title="Success" body-heading="Your cookie settings were saved" body-content={successText}></c-gov-uk-notification-banner>
+        </div>
+        <div class="govuk-main-wrapper" id="main-content">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-l">{cookieHeading}</h1>
+                    <div class="govuk-body">
+                        {cookieDescription}
+                    </div>
+                    <template lwc:if={showCookiesTable}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Purpose</th>
+                                    <th>Expires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={finalTableData} for:item="tableRow">
+                                    <tr key={tableRow.id}>
+                                        <td>{tableRow.name}</td>
+                                        <td>{tableRow.purpose}</td>
+                                        <td>{tableRow.expiry}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                </div>
+            </div>
+            <template lwc:if={hasCookieSections}>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h2 class="govuk-heading-l">{cookieSectionHeading}</h2>
+                            <form>
+                                <template for:each={finalSectionData} for:item="section">
+                                    <div class="govuk-form-group" key={section.id}>
+                                        <fieldset class="govuk-fieldset">
+                                            <legend class="govuk-heading-l">{section.name}</legend>
+                                            <div class="govuk-hint">{section.content}</div>
+                                            <div class="govuk-radios" data-module="govuk-radios" data-govuk-radios-init>
+                                                <div class="govuk-radios__item">
+                                                    <input class="govuk-radios__input" id={section.yesId} name={section.radioName} type="radio" value="true" checked={section.consentYes} disabled={section.required} data-section-id={section.id} onchange={handleRadioChange}>
+                                                    <label class="govuk-label govuk-radios__label" for={section.yesId}>Yes</label>
+                                                </div>
+                                                <div class="govuk-radios__item">
+                                                    <input class="govuk-radios__input" id={section.noId} name={section.radioName} type="radio" value="false" checked={section.consentNo} disabled={section.required} data-section-id={section.id} onchange={handleRadioChange}>
+                                                    <label class="govuk-label govuk-radios__label" for={section.noId}>No</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </template>
+                                <button type="button" class="govuk-button" data-module="govuk-button" onclick={handleSubmit}>Save cookie settings</button>
+                            </form>
+                        </div>
+                    </div>
+            </template>
+        </div>
+    </div>
+</template>

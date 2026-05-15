@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <description>Allow users to accept or reject cookies which are not essential to making your service work</description>
+    <masterLabel>Gov UK Notification Banner (UNMANAGED)</masterLabel>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="bannerTitle" type="String" label="Banner Title" description="Success Banner Title"/>
+            <property name="bodyHeading" type="String" label="Body Heading" description="Sucess Banner body heading" default=""/>
+            <property name="bodyContent" type="String" label="Body Description" description="Success Banner Body Content/Description" default=""/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

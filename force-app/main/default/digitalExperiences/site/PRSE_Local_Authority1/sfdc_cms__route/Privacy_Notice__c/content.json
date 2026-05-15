@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Privacy Notice",
+  "contentBody" : {
+    "activeViewId" : "Privacy_Notice",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-privacy-notice",
+    "urlPrefix" : "privacy-notice"
+  },
+  "urlName" : "privacy-notice"
+}

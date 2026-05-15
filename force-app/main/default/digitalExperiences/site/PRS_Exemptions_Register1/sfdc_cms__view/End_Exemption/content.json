@@ -22,12 +22,11 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "dxpStyle" : { },
-                "flowArguments" : "[{\"label\":\"PassedExemptionNumber\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"PassedExemptionNumber\",\"type\":\"String\",\"value\":\"{!r}\"}]",
+                "flowArguments" : "[{\"label\":\"PassedExemption\",\"dataType\":\"String\",\"supportsRecordId\":false,\"inputType\":\"text\",\"name\":\"PassedExemption\",\"type\":\"String\",\"value\":\"{!r}\"}]",
                 "flowName" : "{\"flowName\":\"PRSE_End_Exemption\",\"flowLabel\":\"PRSE End Exemption\"}"
               },
               "definition" : "dxp_flow:flow",
-              "id" : "1ee4ff6d-cc4f-4eca-9866-94b71c8910ec",
+              "id" : "eb04312b-81e7-4969-8454-5c2156f95ecf",
               "type" : "component"
             } ],
             "id" : "a4efcc6f-2e15-49b7-b1a6-f224cff098d4",

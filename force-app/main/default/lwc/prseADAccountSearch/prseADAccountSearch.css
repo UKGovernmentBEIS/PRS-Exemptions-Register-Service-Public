@@ -1,0 +1,79 @@
+.govuk-input--width-full {
+    width: 100% !important;
+}
+
+.govuk-input--width-three-quarters {
+    width: 75% !important;
+}
+
+.govuk-input--width-two-thirds {
+    width: 66.66% !important;
+}
+
+.govuk-input--width-one-half {
+    width: 50% !important;
+}
+
+.govuk-input--width-one-third {
+    width: 33.33% !important;
+}
+
+.govuk-input--width-one-quarter {
+    width: 25% !important;
+}
+
+
+/* Container for the dropdown */
+.search-results {
+    position: absolute;
+    top: 100%;
+    background: #ffffff;
+    border: 2px solid #0b0c0c;
+    max-height: 250px;
+    overflow-y: auto;
+    width: 100%;
+    margin-top: 0;
+    z-index: 1000;
+    padding: 0;
+    list-style: none;
+}
+
+/* Each search result item */
+.search-result-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-bottom: 1px solid #b1b4b6;
+    transition: background-color 0.1s ease;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+/* Hover effect */
+.search-result-item:hover {
+    background-color: #1d70b8;
+    color: #ffffff;
+}
+
+.search-result-item:hover .result-name,
+.search-result-item:hover .result-subtext {
+    color: #ffffff;
+}
+
+/* Name - matches govuk-body font size, bold */
+.result-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #0b0c0c;
+}
+
+/* Email and phone subtext */
+.result-subtext {
+    font-size: 1rem;
+    color: #505a5f;
+    margin-top: 2px;
+}

@@ -1,6 +1,6 @@
 {
   "type" : "sfdc_cms__view",
-  "title" : "Support",
+  "title" : "support",
   "contentBody" : {
     "component" : {
       "children" : [ {
@@ -9,7 +9,6 @@
             "backgroundImageConfig" : "",
             "backgroundImageOverlay" : "rgba(0,0,0,0)",
             "componentSpacerSize" : "",
-            "dxpStyle" : { },
             "layoutDirectionDesktop" : "row",
             "layoutDirectionMobile" : "column",
             "layoutDirectionTablet" : "column",
@@ -22,7 +21,6 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "dxpStyle" : { },
                 "flowName" : "{\"flowName\":\"PRSE_Create_Help_Support_Request\",\"flowLabel\":\"PRSE Create Help/Support Request\"}"
               },
               "definition" : "dxp_flow:flow",
@@ -47,8 +45,7 @@
           "attributes" : {
             "customHeadTags" : "",
             "description" : "",
-            "dxpStyle" : { },
-            "pageTitle" : "Support",
+            "pageTitle" : "support",
             "recordId" : "{!recordId}"
           },
           "definition" : "community_builder:seoAssistant",

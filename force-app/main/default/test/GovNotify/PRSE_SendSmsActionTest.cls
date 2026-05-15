@@ -50,6 +50,40 @@ private class PRSE_SendSmsActionTest {
         Assert.areEqual('OK', responses[0].status, 'Incorrect status returned');
         Assert.areEqual('SMS sent successfully', responses[0].message, 'Incorrect message returned');
     }
+
+    @isTest
+    static void sendSms_withMultipleRequest_returnsMultipleResponse() {
+        //Arrange
+        GovNotifyInteractionService.SmsRequest request1 = new GovNotifyInteractionService.SmsRequest();
+        request1.phoneNumber = '+447700900123';
+        request1.templateId = '123';
+        request1.personalisationJson = 'definitely an object 1';
+
+        GovNotifyInteractionService.SmsRequest request2 = new GovNotifyInteractionService.SmsRequest();
+        request2.phoneNumber = '+447700900123';
+        request2.templateId = '123';
+        request2.personalisationJson = 'definitely an object 2';
+
+        MockProvider mockProvider = new MockProvider();
+        GovNotifyInteractionService.API mockLayer = (GovNotifyInteractionService.API) mockProvider.createMock(GovNotifyInteractionServiceLayer.class);
+        GovNotifyInteractionServiceLayer.instance = mockLayer;
+        mockProvider.when(mockLayer.sendSms(request1)).thenReturn(createMockResponse());
+        mockProvider.when(mockLayer.sendSms(request2)).thenReturn(createMockResponse());
+
+        //Act
+        List<GovNotifyInteractionService.NotifyResponse> responses = PRSE_SendSmsAction.sendSms(
+            new List<GovNotifyInteractionService.SmsRequest>{ 
+                request1, request2 
+            }
+        );
+
+        //Assert
+        Assert.areEqual(2, responses.size(), 'Incorrect number of responses returned');
+        Assert.areEqual('OK', responses[0].status, 'Incorrect status returned');
+        Assert.areEqual('SMS sent successfully', responses[0].message, 'Incorrect message returned');
+        Assert.areEqual('OK', responses[1].status, 'Incorrect status returned');
+        Assert.areEqual('SMS sent successfully', responses[1].message, 'Incorrect message returned');
+    }
     
     public static GovNotifyInteractionService.NotifyResponse createMockResponse() {
         GovNotifyInteractionService.NotifyResponse response = new GovNotifyInteractionService.NotifyResponse();

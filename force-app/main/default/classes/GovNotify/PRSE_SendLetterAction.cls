@@ -9,8 +9,11 @@ public with sharing class PRSE_SendLetterAction {
         if(requests == null || requests.isEmpty()) {
             throw new IllegalArgumentException('Request not provided');
         }
-        return new List<GovNotifyInteractionService.NotifyResponse> { 
-            GovNotifyInteractionService.sendLetter(requests[0]) 
-        };
+        List<GovNotifyInteractionService.NotifyResponse> responses = new List<GovNotifyInteractionService.NotifyResponse>();
+
+        for (GovNotifyInteractionService.LetterRequest request : requests) {
+            responses.add(GovNotifyInteractionService.sendLetter(request));
+        }
+        return responses;
     }
 }

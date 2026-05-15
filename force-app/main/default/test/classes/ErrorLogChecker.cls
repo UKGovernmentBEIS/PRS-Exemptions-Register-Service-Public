@@ -54,4 +54,21 @@ public with sharing class ErrorLogChecker {
         Assert.areEqual(methodName, errorLogs[0].digitalmodus__Triggering_Automation_Name__c, 'Expected triggering automation name to be ' + methodName);
         Assert.areEqual(errorMessage, errorLogs[0].digitalmodus__Log_Message__c, 'Expected error message to be ' + errorMessage);
     }
+
+    public static void checkErrorsForServiceAndMethod(String serviceName, String methodName, Integer numberOfErrors, List<String> errorMessages) {
+        List<digitalmodus__System_Log__c> errorLogs = [
+            SELECT Id, digitalmodus__Log_Message__c, digitalmodus__Log_Code__c,  digitalmodus__Related_Service__c, digitalmodus__Triggering_Automation_Name__c
+            FROM digitalmodus__System_Log__c
+            WHERE digitalmodus__Related_Service__c = :serviceName
+            AND digitalmodus__Triggering_Automation_Name__c = :methodName
+        ];
+        Assert.isTrue(!errorLogs.isEmpty(), 'Expected errors to be logged for ' + serviceName + '.' + methodName);
+        Assert.areEqual(numberOfErrors, errorLogs.size(), 'Expected ' + numberOfErrors + ' error(s) to be logged for ' + serviceName + '.' + methodName);
+        for(Integer i = 0; i < errorLogs.size(); i++) {
+            Assert.areEqual(serviceName, errorLogs[i].digitalmodus__Related_Service__c, 'Expected related service to be ' + serviceName);
+            Assert.areEqual(methodName, errorLogs[i].digitalmodus__Triggering_Automation_Name__c, 'Expected triggering automation name to be ' + methodName);
+            Assert.areEqual(errorMessages[i], errorLogs[i].digitalmodus__Log_Message__c, 'Expected error message to be ' + errorMessages[i]);
+        }
+
+    }
 }

@@ -21,12 +21,12 @@
                                     <!-- Date + Download in one column -->
                                     <dd class="govuk-summary-list__value doc-date-download">
                                         <div class="doc-date">
-                                            <span class="govuk-body-s">Submitted</span>
+                                            <span class="govuk-body-m">Submitted</span></br>
                                             {doc.FormattedDate}
                                         </div>
                                         <div class="doc-download">
                                             <template if:true={doc.DocumentUrl}>
-                                                        <a href={doc.DocumentUrl}  target="_blank" rel="noopener">
+                                                        <a href={doc.DocumentUrl} class="govuk-link" target="_blank" rel="noopener">
                                                     Download
                                                 </a>
                                             </template>

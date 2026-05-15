@@ -1,0 +1,81 @@
+<template>
+    <c-prse-theme-c-s-s-provider></c-prse-theme-c-s-s-provider>
+
+    <div class="govuk-width-container">
+        <div class={groupClass} aria-describedby="hint-text error-text character-count-text">
+
+            <div class="govuk-form-group govuk-!-margin-bottom-1">
+                <h1 class="govuk-label-wrapper" if:true={h1Size}>
+                    <label class={labelClass} for="input-text">{label}</label>
+                </h1>
+                <h2 class="govuk-label-wrapper" if:true={h2Size}>
+                    <label class={labelClass} for="input-text">{label}</label>
+                </h2>
+                <h3 class="govuk-label-wrapper" if:true={h3Size}>
+                    <label class={labelClass} for="input-text">{label}</label>
+                </h3>
+            </div>
+
+            <div id="hint-text"
+                class="govuk-hint slds-hyphenate govuk-!-margin-bottom-1"
+                if:true={hintText}>
+                <div class="html-element" lwc:dom="manual"></div>
+            </div>
+            
+            <span id="error-text" class="govuk-error-message slds-hyphenate govuk-!-margin-bottom-1" if:true={hasErrors}>
+                <span class="govuk-visually-hidden">Error:</span>&nbsp;{errorMessage}
+            </span>
+
+            <div class="govuk-input__wrapper" style="position: relative;">
+                <div class="govuk-input__prefix" if:true={prefix}>{prefix}</div>
+
+                <input
+                    class={inputClass}
+                    id="input-text"
+                    name="input-text"
+                    type="text"
+                    autocomplete={autocompleteType}
+                    spellcheck={spellcheckRequired}
+                    required={required}
+                    value={value}
+                    onkeyup={handleKeyUp}
+                    onblur={handleBlur}
+                />
+                <div class="govuk-input__suffix" if:true={suffix}>{suffix}</div>
+            
+
+                <!-- SEARCH RESULTS -->
+                <template if:true={showResults}>
+                    <ul class="search-results">
+
+                        <template for:each={searchResults} for:item="record">
+                            <li key={record.Id}
+                                class="search-result-item"
+                                data-id={record.Id}
+                                data-name={record.Name}
+                                onclick={handleSelect}>
+
+                                <div class="result-name">
+                                    {record.Name}
+                                    <template if:true={record.BusinessName__c}>
+                                        &nbsp;-&nbsp;{record.BusinessName__c}
+                                    </template>
+                                </div>
+
+                                <div class="result-subtext" if:true={record.PersonEmail}>
+                                    {record.PersonEmail}
+                                    <template if:true={record.Phone}>
+                                        &nbsp;-&nbsp;{record.Phone}
+                                    </template>
+                                </div>
+
+                            </li>
+
+                        </template>
+
+                    </ul>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

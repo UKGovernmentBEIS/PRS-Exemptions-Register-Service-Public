@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <actionCalls>
+        <name>Fetch_Local_Authority_Accounts</name>
+        <label>Fetch Local Authority Accounts</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>PRSE_RetrieveLocalAuthorityAccountAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>What_is_Exemption_Type</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>localCustodianCodes</name>
+            <value>
+                <elementReference>Get_Exemption.Local_Custodian_Code__c</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>PRSE_RetrieveLocalAuthorityAccountAction</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>Send_Confirmation_Email</name>
         <label>Send Confirmation Email</label>
         <locationX>0</locationX>
@@ -8,13 +29,13 @@
         <actionName>PRSE_SendEmailAction</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Get_Associated_Local_Authority</targetReference>
+            <targetReference>Is_a_Local_Authority_Associated</targetReference>
         </connector>
         <flowTransactionModel>NewTransaction</flowTransactionModel>
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>Get_Exemption.LandlordEmail__c</elementReference>
+                <elementReference>Get_Exemption.Account__r.PersonEmail</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -41,7 +62,7 @@
         <actionName>PRSE_SendLetterAction</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Get_Associated_Local_Authority</targetReference>
+            <targetReference>Is_a_Local_Authority_Associated</targetReference>
         </connector>
         <flowTransactionModel>NewTransaction</flowTransactionModel>
         <inputParameters>
@@ -68,7 +89,7 @@
         <actionName>PRSE_SendSmsAction</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Get_Associated_Local_Authority</targetReference>
+            <targetReference>Is_a_Local_Authority_Associated</targetReference>
         </connector>
         <flowTransactionModel>NewTransaction</flowTransactionModel>
         <inputParameters>
@@ -80,7 +101,7 @@
         <inputParameters>
             <name>phoneNumber</name>
             <value>
-                <elementReference>Get_Exemption.Landlord__r.Phone</elementReference>
+                <elementReference>Get_Exemption.Account__r.Phone</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -98,7 +119,7 @@
         <label>Send LA Confirmation Email</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <actionName>GovUkNotifyFlow</actionName>
+        <actionName>PRSE_SendEmailAction</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Exemption_End_Confirmation</targetReference>
@@ -119,10 +140,10 @@
         <inputParameters>
             <name>templateId</name>
             <value>
-                <elementReference>fla_JSONSetterEmail</elementReference>
+                <stringValue>b8b81b09-f614-45a6-b907-947a5f117e6d</stringValue>
             </value>
         </inputParameters>
-        <nameSegment>GovUkNotifyFlow</nameSegment>
+        <nameSegment>PRSE_SendEmailAction</nameSegment>
         <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
@@ -212,7 +233,7 @@
             <assignToReference>LAMailBox</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Associated_Local_Authority.DomesticNotificationsMailbox__c</elementReference>
+                <elementReference>Fetch_Local_Authority_Accounts.DomesticNotificationsMailbox__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -228,7 +249,7 @@
             <assignToReference>LAMailBox</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Associated_Local_Authority.NonDomesticNotificationsMailbox__c</elementReference>
+                <elementReference>Fetch_Local_Authority_Accounts.NonDomesticNotificationsMailbox__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -388,34 +409,9 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Did_user_select_other</targetReference>
+            <targetReference>End_Exemption</targetReference>
         </connector>
     </assignments>
-    <decisions>
-        <name>Did_user_select_other</name>
-        <label>Did user select other?</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>End_Exemption</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Why_you_are_ending_exemption_select.value</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Other</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>End_Exemption_with_Comments</targetReference>
-            </connector>
-            <label>Yes</label>
-        </rules>
-    </decisions>
     <decisions>
         <name>Is_a_Local_Authority_Associated</name>
         <label>Is a Local Authority Associated</label>
@@ -427,7 +423,7 @@
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Local_Authority_Associated</name>
-            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Exemption.Local_Authority__c</leftValueReference>
                 <operator>IsBlank</operator>
@@ -435,22 +431,8 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>Get_Associated_Local_Authority.NonDomesticNotificationsMailbox__c</leftValueReference>
-                <operator>IsBlank</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Associated_Local_Authority.DomesticNotificationsMailbox__c</leftValueReference>
-                <operator>IsBlank</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
             <connector>
-                <targetReference>What_is_Exemption_Type</targetReference>
+                <targetReference>Fetch_Local_Authority_Accounts</targetReference>
             </connector>
             <label>Local Authority Associated</label>
         </rules>
@@ -523,14 +505,15 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>Get_Associated_Local_Authority</targetReference>
+            <isGoTo>true</isGoTo>
+            <targetReference>Set_Personalisation_JSON_Email</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Email</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Exemption.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>Get_Exemption.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Email</stringValue>
@@ -545,7 +528,7 @@
             <name>Text</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Exemption.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>Get_Exemption.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Text</stringValue>
@@ -560,7 +543,7 @@
             <name>Letter</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Exemption.Landlord__r.Communication_Preference__c</leftValueReference>
+                <leftValueReference>Get_Exemption.Account__r.Communication_Preference__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Letter</stringValue>
@@ -578,11 +561,34 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>Assign_Non_Domestic_LA_Email</targetReference>
+            <isGoTo>true</isGoTo>
+            <targetReference>Exemption_End_Confirmation</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Non Domestic</defaultConnectorLabel>
+        <defaultConnectorLabel>No address available to send email</defaultConnectorLabel>
         <rules>
             <name>Domestic</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Exemption.PropertyType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Residential</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Fetch_Local_Authority_Accounts.DomesticNotificationsMailbox__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Domestic_LA_Email</targetReference>
+            </connector>
+            <label>Domestic</label>
+        </rules>
+        <rules>
+            <name>NonDomestic</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Exemption.PropertyType__c</leftValueReference>
@@ -591,10 +597,17 @@
                     <stringValue>Commercial</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Fetch_Local_Authority_Accounts.NonDomesticNotificationsMailbox__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Assign_Domestic_LA_Email</targetReference>
+                <targetReference>Assign_Non_Domestic_LA_Email</targetReference>
             </connector>
-            <label>Domestic</label>
+            <label>Non Domestic</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -614,7 +627,11 @@
     <formulas>
         <name>fla_AdditionalOrPreSetreason</name>
         <dataType>String</dataType>
-        <expression>IF(ISBLANK({!Further_Explain_Why_Ending_Exemption_TextArea.value}),{!Why_you_are_ending_exemption_select.value},{!Further_Explain_Why_Ending_Exemption_TextArea.value})</expression>
+        <expression>IF(
+    ISBLANK({!Further_Explain_Why_Ending_Exemption_TextArea.value}),
+    {!Why_you_are_ending_exemption_select.value},
+    SUBSTITUTE({!Further_Explain_Why_Ending_Exemption_TextArea.value}, &quot;\&quot;&quot;, &quot;\\\&quot;&quot;)
+)</expression>
     </formulas>
     <formulas>
         <name>fla_DateFormat</name>
@@ -643,17 +660,30 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
     <formulas>
         <name>fla_JSONSetterEmail</name>
         <dataType>String</dataType>
-        <expression>&quot;{\&quot;full name\&quot;: \&quot;&quot; + {!Get_Exemption.LandlordFirstName__c} + &quot; &quot; + {!Get_Exemption.LandlordLastName__c} + &quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} +  &quot;\&quot;, \&quot;reference number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + &quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot;, &quot; + {!Get_Exemption.PropertyPostcode__c} + &quot;\&quot;}&quot;</expression>
+        <expression>&quot;{\&quot;full name\&quot;: \&quot;&quot; + {!Get_Exemption.Account__r.FirstName} + &quot; &quot; + {!Get_Exemption.Account__r.LastName} + &quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} +  &quot;\&quot;, \&quot;reference number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + &quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot;, &quot; + {!Get_Exemption.PropertyPostcode__c} + &quot;\&quot;}&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_JSONSetterLetter</name>
         <dataType>String</dataType>
-        <expression>&quot;{\&quot;address_line_1\&quot;: \&quot;&quot; + {!Get_Exemption.LandlordFirstName__c} + &quot; &quot; + {!Get_Exemption.LandlordLastName__c} + &quot;\&quot;, \&quot;address_line_2\&quot;: \&quot;&quot; + {!Get_Exemption.LandlordAddress__c} + &quot;\&quot;, \&quot;address_line_3\&quot;: \&quot;&quot; + {!Get_Exemption.LandlordPostcode__c} + &quot;\&quot;, \&quot;full name\&quot;: \&quot;&quot; + {!Get_Exemption.LandlordFirstName__c} + &quot; &quot; + {!Get_Exemption.LandlordLastName__c} + &quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot; &quot; + {!Get_Exemption.PropertyPostcode__c} + &quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} + &quot;\&quot;, \&quot;date\&quot;: \&quot;&quot; + {!fla_DateFormat} + &quot;\&quot;, \&quot;reference_number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + &quot;\&quot;}&quot;</expression>
+        <expression>&quot;{\&quot;address_line_1\&quot;: \&quot;&quot; + 
+{!Get_Exemption.Account__r.FirstName} + 
+&quot; &quot; + 
+{!Get_Exemption.Account__r.LastName} + 
+&quot;\&quot;, \&quot;address_line_2\&quot;: \&quot;&quot; + {!Get_Exemption.Account__r.PersonMailingStreet} + 
+&quot;\&quot;, \&quot;address_line_3\&quot;: \&quot;&quot; + {!Get_Exemption.Account__r.PersonMailingCity} + 
+&quot;\&quot;, \&quot;address_line_4\&quot;: \&quot;&quot; + {!Get_Exemption.Account__r.PersonMailingPostalCode} + 
+&quot;\&quot;, \&quot;address_line_5\&quot;: \&quot;&quot; + {!Get_Exemption.Account__r.PersonMailingCountry} + 
+&quot;\&quot;, \&quot;full name\&quot;: \&quot;&quot; + {!Get_Exemption.Account__r.FirstName} + &quot; &quot; + {!Get_Exemption.Account__r.LastName} + 
+&quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot; &quot; + {!Get_Exemption.PropertyPostcode__c} + 
+&quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} + 
+&quot;\&quot;, \&quot;date\&quot;: \&quot;&quot; + {!fla_DateFormat} + 
+&quot;\&quot;, \&quot;reference_number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + 
+&quot;\&quot;}&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_JSONSetterSMS</name>
         <dataType>String</dataType>
-        <expression>&quot;{\&quot;full name\&quot;: \&quot;&quot; + {!Get_Exemption.LandlordFirstName__c} + &quot; &quot; + {!Get_Exemption.LandlordLastName__c} + &quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} +  &quot;\&quot;, \&quot;reference number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + &quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot;, &quot; + {!Get_Exemption.PropertyPostcode__c} + &quot;\&quot;}&quot;</expression>
+        <expression>&quot;{\&quot;full name\&quot;: \&quot;&quot; + {!Get_Exemption.Account__r.FirstName} + &quot; &quot; + {!Get_Exemption.Account__r.LastName} + &quot;\&quot;, \&quot;type\&quot;: \&quot;&quot; + {!Get_Selected_Exemption_Type.Exemption_Type__r.Name} +  &quot;\&quot;, \&quot;reference number\&quot;: \&quot;&quot; + {!Get_Exemption.Ref_Number__c} + &quot;\&quot;, \&quot;address\&quot;: \&quot;&quot; + {!Get_Exemption.PropertyAddress__c} + &quot;, &quot; + {!Get_Exemption.PropertyPostcode__c} + &quot;\&quot;}&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_LAJSONSetter</name>
@@ -734,27 +764,6 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
-    <recordLookups>
-        <name>Get_Associated_Local_Authority</name>
-        <label>Get Associated Local Authority</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Is_a_Local_Authority_Associated</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Exemption.Local_Authority__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Account</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordLookups>
         <name>Get_Child_Exemptions</name>
         <label>Get Child Exemptions</label>
@@ -870,35 +879,11 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
             </value>
         </filters>
         <inputAssignments>
-            <field>End_Date__c</field>
+            <field>Additional_End_Reason__c</field>
             <value>
-                <elementReference>$Flow.CurrentDate</elementReference>
+                <elementReference>Further_Explain_Why_Ending_Exemption_TextArea.value</elementReference>
             </value>
         </inputAssignments>
-        <inputAssignments>
-            <field>End_Reason__c</field>
-            <value>
-                <elementReference>Why_you_are_ending_exemption_select.value</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Exemption_Type_Link__c</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>End_Exemption_with_Comments</name>
-        <label>End Exemption with Comments</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <connector>
-            <targetReference>What_are_the_landlord_s_communication_preferences</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Selected_Exemption_Type.Id</elementReference>
-            </value>
-        </filters>
         <inputAssignments>
             <field>End_Date__c</field>
             <value>
@@ -1071,7 +1056,7 @@ TEXT(YEAR($Flow.CurrentDate))</expression>
                 <name>markupText</name>
                 <value>
                     <stringValue>&lt;p class=&apos;govuk-body&apos;&gt;Exemption reference number: {!SelectedChildExemptionRef}&lt;/p&gt;
-&lt;p class=&apos;govuk-body&apos;&gt;The landlord and LA should recieve a confirmation email within 72 hours.&lt;/p&gt;
+&lt;p class=&apos;govuk-body&apos;&gt;The landlord and LA should receive a confirmation email within 72 hours.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;The exemption will now show in the ended section of the landlord&apos;s dashboard&lt;/p&gt;
 </stringValue>
                 </value>

@@ -12,12 +12,14 @@ export default class PrseLAExemptionAgentDetails extends LightningElement {
             this.agent = data;
         } else if (error) {
             console.error('Error loading agent details: ', error);
-        } else {
-            console.error('No agent details found.');
         }
     }
 
     get hasAgent() {
         return !!this.agent;
+    }
+
+    get digitallyAssistedRoute() {
+        return this.agent?.DigitallyAssisted === true;
     }
 }

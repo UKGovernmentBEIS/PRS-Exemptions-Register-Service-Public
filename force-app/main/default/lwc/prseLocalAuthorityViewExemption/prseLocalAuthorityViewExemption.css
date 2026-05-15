@@ -20,13 +20,20 @@
 }
 
 .govuk-back-link {
-  color: #0b0c0c !important;
+  color: #000000 !important;
   text-decoration: underline !important;
   text-decoration-thickness: max(1px, .0625rem) !important;
   text-underline-offset: .1578em !important;
 }
 
 .govuk-back-link:hover {
-    color: #0b0c0c !important;
+    color: #000000 !important;
     text-decoration-thickness: max(3px, .1875rem, .12em) !important;
+}
+
+.address-break {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: block;
 }

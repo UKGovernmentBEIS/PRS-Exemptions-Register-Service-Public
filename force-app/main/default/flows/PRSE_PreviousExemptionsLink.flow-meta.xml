@@ -217,7 +217,11 @@
     <formulas>
         <name>GetBaseURL</name>
         <dataType>String</dataType>
-        <expression> {!Get_Site_Base_URL.siteBaseURL}</expression>
+        <expression>IF(
+    RIGHT({!Get_Site_Base_URL.siteBaseURL}, 1) = &quot;/&quot;,
+    {!Get_Site_Base_URL.siteBaseURL},
+    {!Get_Site_Base_URL.siteBaseURL} &amp; &quot;/&quot;
+)</expression>
     </formulas>
     <interviewLabel>PRSE_PreviousExemptionsLink {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PRSE Previous Exemptions Link</label>
@@ -439,7 +443,7 @@ If you have not received an email, you can:
                 <value>
                     <stringValue>&lt;h1 class=&apos;govuk-heading-l&apos;&gt;Enter the email address you used to register you exemption&lt;/h1&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;We will use this to connect your previous exemptions to this account.&lt;/p&gt;
-&lt;p class=&apos;govuk-body&apos;&gt;If you can no longer access the email account you used, go back and select no. You will need to contact customer support [contact info] to link your exemptions to your account.&lt;/p&gt;
+&lt;p class=&apos;govuk-body&apos;&gt;If you can no longer access the email account you used, go back and select no. You will need to contact customer support &lt;a href=&quot;/support&quot; class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;here&lt;/a&gt; to link your exemptions to your account.&lt;/p&gt;
 </stringValue>
                 </value>
             </inputParameters>
@@ -747,7 +751,7 @@ If you have not received an email, you can:
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/account-registration</stringValue>
+                    <stringValue>account-registration</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -772,7 +776,7 @@ If you have not received an email, you can:
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/dashboard</stringValue>
+                    <stringValue>dashboard</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -799,6 +803,12 @@ If you have not received an email, you can:
             <targetReference>Generate_Secure_Token_Action</targetReference>
         </connector>
         <flowName>PRSE_Experience_Site_Base_URL</flowName>
+        <inputAssignments>
+            <name>var_siteContains</name>
+            <value>
+                <stringValue>register-energy-efficiency-exemption</stringValue>
+            </value>
+        </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <variables>

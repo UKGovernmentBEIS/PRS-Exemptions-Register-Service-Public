@@ -9,7 +9,6 @@
             "backgroundImageConfig" : "",
             "backgroundImageOverlay" : "rgba(0,0,0,0)",
             "componentSpacerSize" : "",
-            "dxpStyle" : { },
             "layoutDirectionDesktop" : "row",
             "layoutDirectionMobile" : "column",
             "layoutDirectionTablet" : "column",
@@ -22,8 +21,14 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
+                "redirectUrl" : ""
+              },
+              "definition" : "c:prseRedirect",
+              "id" : "f5c482dd-6d01-4a57-93df-be75d9b5622e",
+              "type" : "component"
+            }, {
+              "attributes" : {
                 "alignment" : "left",
-                "dxpStyle" : { },
                 "imageInfo" : "",
                 "imageInfoMobile" : "",
                 "logoWidth" : 250
@@ -33,7 +38,6 @@
               "type" : "component"
             }, {
               "attributes" : {
-                "dxpStyle" : { },
                 "forgotPasswordLabel" : "Forgot your password?",
                 "forgotPasswordUrl" : "/ForgotPassword",
                 "loginButtonLabel" : "Log In",
@@ -48,7 +52,6 @@
               "type" : "component"
             }, {
               "attributes" : {
-                "dxpStyle" : { },
                 "employeeLoginLinkLabel" : "Are you an employee? Log in"
               },
               "definition" : "community_login:employeeLoginLink",
@@ -73,7 +76,6 @@
           "attributes" : {
             "customHeadTags" : "",
             "description" : "",
-            "dxpStyle" : { },
             "pageTitle" : "Login",
             "recordId" : "{!recordId}"
           },
@@ -89,6 +91,24 @@
       "definition" : "community_layout:sldsFlexibleLayout",
       "id" : "18adfca9-a714-40f1-a18b-dc7ab8528b81",
       "type" : "component"
+    },
+    "contentOperations" : {
+      "operations" : [ {
+        "targetId" : "89a4a507-9a5c-4c48-8d76-169e5635a117",
+        "isHiddenOnOperationSuccess" : true,
+        "isActive" : true,
+        "rule" : {
+          "name" : "2636b10e-a5ea-4aa1-9fdd-5f4d87110c7e",
+          "description" : "",
+          "criteriaType" : "AllCriteriaMatch",
+          "expressionCriteria" : [ {
+            "resource" : "User.isGuest",
+            "operator" : "Equal",
+            "value" : true,
+            "criterionNumber" : 1
+          } ]
+        }
+      } ]
     },
     "dataProviders" : [ ],
     "themeLayoutType" : "Inner",

@@ -1,0 +1,55 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Terms and Conditions",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "id" : "abf0f2e9-e839-4c1f-a685-71e4c4a2db02",
+        "name" : "header",
+        "title" : "header",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "markupText" : "<h1 class=\"govuk-heading-m\">Account terms and conditions</h2> <p class=\"govuk-body\">You only need to set up an account if you intend to register an exemption for a property.</p> <h2 class=\"govuk-heading-m\">Setting up an account</h2> <p class=\"govuk-body\">By setting up an account you will be able to register exemptions and upload supporting evidence for any properties for which you are the landlord or agent.</p> <p class=\"govuk-body\">You must:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>keep your username and password safe, and not share them with anyone.</li>     <li>not pass yourself off as someone else or create multiple, or false accounts. </li> </ul> <p class=\"govuk-body\">In setting up your account you are agreeing that your contact details may be use in accordance with our <a class=\"govuk-link\" href=\"https://www.register-energy-efficiency-exemption.service.gov.uk/privacy-notice\" rel=\"noreferrer noopener\" target=\"_blank\">Privacy statement (opens in a new window)</a></p> <p class=\"govuk-body\">If you register an exemption for a property, your details will be shared with the relevant enforcement authority. </p> <p class=\"govuk-body\">Your account and contact details will remain on the Register even if no exemptions are registered, and after all registered exemptions have expired.</p> <p class=\"govuk-body\">Your use of the Exemptions Register is governed by English and Welsh law and the Courts shall have exclusive jurisdiction over any dispute which may arise. </p> <h2 class=\"govuk-heading-m\">Account administration</h2> <p class=\"govuk-body\">You can update your personal details by accessing your account to make any necessary changes.</p> <p class=\"govuk-body\">You can view your draft, current or ended exemptions through your landlord account. You can end exemptions that you have registered at any time.</p> <h2 class=\"govuk-heading-m\">Registering an exemption</h2> <p class=\"govuk-body\">When registering an exemption you confirm that:</p> <ul class=\"govuk-list govuk-list--bullet\">     <li>the evidence you submit is accurate and current at the time the exemption is registered.</li>     <li>you have not back dated an exemption -  exemptions must be registered before they are relied on for letting purposes.</li>     <li>you understand that information relating to an exemption will remain on the register even after the exemption expires.</li> </ul> <p class=\"govuk-body\">Local enforcement authorities have legal powers to take action against breaches of the Regulations.</p>    <p class=\"govuk-body\">The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the 'accessibility regulations'). If you're not happy with how we respond to your complaint, <a class=\"govuk-link\" href=\"https://www.equalityadvisoryservice.com/\">contact the Equality Advisory and Support Service (EASS).</a></p> <h2 class=\"govuk-heading-l\">Technical information about this website's accessibility</h2> <p class=\"govuk-body\">Department for Energy Security and Net Zero (DESNZ) is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.</p> <h2 class=\"govuk-heading-m\">Compliance status</h2> <p class=\"govuk-body\">This website is partially compliant with the <a class=\"govuk-link\" href=\"https://www.w3.org/TR/WCAG22/\">Web Content Accessibility Guidelines version 2.2</a> AA standard, due to the non-compliances listed below.</p> <h2 class=\"govuk-heading-l\">Non-accessible content</h2> <p class=\"govuk-body\">The content listed below is non-accessible for the following reasons.</p> <h2 class=\"govuk-heading-m\">Non-compliance with the accessibility regulations</h2> <p class=\"govuk-body\">It is not possible to interact with the ‘Upload File’ button to add an Energy Performance Certificate (EPC) using Dragon Naturally Speaking and known voice commands. This fails WCAG 2.2 success criterion 4.1.2 name, role, value.</p> <p class=\"govuk-body\">If you are unable to use voice commands to select the ‘Upload File’ button and add an Energy Performance Certificate (EPC), we recommend using the Mouse Grid feature. Mouse Grid allows you to interact with on-screen buttons and controls by selecting areas of the screen, providing an accessible alternative to standard mouse or voice navigation.</p> <h2 class=\"govuk-heading-l\">Preparation of this accessibility statement</h2> <p class=\"govuk-body\">This statement was prepared on 16/01/2026. It was last reviewed on 29/04/2026.</p> <p class=\"govuk-body\">This website was last tested on 09/03/2026. The test was carried out by Zoonou.</p> <p class=\"govuk-body\">Zoonou used <a class=\"govuk-link\" href=\"https://www.w3.org/TR/WCAG-EM/\">WCAG-EM</a> to define the pages tested and test approach.</p>"
+          },
+          "definition" : "uxgovuk:govMarkupText",
+          "id" : "023f6769-22fc-4575-b5ce-33855e1a06fb",
+          "type" : "component"
+        } ],
+        "id" : "c79c769b-0705-42c1-8c98-98851e4686a7",
+        "name" : "content",
+        "title" : "content",
+        "type" : "region"
+      }, {
+        "id" : "8934e54d-6d8b-4421-8ea2-ff73ad0142c5",
+        "name" : "footer",
+        "title" : "footer",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "pageTitle" : "Terms and Conditions",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "daaa82aa-a7e2-44e5-8ad8-8e9fb6c8ddc7",
+          "type" : "component"
+        } ],
+        "id" : "88e6bdac-d1c4-4da3-aa5f-a0532a7ff75c",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsOneColLayout",
+      "id" : "7bf26509-3d50-420f-92e7-ef0e17ea6b17",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-terms-and-conditions"
+  },
+  "urlName" : "terms-and-conditions"
+}

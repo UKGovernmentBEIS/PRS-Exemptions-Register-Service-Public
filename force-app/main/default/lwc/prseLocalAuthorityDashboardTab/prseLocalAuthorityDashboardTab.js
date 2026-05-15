@@ -4,6 +4,8 @@ import localAuthorityMessage from '@salesforce/messageChannel/localAuthorityDash
 import getAssociatedExemptionsForLocalAuthorities from '@salesforce/apex/PRSE_LocalAuthorityDashboardController.getAssociatedExemptionsForLocalAuthorities';
 import getAssociatedExemptionsCount from '@salesforce/apex/PRSE_LocalAuthorityDashboardController.getAssociatedExemptionsCount';
 import systemLog from '@salesforce/apex/digitalmodus.SystemLogLwcWrapper.systemLog';
+import basePath from '@salesforce/community/basePath';
+import userId from '@salesforce/user/Id';
 
 export default class PrseLocalAuthorityDashboardTab extends LightningElement {
 
@@ -161,9 +163,13 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
             case 'Approved':
                 return 'govuk-tag govuk-tag--green';
             case 'Ended':
+                return 'govuk-tag govuk-tag--orange';
+            case 'Expired':
                 return 'govuk-tag govuk-tag--grey';
-            case 'Need Update':
-                return 'govuk-tag govuk-tag--yellow';
+            case 'Needs update':
+                return 'govuk-tag govuk-tag--red';
+            case 'Penalty sent':
+                return 'govuk-tag govuk-tag--purple';
             default:
                 return 'govuk-tag govuk-tag--grey';
         }
@@ -208,8 +214,6 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
                 exemptionTypeCodes: [...message.exemptionTypeCodes],
                 searchTerm: message.searchTerm,
             };
-            //this.pageNumber = 1;
-            // NEW: set page number from message
             this.pageNumber = message.pageNumber || 1;
             this.getAssociatedExemptionsForLocalAuthorities();
             this.getAssociatedChildExemptionsCount();
@@ -221,6 +225,8 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
         const pageParam = urlParams.get('page');
         if (pageParam && !isNaN(pageParam) && parseInt(pageParam, 10) > 0) {
             this.pageNumber = parseInt(pageParam, 10);
+        } else {
+            this.pageNumber = 1;
         }
     }
 
@@ -233,8 +239,8 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
     connectedCallback() {
         this.isLoading = true;
         this.subscribeToMessageChannel();
-        this.getAssociatedChildExemptionsCount();
         this.initializePageNumber();
+        this.getAssociatedChildExemptionsCount();
         this.getAssociatedExemptionsForLocalAuthorities();
     }
 
@@ -243,7 +249,7 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
     }
 
     generateFilteredExemptionUrl(recordId) {
-        const base = '/PRSELocalAuthority/view-exemption/';
+        const base = `${basePath}/view-exemption/`;
         const params = [];
         params.push(`exemptionId=${encodeURIComponent(recordId)}`);
 
@@ -264,7 +270,7 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
         }
 
         if (this.pageNumber) {
-            params.push(`filterPage=${encodeURIComponent(this.pageNumber)}`);
+            params.push(`page=${encodeURIComponent(this.pageNumber)}`);
         }
 
         return `${base}?${params.join('&')}`;
@@ -288,7 +294,6 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
                     
                     if (this.pageNumber > this.totalPages && this.totalPages > 0) {
                         this.pageNumber = this.totalPages;
-                        this.getAssociatedExemptionsForLocalAuthorities();
                         return;
                     }
                     this.records = result.records.map(record => ({
@@ -296,7 +301,9 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
                         tagClass: this.getTagClass(record.status),
                         exemptionUrl: this.generateFilteredExemptionUrl(record.exemptionId)
                     }));
-                    this.updateUrlPageNumber();
+                    if (this.pageNumber <= this.totalPages) {
+                        this.updateUrlPageNumber();
+                    }
                 } catch (error) {
                     this.handleError(error, 'getAssociatedExemptionsForLocalAuthorities');
                 }
@@ -343,11 +350,11 @@ export default class PrseLocalAuthorityDashboardTab extends LightningElement {
     handleError(error, methodName){
         let log = {
             relatedService : 'prseLocalAuthorityDashboardTab.js',
-            logMessage : error.errorType || error.name,
+            logMessage : error.message || error.errorType || error.name,
             logFullMessage : error.body?.message || error.message,
             logType : 'Error',
             logCode : 'LWC-LA-Dashboard',
-            relatedRecordId : '500A00000000123AAA',
+            relatedRecordId : userId,
             triggeringAutomationName : methodName
         }
         systemLog({log: log})

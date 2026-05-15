@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>App for assisted digital call handlers</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>PRSE Assisted Digital</label>
+    <navType>Standard</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Assisted_Digital_Exemption_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Exemption__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>DESNZ PRS Assisted Digital Call Handler</profile>
+    </profileActionOverrides>
+    <tabs>Assisted_Digital_Exemptions</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

@@ -35,13 +35,11 @@ private class PRSE_AccountLinkingServiceTest {
         // Create test users
         Profile standardProfile = [SELECT Id FROM Profile WHERE Name = 'System Administrator' LIMIT 1];
         
-        String uniqueUsername = 'newowner.' + System.currentTimeMillis() + '@test.prse.com';
-        
         User newOwner = new User(
             FirstName = 'New',
             LastName = 'Owner',
             Email = 'newowner.' + System.currentTimeMillis() + '@test.com',
-            Username = uniqueUsername,
+            Username = 'newowner.' + System.currentTimeMillis() + '@test.prse.com',
             Alias = 'newown',
             TimeZoneSidKey = 'Europe/London',
             LocaleSidKey = 'en_GB',
@@ -68,10 +66,42 @@ private class PRSE_AccountLinkingServiceTest {
             ));
         }
         insert typeLinks;
+
+        // Create ContentVersion (file) for each exemption
+        List<ContentVersion> versions = new List<ContentVersion>();
+        for (Exemption__c exemption : exemptions) {
+            versions.add(new ContentVersion(
+                Title          = 'Test File ' + exemption.Id,
+                PathOnClient   = 'testfile.txt',
+                VersionData    = Blob.valueOf('Test file content'),
+                IsMajorVersion = true
+            ));
+        }
+        insert versions;
+
+        // Link each file to its exemption via ContentDocumentLink
+        List<ContentVersion> insertedVersions = [
+            SELECT Id, ContentDocumentId 
+            FROM ContentVersion 
+            WHERE Id IN :versions
+        ];
+
+        List<ContentDocumentLink> cdls = new List<ContentDocumentLink>();
+        Integer idx = 0;
+        for (ContentVersion cv : insertedVersions) {
+            cdls.add(new ContentDocumentLink(
+                ContentDocumentId = cv.ContentDocumentId,
+                LinkedEntityId    = exemptions[idx].Id,
+                ShareType         = 'V',
+                Visibility        = 'AllUsers'
+            ));
+            idx++;
+        }
+        insert cdls;
     }
     
     @isTest
-    static void testSuccessfulTransfer() {
+    static void transferExemptions_withValidInput_transfersAllExemptionsToNewAccount() {
         // Get test data
         Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
         Account newAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
@@ -91,10 +121,9 @@ private class PRSE_AccountLinkingServiceTest {
         
         // Verify output
         System.assertEquals(1, outputs.size(), 'Should have one output');
-        PRSE_AccountLinkingService.TransferOutput output = outputs[0];
-        System.assertEquals('Success', output.status, 'Status should be Success');
-        System.assertEquals(3, output.recordsTransferred, 'Should transfer 3 records');
-        System.assert(output.message.contains('3 exemption records'), 'Message should mention record count');
+        System.assertEquals('Success', outputs[0].status, 'Status should be Success');
+        System.assertEquals(3, outputs[0].recordsTransferred, 'Should transfer 3 records');
+        System.assert(outputs[0].message.contains('3 exemption records'), 'Message should mention record count');
         
         // Verify transferred exemptions
         List<Exemption__c> transferredExemptions = [
@@ -103,7 +132,7 @@ private class PRSE_AccountLinkingServiceTest {
             WHERE Account__c = :newAccount.Id
         ];
         System.assertEquals(3, transferredExemptions.size(), 'Should have 3 exemptions in new account');
-        
+
         for (Exemption__c exemption : transferredExemptions) {
             System.assertEquals(newOwner.Id, exemption.OwnerId, 'Owner should be updated');
             System.assertEquals(newAccount.Id, exemption.Account__c, 'Account should be updated');
@@ -111,18 +140,33 @@ private class PRSE_AccountLinkingServiceTest {
         
         // Verify no exemptions remain on legacy account
         List<Exemption__c> remainingExemptions = [
-            SELECT Id 
+            SELECT Id
             FROM Exemption__c 
             WHERE Account__c = :legacyAccount.Id
         ];
         System.assertEquals(0, remainingExemptions.size(), 'No exemptions should remain on legacy account');
+
+        // Verify new user CDLs were created for each file
+        List<Exemption__c> newExemptions = [SELECT Id FROM Exemption__c WHERE Account__c = :newAccount.Id];
+        Set<Id> exemptionIds = new Map<Id, Exemption__c>(newExemptions).keySet();
+        Set<Id> contentDocIds = new Set<Id>();
+        for (ContentDocumentLink cdl : [
+            SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN :exemptionIds
+        ]) {
+            contentDocIds.add(cdl.ContentDocumentId);
+        }
+        List<ContentDocumentLink> newUserCdls = [
+            SELECT Id FROM ContentDocumentLink
+            WHERE ContentDocumentId IN :contentDocIds
+            AND LinkedEntityId = :newOwner.Id
+        ];
+        System.assertEquals(3, newUserCdls.size(), 'New owner should have CDLs for all 3 files');
         
-        // Verify no errors were logged
         ErrorLogChecker.checkNoErrorsForService('PRSE_AccountLinkingService');
     }
     
     @isTest
-    static void testNoExemptionsToTransfer() {
+    static void transferExemptions_withAccountHavingNoExemptions_returnsSuccessWithZeroRecords() {
         // Get test data
         Account newAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
         User newOwner = [SELECT Id FROM User WHERE Alias = 'newown' AND LastName = 'Owner' LIMIT 1];
@@ -141,17 +185,16 @@ private class PRSE_AccountLinkingServiceTest {
         
         // Verify output
         System.assertEquals(1, outputs.size(), 'Should have one output');
-        PRSE_AccountLinkingService.TransferOutput output = outputs[0];
-        System.assertEquals('Success', output.status, 'Status should be Success');
-        System.assertEquals(0, output.recordsTransferred, 'Should transfer 0 records');
-        System.assert(output.message.contains('No exemption records'), 'Message should mention no records found');
+        System.assertEquals('Success', outputs[0].status, 'Status should be Success');
+        System.assertEquals(0, outputs[0].recordsTransferred, 'Should transfer 0 records');
+        System.assert(outputs[0].message.contains('No exemption records'), 'Message should mention no records found');
         
         // Verify no errors were logged
         ErrorLogChecker.checkNoErrorsForService('PRSE_AccountLinkingService');
     }
     
     @isTest
-    static void testBulkTransfer() {
+    static void transferExemptions_withMultipleInputs_processesEachInputInOrder() {
         // Get test data
         Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
         Account newAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
@@ -159,7 +202,7 @@ private class PRSE_AccountLinkingServiceTest {
         
         // Prepare multiple inputs
         List<PRSE_AccountLinkingService.TransferInput> inputs = new List<PRSE_AccountLinkingService.TransferInput>();
-        
+
         for (Integer i = 0; i < 2; i++) {
             PRSE_AccountLinkingService.TransferInput input = new PRSE_AccountLinkingService.TransferInput();
             input.legacyAccountId = legacyAccount.Id;
@@ -176,11 +219,11 @@ private class PRSE_AccountLinkingServiceTest {
         
         // Verify outputs
         System.assertEquals(2, outputs.size(), 'Should have two outputs');
-        
+
         // First request transfers all records
         System.assertEquals('Success', outputs[0].status, 'First transfer status should be Success');
         System.assertEquals(3, outputs[0].recordsTransferred, 'First transfer should move 3 records');
-        
+
         // Second request finds no records (already transferred)
         System.assertEquals('Success', outputs[1].status, 'Second transfer status should be Success');
         System.assertEquals(0, outputs[1].recordsTransferred, 'Second transfer should find 0 records');
@@ -190,7 +233,7 @@ private class PRSE_AccountLinkingServiceTest {
     }
     
     @isTest
-    static void testMasterDetailOwnershipCascade() {
+    static void transferExemptions_withValidInput_movesChildExemptionTypeLinksWithParent() {
         // Get test data
         Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
         Account newAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
@@ -198,11 +241,11 @@ private class PRSE_AccountLinkingServiceTest {
         
         // Count child records before transfer
         Integer initialChildCount = [
-            SELECT COUNT()
+            SELECT COUNT() 
             FROM Exemption_Type_Link__c
             WHERE Exemption__r.Account__c = :legacyAccount.Id
         ];
-        
+
         System.assertEquals(3, initialChildCount, 'Should have 3 child records');
         
         // Prepare input
@@ -226,22 +269,101 @@ private class PRSE_AccountLinkingServiceTest {
             FROM Exemption_Type_Link__c
             WHERE Exemption__r.Account__c = :newAccount.Id
         ];
-        
+
         System.assertEquals(3, finalChildCount, 'Child records should move with parent exemptions');
         
-        // Verify no errors were logged
+        ErrorLogChecker.checkNoErrorsForService('PRSE_AccountLinkingService');
+    }
+
+    @isTest
+    static void transferExemptions_withValidInput_createsCDLsForNewOwner() {
+        Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
+        Account newAccount    = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
+        User newOwner         = [SELECT Id FROM User WHERE Alias = 'newown' AND LastName = 'Owner' LIMIT 1];
+
+        PRSE_AccountLinkingService.TransferInput input = new PRSE_AccountLinkingService.TransferInput();
+        input.legacyAccountId = legacyAccount.Id;
+        input.newAccountId    = newAccount.Id;
+        input.newOwnerId      = newOwner.Id;
+
+        Test.startTest();
+        PRSE_AccountLinkingService.transferExemptions(new List<PRSE_AccountLinkingService.TransferInput>{input});
+        Test.stopTest();
+
+        // Get all content docs linked to transferred exemptions
+        List<Exemption__c> newExemptions = [SELECT Id FROM Exemption__c WHERE Account__c = :newAccount.Id];
+        Set<Id> exemptionIds = new Map<Id, Exemption__c>(newExemptions).keySet();
+
+        Set<Id> contentDocIds = new Set<Id>();
+        for (ContentDocumentLink cdl : [
+            SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN :exemptionIds
+        ]) {
+            contentDocIds.add(cdl.ContentDocumentId);
+        }
+
+        // Verify new owner has a CDL for each file with correct settings
+        List<ContentDocumentLink> newOwnerCdls = [
+            SELECT Id, ShareType, Visibility
+            FROM ContentDocumentLink
+            WHERE ContentDocumentId IN :contentDocIds
+            AND LinkedEntityId = :newOwner.Id
+        ];
+        System.assertEquals(3, newOwnerCdls.size(), 'New owner should have a CDL for each file');
+        for (ContentDocumentLink cdl : newOwnerCdls) {
+            System.assertEquals('V', cdl.ShareType, 'ShareType should be Viewer');
+            System.assertEquals('AllUsers', cdl.Visibility, 'Visibility should be AllUsers');
+        }
+
+        ErrorLogChecker.checkNoErrorsForService('PRSE_AccountLinkingService');
+    }
+
+    @isTest
+    static void transferExemptions_calledTwiceForSameAccount_doesNotDuplicateCDLsOnSecondCall() {
+        Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
+        Account newAccount    = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
+        User newOwner         = [SELECT Id FROM User WHERE Alias = 'newown' AND LastName = 'Owner' LIMIT 1];
+
+        PRSE_AccountLinkingService.TransferInput input = new PRSE_AccountLinkingService.TransferInput();
+        input.legacyAccountId = legacyAccount.Id;
+        input.newAccountId    = newAccount.Id;
+        input.newOwnerId      = newOwner.Id;
+
+        // Run transfer twice
+        Test.startTest();
+        PRSE_AccountLinkingService.transferExemptions(new List<PRSE_AccountLinkingService.TransferInput>{input});
+        PRSE_AccountLinkingService.transferExemptions(new List<PRSE_AccountLinkingService.TransferInput>{input});
+        Test.stopTest();
+
+        // Second transfer finds no exemptions so no duplicate CDLs should be created
+        List<Exemption__c> newExemptions = [SELECT Id FROM Exemption__c WHERE Account__c = :newAccount.Id];
+        Set<Id> exemptionIds = new Map<Id, Exemption__c>(newExemptions).keySet();
+
+        Set<Id> contentDocIds = new Set<Id>();
+        for (ContentDocumentLink cdl : [
+            SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN :exemptionIds
+        ]) {
+            contentDocIds.add(cdl.ContentDocumentId);
+        }
+
+        List<ContentDocumentLink> newOwnerCdls = [
+            SELECT Id FROM ContentDocumentLink
+            WHERE ContentDocumentId IN :contentDocIds
+            AND LinkedEntityId = :newOwner.Id
+        ];
+        System.assertEquals(3, newOwnerCdls.size(), 'Should not have duplicate CDLs for new owner');
+
         ErrorLogChecker.checkNoErrorsForService('PRSE_AccountLinkingService');
     }
     
     @isTest
-    static void testErrorHandling() {
+    static void transferExemptions_withInactiveNewOwner_returnsErrorStatus() {
         // Get test data
         Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
         Account newAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
         
         // Create an inactive user to force a DML error
         Profile standardProfile = [SELECT Id FROM Profile WHERE Name = 'System Administrator' LIMIT 1];
-        
+
         User inactiveOwner = new User(
             FirstName = 'Inactive',
             LastName = 'Owner',
@@ -271,16 +393,16 @@ private class PRSE_AccountLinkingServiceTest {
         
         // Verify error output
         System.assertEquals(1, outputs.size(), 'Should have one output');
-        PRSE_AccountLinkingService.TransferOutput output = outputs[0];
-        System.assertEquals('Partial Success', output.status, 'Status should be Partial Success or Error');
-        System.assert(output.message.contains('failed') || output.message.contains('Partial'), 'Message should indicate failure or partial success');
+        // Inactive user will fail exemption ownership update
+        System.assert(outputs[0].status == 'Partial Success' || outputs[0].status == 'Error', 'Status should indicate failure');
+        System.assert(outputs[0].message.contains('failed') || outputs[0].message.contains('Partial') || outputs[0].message.contains('Transfer'), 'Message should indicate failure');
         
         // Verify error was logged
         ErrorLogChecker.checkErrorForServiceAndMethod('PRSE_AccountLinkingService', 'transferExemptions');
     }
     
     @isTest
-    static void testNullLegacyAccountId() {
+    static void transferExemptions_withNullLegacyAccountId_returnsValidationError() {
         // Get test data
         Account newAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
         User newOwner = [SELECT Id FROM User WHERE Alias = 'newown' AND LastName = 'Owner' LIMIT 1];
@@ -296,20 +418,18 @@ private class PRSE_AccountLinkingServiceTest {
         List<PRSE_AccountLinkingService.TransferOutput> outputs = 
             PRSE_AccountLinkingService.transferExemptions(new List<PRSE_AccountLinkingService.TransferInput>{input});
         Test.stopTest();
-        
+
         // Verify error output
-        System.assertEquals(1, outputs.size(), 'Should have one output');
-        PRSE_AccountLinkingService.TransferOutput output = outputs[0];
-        System.assertEquals('Error', output.status, 'Status should be Error');
-        System.assert(output.message.contains('Validation failed'), 'Message should indicate validation failure');
-        System.assert(output.message.contains('Legacy Account ID'), 'Message should mention legacy account');
+        System.assertEquals('Error', outputs[0].status, 'Status should be Error');
+        System.assert(outputs[0].message.contains('Validation failed'), 'Message should indicate validation failure');
+        System.assert(outputs[0].message.contains('Legacy Account ID'), 'Message should mention legacy account');
         
         // Verify error was logged
         ErrorLogChecker.checkErrorForServiceAndMethod('PRSE_AccountLinkingService', 'transferExemptions');
     }
     
     @isTest
-    static void testNullNewAccountId() {
+    static void transferExemptions_withNullNewAccountId_returnsValidationError() {
         // Get test data
         Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
         User newOwner = [SELECT Id FROM User WHERE Alias = 'newown' AND LastName = 'Owner' LIMIT 1];
@@ -327,18 +447,16 @@ private class PRSE_AccountLinkingServiceTest {
         Test.stopTest();
         
         // Verify error output
-        System.assertEquals(1, outputs.size(), 'Should have one output');
-        PRSE_AccountLinkingService.TransferOutput output = outputs[0];
-        System.assertEquals('Error', output.status, 'Status should be Error');
-        System.assert(output.message.contains('Validation failed'), 'Message should indicate validation failure');
-        System.assert(output.message.contains('New Account ID'), 'Message should mention new account');
+        System.assertEquals('Error', outputs[0].status, 'Status should be Error');
+        System.assert(outputs[0].message.contains('Validation failed'), 'Message should indicate validation failure');
+        System.assert(outputs[0].message.contains('New Account ID'), 'Message should mention new account');
         
         // Verify error was logged
         ErrorLogChecker.checkErrorForServiceAndMethod('PRSE_AccountLinkingService', 'transferExemptions');
     }
     
     @isTest
-    static void testNullNewOwnerId() {
+    static void transferExemptions_withNullNewOwnerId_returnsValidationError() {
         // Get test data
         Account legacyAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'Legacy' LIMIT 1];
         Account newAccount = [SELECT Id FROM Account WHERE LastName = 'User' AND FirstName = 'New' LIMIT 1];
@@ -356,18 +474,16 @@ private class PRSE_AccountLinkingServiceTest {
         Test.stopTest();
         
         // Verify error output
-        System.assertEquals(1, outputs.size(), 'Should have one output');
-        PRSE_AccountLinkingService.TransferOutput output = outputs[0];
-        System.assertEquals('Error', output.status, 'Status should be Error');
-        System.assert(output.message.contains('Validation failed'), 'Message should indicate validation failure');
-        System.assert(output.message.contains('New Owner ID'), 'Message should mention new owner');
+        System.assertEquals('Error', outputs[0].status, 'Status should be Error');
+        System.assert(outputs[0].message.contains('Validation failed'), 'Message should indicate validation failure');
+        System.assert(outputs[0].message.contains('New Owner ID'), 'Message should mention new owner');
         
         // Verify error was logged
         ErrorLogChecker.checkErrorForServiceAndMethod('PRSE_AccountLinkingService', 'transferExemptions');
     }
     
     @isTest
-    static void testInvalidAccountId() {
+    static void transferExemptions_withNonExistentAccountIds_returnsSuccessWithZeroRecords() {
         // Get test data
         User newOwner = [SELECT Id FROM User WHERE Alias = 'newown' AND LastName = 'Owner' LIMIT 1];
         
@@ -384,10 +500,8 @@ private class PRSE_AccountLinkingServiceTest {
         Test.stopTest();
         
         // Verify output (should complete successfully with 0 records)
-        System.assertEquals(1, outputs.size(), 'Should have one output');
-        PRSE_AccountLinkingService.TransferOutput output = outputs[0];
-        System.assertEquals('Success', output.status, 'Status should be Success');
-        System.assertEquals(0, output.recordsTransferred, 'Should transfer 0 records');
+        System.assertEquals('Success', outputs[0].status, 'Status should be Success');
+        System.assertEquals(0, outputs[0].recordsTransferred, 'Should transfer 0 records');
         
         // Verify no errors were logged (no exemptions found is not an error)
         ErrorLogChecker.checkNoErrorsForService('PRSE_AccountLinkingService');

@@ -1,0 +1,5 @@
+{
+  "apiName" : "Privacy_Notice__c",
+  "type" : "sfdc_cms__route",
+  "path" : "routes"
+}

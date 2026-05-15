@@ -94,6 +94,7 @@ export default class GdsErrorMessages extends LightningElement {
     }
 
     handleClick(event) {
+        event.preventDefault();
         let targetId = event.target.dataset.targetId;
         publish(this.messageContext, SET_FOCUS_MC, { componentId: targetId, focusId: targetId });
     }

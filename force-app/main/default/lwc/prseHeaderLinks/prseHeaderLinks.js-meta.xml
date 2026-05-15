@@ -48,6 +48,12 @@
                     label="Uses wide header links container"
                     description="Uses wide header links container"
             />
+            <property
+                    name="externalBackLink"
+                    type="Boolean"
+                    label="Back link navigation outside of Salesforce"
+                    description="Set to true if navigating outside of Salesforce"
+            />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

@@ -22,7 +22,7 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "backLink" : "/PRSExemptionsRegister/dashboard",
+                "backLink" : "dashboard",
                 "dxpStyle" : { },
                 "logoutLink" : "/PRSExemptionsRegister/services/auth/rp/oidc/logout?post_logout_redirect_uri=/PRSExemptionsRegister"
               },

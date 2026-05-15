@@ -65,7 +65,7 @@ export default class PrseLocalAuthorityDashboard extends LightningElement {
         this.selectedStatuses = params.get('filterStatuses')?.split(',') || [];
         this.selectedExemptionTypes = params.get('filterExemptionTypes')?.split(',') || [];
         this.searchTerm = params.get('filterSearch') || '';
-        this.pageNumber = params.get('filterPage') ? parseInt(params.get('filterPage'), 10) : null;
+        this.pageNumber = params.get('page') ? parseInt(params.get('page'), 10) : null;
 
         // Show filter panel if any filter exists
         this.showFilter = this.selectedStatuses.length > 0 || this.selectedExemptionTypes.length > 0 || !!this.searchTerm;
@@ -99,7 +99,7 @@ export default class PrseLocalAuthorityDashboard extends LightningElement {
     }
 
     get filterButtonLabel() {
-        return this.showFilter ? 'Hide filter' : 'Show filter';
+        return this.showFilter ? 'Hide search and filter' : 'Search and filter';
     }
 
     get dataFinishedLoading() {
@@ -157,7 +157,7 @@ export default class PrseLocalAuthorityDashboard extends LightningElement {
     }
 
     handleTabSelection(event) {
-        if(!event.renderedCallback) {
+        if(event && !event.renderedCallback) {
             event.preventDefault();
         }
         
@@ -226,7 +226,7 @@ export default class PrseLocalAuthorityDashboard extends LightningElement {
             const tab = this.template.querySelector(`[data-id="${this.activeTabFromUrl}"]`);
 
             if (tab) {
-                this.handleTabSelection({ currentTarget: tab });
+                this.handleTabSelection({ currentTarget: tab, renderedCallback: true });
             }
         }
     }

@@ -24,3 +24,10 @@
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+
+.govuk-label-wrapper label {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: block;
+}

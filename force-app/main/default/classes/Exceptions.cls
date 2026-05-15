@@ -15,4 +15,6 @@ public with sharing class Exceptions {
     public class MockConstructorOnlyException extends Exception {}
 
     public class MockException extends Exception {}
+
+    public class InvalidArgumentException extends Exception {}
 }

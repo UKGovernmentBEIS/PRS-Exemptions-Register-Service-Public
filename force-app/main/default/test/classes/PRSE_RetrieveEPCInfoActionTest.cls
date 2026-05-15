@@ -396,6 +396,10 @@ private class PRSE_RetrieveEPCInfoActionTest {
     @IsTest
     static void fetchEPCData_withBypassFlags() {
         // Arrange: create a sample EPCRequest
+        PRSE_Configuration__mdt config = new PRSE_Configuration__mdt();
+        config.Use_new_gov_EPC_endpoint__c = false;
+        CustomSettingsServiceLayer.cfg = config;
+        
         PRSE_RetrieveEPCInfoAction.EPCRequest req = new PRSE_RetrieveEPCInfoAction.EPCRequest();
         req.uprn = '123456';
         req.propertyType = 'residential';
@@ -423,13 +427,12 @@ private class PRSE_RetrieveEPCInfoActionTest {
         PRSE_RetrieveEPCInfoAction.forceUseNewEndpointForTest = false;
         PRSE_RetrieveEPCInfoAction.bypassTestBypassForTest = true;
 
-            Test.setMock(HttpCalloutMock.class, new PRSE_RetrieveEPCInfoActionTest.EPCMockHttpResponse(
-        200,
-        '{ "rows": [ { "address": "Test Building", "postcode": "T1 2AB", "current-energy-rating": "B", "lodgement-date": "2022-01-01" } ] }'
-    ));
+        Test.setMock(HttpCalloutMock.class, new PRSE_RetrieveEPCInfoActionTest.EPCMockHttpResponse(
+            200,
+            '{ "rows": [ { "address": "Test Building", "postcode": "T1 2AB", "current-energy-rating": "B", "lodgement-date": "2022-01-01" } ] }'
+        ));
 
-        List<PRSE_RetrieveEPCInfoAction.EPCResponse> responses2 = 
-            PRSE_RetrieveEPCInfoAction.fetchEPCData(requests);
+        List<PRSE_RetrieveEPCInfoAction.EPCResponse> responses2 = PRSE_RetrieveEPCInfoAction.fetchEPCData(requests);
 
         System.assertEquals(1, responses2.size());
         System.assertEquals('Test Building', responses2[0].address.split(',')[0]);

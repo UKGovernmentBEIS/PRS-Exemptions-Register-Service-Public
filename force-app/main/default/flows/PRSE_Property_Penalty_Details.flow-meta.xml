@@ -47,6 +47,86 @@
             <targetReference>Penalty_Detail</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>AssignPropertyPenaltyLandlordDetails</name>
+        <label>Assign Property Penalty Landlord Details</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>col_PenaltyTypeTitle</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Landlord name</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>col_PenaltyTypeValues</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Get_Penalty_Detail.LandlordBusinessName__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Property_Penalty_Labels</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>AddBusinessLandlordName</name>
+        <label>Add Business Landlord Name</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Property_Penalty_Labels</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Don&apos;t add name</defaultConnectorLabel>
+        <rules>
+            <name>Add_Name</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Penalty_Detail.LandlordBusinessName__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignPropertyPenaltyLandlordDetails</targetReference>
+            </connector>
+            <label>Add Name</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>No_penalty_found</name>
+        <label>No penalty found</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>AddBusinessLandlordName</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>No_penalty_found_or_unpublished</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Penalty_Detail.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Penalty_Detail.Published__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>No_Penalty_Detail</targetReference>
+            </connector>
+            <label>No penalty found or unpublished</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <formulas>
         <name>flaMappedBreachDetailsForPenalty</name>
@@ -94,8 +174,11 @@
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Property_Penalty_Labels</targetReference>
+            <targetReference>No_penalty_found</targetReference>
         </connector>
+        <faultConnector>
+            <targetReference>No_Penalty_Detail_Fault</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -124,7 +207,180 @@
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSEPublicRegister/#SearchFor</stringValue>
+                    <stringValue>#SearchFor</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>No_Penalty_Detail</name>
+        <label>No Penalty Detail</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Home_Redirect</targetReference>
+        </connector>
+        <fields>
+            <name>noPenaltyDetailHistory</name>
+            <extensionName>uxgovuk:govHistoryManager</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>pageName</name>
+                <value>
+                    <stringValue>view-penalty-details</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>pageTitle</name>
+                <value>
+                    <stringValue>Property penalty notice details</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>NopenaltyfoundInset</name>
+            <extensionName>uxgovuk:govInsetText</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>insetText</name>
+                <value>
+                    <stringValue>No penalty found.</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>NoPenaltyDetailNav</name>
+            <extensionName>c:gdsNavigationButtons</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>buttonActionsString</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fullWidth</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonLabelsString</name>
+                <value>
+                    <stringValue>New Search</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonAlignmentsString</name>
+                <value>
+                    <stringValue>Left</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonVariantsString</name>
+                <value>
+                    <stringValue>Brand</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>No_Penalty_Detail_Fault</name>
+        <label>No Penalty Detail Fault</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Home_Redirect</targetReference>
+        </connector>
+        <fields>
+            <name>Fault_PenaltyDetailHistory</name>
+            <extensionName>uxgovuk:govHistoryManager</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>pageName</name>
+                <value>
+                    <stringValue>view-penalty-details</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>pageTitle</name>
+                <value>
+                    <stringValue>Property penalty notice details</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>Fault_penaltyfound</name>
+            <extensionName>uxgovuk:govInsetText</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>insetText</name>
+                <value>
+                    <stringValue>No penalty found.</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>Fault_PenaltyDetailNav</name>
+            <extensionName>c:gdsNavigationButtons</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>buttonActionsString</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fullWidth</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonLabelsString</name>
+                <value>
+                    <stringValue>New Search</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonAlignmentsString</name>
+                <value>
+                    <stringValue>Left</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttonVariantsString</name>
+                <value>
+                    <stringValue>Brand</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -155,33 +411,15 @@
                     <stringValue>view-penalty-details</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
-        </fields>
-        <fields>
-            <name>PenaltyDetailBackMarkup</name>
-            <extensionName>uxgovuk:govMarkupText</extensionName>
-            <fieldType>ComponentInstance</fieldType>
             <inputParameters>
-                <name>markupText</name>
+                <name>pageTitle</name>
                 <value>
-                    <stringValue>&lt;a class=&quot;govuk-back-link&quot; href=&quot;/PRSEPublicRegister/#SearchFor&quot; data-module=&quot;govuk-back-link&quot;&gt;Back&lt;/a&gt;</stringValue>
+                    <stringValue>Property penalty notice details</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>$Flow.CurrentDateTime</leftValueReference>
-                    <operator>IsNull</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
         </fields>
         <fields>
             <name>PenaltyDetailMarkup</name>
@@ -196,6 +434,16 @@
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Penalty_Detail.Published__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>PenaltyDetailSummaryList</name>
@@ -222,12 +470,22 @@
             <inputParameters>
                 <name>title</name>
                 <value>
-                    <elementReference>Get_Penalty_Detail.Exemption__r.Full_Property_Address__c</elementReference>
+                    <elementReference>Get_Penalty_Detail.Full_Property_Address__c</elementReference>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Penalty_Detail.Published__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>PenaltyDetailNav</name>

@@ -227,7 +227,7 @@ public with sharing class PRSE_LADashboardPenaltiesController {
             'SELECT Id, Exemption__c, Penalty_Reference__c, Exemption_Type_Link__c, Exemption_Type_Link__r.Name, ' +
             'Penalty_Type__c, Penalty_Type__r.Name, Issued_Date__c, Unpublish_Date__c, Published__c, Penalty_Amount__c, ' +
             'LandlordBusinessName__c, LandlordFirstName__c, LandlordLastName__c, ' +
-            'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c ' +
+            'PropertyAddress__c, PropertyCity__c, PropertyCounty__c, PropertyPostcode__c, PropertyType__c, Full_Property_Address__c ' +
             'FROM Penalty__c ' +
             'WHERE ' + whereClause + ' ' +
             'ORDER BY Issued_Date__c DESC ' +
@@ -269,7 +269,7 @@ public with sharing class PRSE_LADashboardPenaltiesController {
                 penaltyToInsert.Penalty_Type__c = penaltyToCreate.penaltyTypeId;
                 penaltyToInsert.Published__c = penaltyToCreate.published;
 
-                if(penaltyToCreate.unpublishDate != null) {
+                if(String.isNotBlank(penaltyToCreate.unpublishDate) && penaltyToCreate.unpublishDate != 'Not published') {
                     List<String> unpublishDateParts = penaltyToCreate.unpublishDate.split('/');
                     Date unpublishDate = Date.newInstance(
                         Integer.valueOf(unpublishDateParts[2]),
@@ -343,7 +343,7 @@ public with sharing class PRSE_LADashboardPenaltiesController {
                 penaltyToInsert.Penalty_Type__c = penaltyToCreate.penaltyTypeId;
                 penaltyToInsert.Published__c = penaltyToCreate.published;
 
-                if(penaltyToCreate.unpublishDate != null) {
+                if(String.isNotBlank(penaltyToCreate.unpublishDate) && penaltyToCreate.unpublishDate != 'Not published') {
                     List<String> unpublishDateParts = penaltyToCreate.unpublishDate.split('/');
                     Date unpublishDate = Date.newInstance(
                         Integer.valueOf(unpublishDateParts[2]),
@@ -658,11 +658,7 @@ public with sharing class PRSE_LADashboardPenaltiesController {
         }
 
         public void withFullPropertyAddress() {
-            String county = String.isBlank(penalty.PropertyCounty__c) ? '' : penalty.PropertyCounty__c + ', ';
-            this.fullPropertyAddress = penalty.PropertyAddress__c + ', ' + 
-                penalty.PropertyCity__c + ', ' + 
-                county + 
-                penalty.PropertyPostcode__c;
+            this.fullPropertyAddress = penalty.Full_Property_Address__c;
         }
 
         private void withPropertyAddress() {

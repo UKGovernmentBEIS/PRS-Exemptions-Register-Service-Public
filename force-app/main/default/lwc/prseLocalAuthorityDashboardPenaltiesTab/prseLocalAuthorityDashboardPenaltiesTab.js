@@ -73,6 +73,9 @@ export default class PrseLocalAuthorityDashboardPenaltiesTab extends LightningEl
     get isPage8() {
         return this.page === 8;
     }
+    get publishPageTitle() {
+        return this.currentPenalty.published ? 'Record a penalty' :  'Unpublish a penalty';
+    }
 
     get tabType() {
         return this.panelHeading.split(' ')[0];
@@ -574,7 +577,7 @@ export default class PrseLocalAuthorityDashboardPenaltiesTab extends LightningEl
             let valueAsString = String(value);
             this.currentPenalty.published = valueAsString === 'Yes' ? true : false;
             this.currentPenalty.publishedRadioValue = valueAsString === 'Yes' ? 'Yes' : 'No';
-            this.currentPenalty.publishedRadioLabel = valueAsString === 'Yes' ? 'Yes, publish the penalty' : 'No, do not publish the penalty';
+            this.currentPenalty.publishedRadioLabel = valueAsString === 'Yes' ? 'Yes, this is a publication penalty' : 'No, this is not a publication penalty';
             this.currentPenalty = {... this.currentPenalty};
         }
 
@@ -616,7 +619,7 @@ export default class PrseLocalAuthorityDashboardPenaltiesTab extends LightningEl
 
                 record.previouslyPublished = record.published;
                 record.publishedRadioValue = record.published === true ? 'Yes' : 'No';
-                record.publishedRadioLabel = record.published === true ? 'Yes, publish the penalty' : 'No, do not publish the penalty';
+                record.publishedRadioLabel = record.published === true ? 'Yes, this is a publication penalty' : 'No, this is not a publication penalty';
 
                 record.addressLine1 = record.propertyAddress;
                 record.frontEndPropertyType = record.propertyType === 'Residential' ? 'Residential (domestic)' : 'Commercial (non-domestic)';

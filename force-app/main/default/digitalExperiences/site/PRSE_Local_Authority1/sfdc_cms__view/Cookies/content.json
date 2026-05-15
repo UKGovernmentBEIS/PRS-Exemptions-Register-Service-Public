@@ -1,0 +1,65 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Cookies",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "id" : "2bec35dd-a918-4a5a-9090-e9ccc90eb637",
+        "name" : "header",
+        "title" : "header",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "cookieDescription" : "Cookies are small files saved on your phone, tablet or computer when you visit a website.  We use cookies to make this service work and collect information about how you use our service.",
+            "cookieHeading" : "Cookies",
+            "cookieSectionHeading" : "",
+            "cookieTableRowExpires" : "1 year;session;1 year;20 hours;2 years;30 minutes;session;10 minutes;2 years;18 months;18 months;6 months;1 minute;1 years;2 years;90 days;58 seconds;1 hour;24 hours",
+            "cookieTableRowNames" : "AMP_TOKEN;FPAU;FPID;FPLC;__utma;__utmb;__utmc;__utmt;__utmv;__utmx;__utmxx;__utmz;_dc_gtm_;_ga;_ga_*;_gac_;_gat;_gat_*;_gid",
+            "cookieTableRowPurposes" : "Contains a token code that is used to read out a Client ID from the AMP Client ID Service. By matching this ID with that of Google Analytics, users can be matched when switching between AMP content and non-AMP content.;Assigns a specific ID to the visitor. This allows the website to determine the number of specific user-visits for analysis and statistics.;Registers statistical data on users' behaviour on the website. Used for internal analytics by the website operator.;This FPLC cookie is the cross-domain linker cookie hashed from the FPID cookie. It’s not HttpOnly, which means it can be read with JavaScript. It has a relatively short lifetime, just 20 hours.;ID used to identify users and sessions.;Used to distinguish new sessions and visits. This cookie is set when the GA.js javascript library is loaded and there is no existing __utmb cookie. The cookie is updated every time data is sent to the Google Analytics server.;Used only with old Urchin versions of Google Analytics and not with GA.js. Was used to distinguish between new sessions and visits at the end of a session.;Used to monitor number of Google Analytics server requests.;Contains custom information set by the web developer through the _setCustomVar method in Google Analytics. This cookie is updated each time new data is sent to the Google Analytics server.;Used to determine whether a user is included in an A / B or Multivariate test.;Used to determine when the A / B or Multivariate test in which the user participates ends.;Contains information about the traffic source or campaign that directed user to the website. The cookie is set when the GA.js javascript is loaded and updated when data is sent to the Google Anaytics server.;Used to monitor number of Google Analytics server requests.;ID used to identify users.;Used to identify and track an individual user session.;Contains information related to marketing campaigns of the user. These are shared with Google AdWords / Google Ads when the Google Ads and Google Analytics accounts are linked together.;Used to monitor number of Google Analytics server requests when using Google Tag Manager.;Used to set and get tracking data.;ID used to identify users for 24 hours.",
+            "sectionNames" : "Strictly Necessary Cookies;Analytics cookies (optional)",
+            "sectionsCategories" : "necessary;analytics",
+            "sectionsContent" : "Essential cookies keep your information secure while you use this service. We do not need to ask permission to use them.;With your permission, we use Google Analytics to collect data about how you use our Private Rented Sector Energy Exemptions Register service. This information helps us to improve our service.",
+            "showCookiesTable" : true,
+            "successText" : "You’ve accepted analytics cookies. You can change your cookie settings at any time."
+          },
+          "definition" : "c:govCookiePage",
+          "id" : "2a0cf229-4498-4b72-8585-9ec6144c9116",
+          "type" : "component"
+        } ],
+        "id" : "0a3777bf-096f-40f3-ad55-7b11f5ac77cf",
+        "name" : "content",
+        "title" : "content",
+        "type" : "region"
+      }, {
+        "id" : "de598ec6-0a05-4406-bd0f-118e59d87ed4",
+        "name" : "footer",
+        "title" : "footer",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "pageTitle" : "Cookies",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "dca2d796-a112-4395-ad2b-297316c60139",
+          "type" : "component"
+        } ],
+        "id" : "a6badad8-09bf-4aa5-9868-a27f8d8fbc70",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsOneColLayout",
+      "id" : "08bcb57b-1608-4695-8984-e97a62ec7da0",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-cookies"
+  },
+  "urlName" : "cookies"
+}

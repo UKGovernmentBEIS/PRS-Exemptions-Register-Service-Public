@@ -11,14 +11,26 @@
       "children" : [ {
         "children" : [ {
           "attributes" : {
+            "acceptLabel" : "Accept analytics cookies",
+            "bannerContent" : "We use some essential cookies to make this service work.  We’d also like to set analytics cookies so we can understand how people use the service and make improvements. <br><br>",
+            "cookiePageUrl" : "cookies",
+            "dxpStyle" : { },
+            "label" : "Cookies on Private rented sector energy exemptions register",
+            "rejectLabel" : "Reject analytics cookies"
+          },
+          "definition" : "c:govCookieBannerCivic",
+          "id" : "20b14de4-c002-4e29-b496-b4f4d239132c",
+          "type" : "component"
+        }, {
+          "attributes" : {
             "dxpStyle" : { },
             "headerBannerRole" : "",
             "headerLabel" : "GOV.UK",
-            "headerURL" : "https://www.gov.uk/",
+            "headerURL" : "https://www.gov.uk",
             "menuLabel" : "Menu",
             "navigationMenuDevName" : "Navigation_Menu",
-            "serviceName" : "Private Rented Sector Exemptions Register",
-            "serviceURL" : "/"
+            "serviceName" : "Private rented sector energy exemptions register",
+            "serviceURL" : "https://www.gov.uk/register-prs-energy-standard-exemption"
           },
           "definition" : "c:gdsHeader",
           "id" : "f0b55301-b0bb-4c13-9d56-53b9182a9d53",
@@ -55,7 +67,7 @@
           "children" : [ {
             "children" : [ {
               "attributes" : {
-                "bodyText" : "This is a new service - your <a href=\"mailto:PRSregisterfeedback@energysecurity.gov.uk\" class=\"govuk-link\">feedback</a> will help us improve it.",
+                "bodyText" : "This is a new service - your <a href=\"https://www.gov.uk/done/register-prs-energy-standard-exemption\" class=\"govuk-link\">feedback</a> will help us improve it.",
                 "dxpStyle" : { },
                 "phaseText" : "BETA"
               },
@@ -82,8 +94,8 @@
             "columnTypes" : "",
             "crownLogoRequired" : false,
             "dxpStyle" : { },
-            "metalinkNames" : "Help;Privacy;Cookies;Accessibility statement;Contact;Terms and Conditions;Site map",
-            "metalinkURL" : "/support;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/cookies;https://prsregister.beis.gov.uk/NdsBeisUi/accessibility;https://www.gov.uk;https://prsregister.beis.gov.uk/NdsBeisUi/terms-and-conditions;https://www.gov.uk",
+            "metalinkNames" : "Help;Privacy;Cookies;Accessibility statement;Terms and Conditions",
+            "metalinkURL" : "support;privacy-notice;cookies;accessibility-statement;terms-and-conditions",
             "metalinksRequired" : true,
             "navigationLinks" : "",
             "navigationNames" : "",

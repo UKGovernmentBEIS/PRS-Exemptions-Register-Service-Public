@@ -23,7 +23,8 @@
             <property name="outputValueBoolean" type="String" label="Selected Values Boolean" description="The boolean values of the checkboxes selected in a Flow text variable format (true;true;false).  Can be used as input to Checkbox Values field to re-display choices a user has previously selected."/>
             <property name="outputValueCollection" type="String[]" label="Selected Values Collection" description="The values of the checkboxes selected in collection variable format (Property, Bank Account as multiple entries in a Flow collection variable).  Used to facilitate manipulation of choices made, for example to loop through selected values."/>
             <property name="required" type="Boolean" label="Is required" description="If true, at least once checkbox must be selected (true) by the user;"/>
-            <property name="smallerCheckboxes" type="Boolean" label="Smaller Checkbox Options?" description="Choose to display checkboxes in smaller size"/>          
+            <property name="smallerCheckboxes" type="Boolean" label="Smaller Checkbox Options?" description="Choose to display checkboxes in smaller size"/>
+            <property name="clashingSelectionsConfig" type="String" label="Clashing selections" description="Allows adding clashes blocking users from selecting certain checkboxes together."/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

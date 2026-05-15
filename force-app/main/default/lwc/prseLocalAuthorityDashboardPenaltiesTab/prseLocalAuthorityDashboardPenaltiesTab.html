@@ -436,7 +436,7 @@
                                 error-message="Enter penalty amount"
                                 width-quarter-wise="one-quarter"
                                 width-length-wise="5"
-                                regex-pattern="^[1-9][0-9]*$"
+                                regex-pattern="^[1-9][0-9]*(\.[0-9]{1,2})?$"
                                 max-character-count="18"
                                 required
                                 value={currentPenalty.penaltyAmount}
@@ -452,14 +452,14 @@
                         <div data-field-id="shouldPublish" class="govuk-!-margin-bottom-6">
                             <c-gds-radios-white 
                                 data-id="shouldPublish"
-                                question-label="Publish penalty"
-                                question-hint="Do you want to publish the penalty on the private rented sector exemptions and penalties register?"
+                                question-label="Publication penalty"
+                                question-hint="Do you want to publish the penalty on the public register?"
                                 name="shouldPublish" 
                                 question-font-size="medium"
                                 error-message="Select publish or do not publish" 
-                                radio-labels="No, do not publish the penalty|Yes, publish the penalty" 
+                                radio-labels="No, this is not a publication penalty|Yes, this is a publication penalty" 
                                 radio-values="No|Yes"
-                                hint-values="|This will publish the penalty immediately. You can edit the penalty to unpublish at any point."
+                                hint-values="|This will publish the penalty immediately on the private rented sector exemptions and penalties register. You can edit the penalty to unpublish at any point."
                                 required-question="True" 
                                 selected-value={currentPenalty.publishedRadioValue}
                                 selected-value-a-p-i-name={currentPenalty.publishedRadioLabel}
@@ -504,11 +504,12 @@
     </template>
     <!-- Publish confirmation (Page 4)-->
     <template if:true={isPage4}>
-        <h1 class="govuk-heading-l">Record a penalty</h1>
         <div if:false={currentPenalty.published}>
+            <h1 class="govuk-heading-l">{publishPageTitle}</h1>
             <p class="govuk-body">Are you sure you want to unpublish this penalty from the private rented sector exemptions and penalties register?</p>
         </div>
         <div if:true={currentPenalty.published}>
+            <h1 class="govuk-heading-l">{publishPageTitle}</h1>
             <p class="govuk-body">Are you sure you want to publish this penalty on the private rented sector exemptions and penalties register?</p>
         </div>
         <div class="govuk-grid-row">

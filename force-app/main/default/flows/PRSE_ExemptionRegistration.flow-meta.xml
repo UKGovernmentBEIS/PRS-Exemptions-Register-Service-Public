@@ -903,6 +903,13 @@
                 <elementReference>Get_EPC_Info.rawDateOfCertificate</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>rcd_Exemption.EPC_Certificate__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_EPC_Info.certificateNumber</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>UpdateExemptionWithEPCInfo</targetReference>
         </connector>
@@ -4234,6 +4241,13 @@
                     <stringValue>Error</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_EPC_Info.errorMessage</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <isGoTo>true</isGoTo>
                 <targetReference>EPCUpload</targetReference>
@@ -6394,17 +6408,10 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>SendEmail</name>
-            <conditionLogic>(1 AND 2) AND ((3 AND 4 AND 5) OR ( 6 AND 7 AND 8))</conditionLogic>
+            <conditionLogic>1 AND ((2 AND 3) OR (4 AND 5))</conditionLogic>
             <conditions>
-                <leftValueReference>GetLocalAuthorityAccount</leftValueReference>
+                <leftValueReference>GetLocalAuthorityAccount.Id</leftValueReference>
                 <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>GetLocalAuthorityAccount</leftValueReference>
-                <operator>IsBlank</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
@@ -6414,13 +6421,6 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Residential</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>GetLocalAuthorityAccount.DomesticNotificationsMailbox__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -6439,20 +6439,13 @@
             </conditions>
             <conditions>
                 <leftValueReference>GetLocalAuthorityAccount.NonDomesticNotificationsMailbox__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>GetLocalAuthorityAccount.NonDomesticNotificationsMailbox__c</leftValueReference>
                 <operator>IsBlank</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Which_Email_Template_to_Send_LAs</targetReference>
+                <targetReference>GetLocalAuthorityExperienceSiteBaseURL</targetReference>
             </connector>
             <label>Send Email</label>
         </rules>
@@ -6770,7 +6763,7 @@ SUBSTITUTE(
     <formulas>
         <name>fla_ExemptionsRegisterDashboardURL</name>
         <dataType>String</dataType>
-        <expression>{!GetExperienceSiteBaseURL.siteBaseURL} &amp; &quot;dashboard&quot;</expression>
+        <expression>{!GetLandlordExperienceSiteBaseURL.siteBaseURL} &amp; &quot;dashboard&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_ExemptionTypeAdditionalInformation</name>
@@ -6797,6 +6790,11 @@ SUBSTITUTE(
         <name>fla_ExemptionTypeRequiredEvidence</name>
         <dataType>String</dataType>
         <expression>SUBSTITUTE({!GetCreatedExemptionType.Exemption_Type__r.RequiredEvidence__c}, &quot;.&quot;, &quot;&lt;br&gt;  &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>fla_ExemptionTypeSelectionClashes</name>
+        <dataType>String</dataType>
+        <expression>IF(ISPICKVAL({!rcd_Exemption.PropertyType__c}, &quot;Residential&quot;), &quot;0|1|You cannot select both High cost and All improvements made.&quot;, &quot;&quot;)</expression>
     </formulas>
     <formulas>
         <name>fla_ExistingExemptionTypeSelections</name>
@@ -6866,7 +6864,7 @@ SUBSTITUTE(
     <formulas>
         <name>fla_LocalAuthorityExemptionURL</name>
         <dataType>String</dataType>
-        <expression>SUBSTITUTE({!GetExperienceSiteBaseURL.siteBaseURL}, &quot;PRSExemptionsRegister&quot;, &quot;PRSELocalAuthority&quot;) &amp; &quot;view-exemption/?exemptionId=&quot; &amp; {!rcd_Exemption.Id}</expression>
+        <expression>SUBSTITUTE({!GetLocalAuthorityExperienceSiteBaseURL.siteBaseURL}, &quot;PRSExemptionsRegister&quot;, &quot;PRSELocalAuthority&quot;) &amp; &quot;view-exemption/?exemptionId=&quot; &amp; {!rcd_Exemption.Id}</expression>
     </formulas>
     <formulas>
         <name>fla_LocalAuthorityMultipleExemptionEmailJSON</name>
@@ -7001,7 +6999,7 @@ TEXT(TODAY()) &amp;
     <formulas>
         <name>fla_LocalAuthorityUpdatedEmailJSON</name>
         <dataType>String</dataType>
-        <expression>&quot;{\&quot;name\&quot;: \&quot;&quot; + {!GetLocalAuthorityAccount.Name} + &quot;\&quot;, \&quot;number\&quot;: \&quot;&quot; + {!rcd_Exemption.Ref_Number__c} +  &quot;\&quot;}&quot;</expression>
+        <expression>&quot;{\&quot;local_authority\&quot;: \&quot;&quot; + {!GetLocalAuthorityAccount.Name} + &quot;\&quot;, \&quot;number\&quot;: \&quot;&quot; + {!rcd_Exemption.Ref_Number__c} +  &quot;\&quot;}&quot;</expression>
     </formulas>
     <formulas>
         <name>fla_PropertyAddressesAvailableText</name>
@@ -7201,7 +7199,7 @@ BR() &amp;
     <formulas>
         <name>fla_ViewExemptionUrl</name>
         <dataType>String</dataType>
-        <expression>&quot;PRSExemptionsRegister/view-exemption/?r=&quot; &amp; {!rcd_Exemption.Id}</expression>
+        <expression>&quot;view-exemption/?r=&quot; &amp; {!rcd_Exemption.Id}</expression>
     </formulas>
     <formulas>
         <name>RemoveLastSeperatorHintText</name>
@@ -7324,7 +7322,7 @@ BR() &amp;
             <targetReference>ConcatenateChildExemptionInformation</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>GetExperienceSiteBaseURL</targetReference>
+            <targetReference>GetLandlordExperienceSiteBaseURL</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -10868,12 +10866,12 @@ If you have selected more than one exemption, you will upload evidence for each 
 &lt;p class=&apos;govuk-body&apos;&gt;Your exemption is now valid. You can let your property.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;Your exemption will now appear on the exemptions register.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;If all your evidence was correctly uploaded, the exemption is valid for:&lt;/p&gt;
-&lt;p class=&apos;govuk-body&apos;&gt;
-&amp;#x2022; 6 months from the date you became a landlord, if you are a new landlord
-&lt;br&gt;&amp;#x2022; the duration of the current tenancy, when you’ve applied for a third-party exemption because your tenant refuses consent
-&lt;br&gt;&amp;#x2022; 5 years for all other exemptions
-&lt;/p&gt;
-&lt;p class=&apos;govuk-body&apos;&gt;We will send you an email notification 28 days before the expiry of your registered exemption.&lt;/p&gt;
+&lt;ul class=&quot;govuk-list govuk-list--bullet&quot;&gt;
+&lt;li&gt;6 months from the date you became a landlord, if you are a new landlord&lt;/li&gt;
+&lt;li&gt;the duration of the current tenancy, when you’ve applied for a third-party exemption because your tenant refuses consent&lt;/li&gt;
+&lt;li&gt;5 years for all other exemptions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p class=&apos;govuk-body&apos;&gt;We will send you an email notification 6 months before the expiry of your registered exemption.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;If you sell the property, you will need to end the exemption. &lt;br&gt; Exemptions do not transfer to a new owner.&lt;/p&gt;
 &lt;h2 class=&apos;govuk-heading-m&apos;&gt;Review of your exemption&lt;/h2&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;Your exemption has been sent to the local authority for review. They may review it at any time.&lt;/p&gt;
@@ -10911,12 +10909,12 @@ If you have selected more than one exemption, you will upload evidence for each 
 &lt;p class=&apos;govuk-body&apos;&gt;Your exemptions are now valid. You can let your property.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;Your exemptions will now appear on the exemptions register.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;If all your evidence was correctly uploaded, the exemptions are valid for:&lt;/p&gt;
-&lt;p class=&apos;govuk-body&apos;&gt;
-&amp;#x2022; 6 months from the date you became a landlord, if you are a new landlord
-&lt;br&gt;&amp;#x2022; the duration of the current tenancy, when you’ve applied for a third-party exemption because your tenant refuses consent
-&lt;br&gt;&amp;#x2022; 5 years for all other exemptions
-&lt;/p&gt;
-&lt;p class=&apos;govuk-body&apos;&gt;We will send you an email notification 28 days before the expiry of your registered exemptions.&lt;/p&gt;
+&lt;ul class=&quot;govuk-list govuk-list--bullet&quot;&gt;
+&lt;li&gt;6 months from the date you became a landlord, if you are a new landlord&lt;/li&gt;
+&lt;li&gt;the duration of the current tenancy, when you’ve applied for a third-party exemption because your tenant refuses consent&lt;/ li&gt;
+&lt;li&gt;5 years for all other exemptions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p class=&apos;govuk-body&apos;&gt;We will send you an email notification 6 months before the expiry of your registered exemptions.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;If you sell the property, you will need to end the exemption. &lt;br&gt;Exemptions do not transfer to a new owner.&lt;/p&gt;
 &lt;h2 class=&apos;govuk-heading-m&apos;&gt;Review of your exemption&lt;/h2&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;Your exemptions have been sent to the local authority for review. They may review them at any time.&lt;/p&gt;
@@ -10984,13 +10982,7 @@ If you have selected more than one exemption, you will upload evidence for each 
             <inputParameters>
                 <name>externalUrl</name>
                 <value>
-                    <stringValue>https://www.google.com</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>redirectUrl</name>
-                <value>
-                    <stringValue>secur/logout.jsp?retUrl=/PRSExemptionsRegister</stringValue>
+                    <stringValue>https://www.gov.uk/done/register-prs-energy-standard-exemption</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -11500,7 +11492,7 @@ If you have selected more than one exemption, you will upload evidence for each 
 &lt;p class=&apos;govuk-body&apos;&gt;You can select more than one exemption.&lt;/p&gt;
 &lt;p class=&apos;govuk-body&apos;&gt;If you select more than one exemption, you will upload evidence for each exemption separately. &lt;/p&gt;
 &lt;p class=&quot;govuk-body&quot;&gt;
-  &lt;a href=&quot;www.gov.uk/government/publications/private-rented-sector-exemptions-prse-landlord-guidance/non-domestic-properties-exemption-types-and-evidence-needed&quot; class=&quot;govuk-link&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Read our guidance on exemptions (opens in new tab)&lt;/a&gt; for:
+  &lt;a href=&quot;https://www.gov.uk/government/publications/private-rented-sector-minimum-energy-efficiency-standard-exemptions/guidance-on-prs-exemptions-and-exemptions-register-evidence-requirements&quot; class=&quot;govuk-link&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Read our guidance on exemptions (opens in new tab)&lt;/a&gt; for:
 &lt;/p&gt;
 &lt;ul class=&apos;govuk-list govuk-list--bullet&apos;&gt;
     &lt;li&gt;more information about each exemption type&lt;/li&gt;
@@ -11557,6 +11549,12 @@ If you have selected more than one exemption, you will upload evidence for each 
                 <name>outputValue</name>
                 <value>
                     <elementReference>fla_ExistingExemptionTypeSelections</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>clashingSelectionsConfig</name>
+                <value>
+                    <elementReference>fla_ExemptionTypeSelectionClashes</elementReference>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
@@ -15851,7 +15849,7 @@ If you have selected more than one exemption, you will upload evidence for each 
             <inputParameters>
                 <name>redirectUrl</name>
                 <value>
-                    <stringValue>PRSExemptionsRegister/dashboard</stringValue>
+                    <stringValue>dashboard</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -16613,14 +16611,37 @@ If you have selected more than one exemption, you will upload evidence for each 
     </start>
     <status>Active</status>
     <subflows>
-        <name>GetExperienceSiteBaseURL</name>
-        <label>Get Experience Site Base URL</label>
+        <name>GetLandlordExperienceSiteBaseURL</name>
+        <label>Get Landlord Experience Site Base URL</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>SendExemptionRegistrationEmail</targetReference>
         </connector>
         <flowName>PRSE_Experience_Site_Base_URL</flowName>
+        <inputAssignments>
+            <name>var_siteContains</name>
+            <value>
+                <stringValue>register-energy-efficiency-exemption</stringValue>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>GetLocalAuthorityExperienceSiteBaseURL</name>
+        <label>Get Local Authority Experience Site Base URL</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Which_Email_Template_to_Send_LAs</targetReference>
+        </connector>
+        <flowName>PRSE_Experience_Site_Base_URL</flowName>
+        <inputAssignments>
+            <name>var_siteContains</name>
+            <value>
+                <stringValue>review-energy-efficiency-exemption</stringValue>
+            </value>
+        </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <transforms>
